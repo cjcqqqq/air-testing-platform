@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/air-testing-common/air-testing-common.iml" filepath="$PROJECT_DIR$/air-testing-common/air-testing-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/air-testing-configuration/air-testing-configuration.iml" filepath="$PROJECT_DIR$/air-testing-configuration/air-testing-configuration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/air-testing-gateway/air-testing-gateway.iml" filepath="$PROJECT_DIR$/air-testing-gateway/air-testing-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/air-testing-gateway/air-testing-gateway-tcp/air-testing-gateway-tcp.iml" filepath="$PROJECT_DIR$/air-testing-gateway/air-testing-gateway-tcp/air-testing-gateway-tcp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/air-testing-common/air-testing-model/air-testing-model.iml" filepath="$PROJECT_DIR$/air-testing-common/air-testing-model/air-testing-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/air-testing-modules/air-testing-modules.iml" filepath="$PROJECT_DIR$/air-testing-modules/air-testing-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/air-testing-platform.iml" filepath="$PROJECT_DIR$/air-testing-platform.iml" />
+    </modules>
+  </component>
+</project>

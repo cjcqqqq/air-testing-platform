@@ -1,5 +1,6 @@
 package com.university.shenyang.air.testing.gateway.procotol;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Created by chenjc on 2017/05/03.
  */
 @Component
+@ChannelHandler.Sharable
 public class ProtocolDispatcher {
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(ProtocolDispatcher.class);
     private final Map<String, Command> handlers;

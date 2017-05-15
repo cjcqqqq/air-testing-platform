@@ -139,7 +139,6 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
             packet.setUniqueMark(new String(ArraysUtils.subarrays(original, 4, 17), "ASCII"));
             //TODO 加载设备信息后，此处做校验，非法断开链路
             packet.setEncrypt(Convert.byte2Int(ArraysUtils.subarrays(original, 21, 1), 1));
-            packet.setOriginalPacket(original);
             int len = Convert.byte2Int(ArraysUtils.subarrays(original, 22, 2), 2);
             packet.setContent(ArraysUtils.subarrays(original, 24, len));
 //             TODO

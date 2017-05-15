@@ -14,18 +14,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Packet implements Serializable {
     private static final long serialVersionUID = 1L;
-    private long vehicleId;
     private int commandId;
     private int answerId;
     private String uniqueMark;// 设备标识码，长度17字节
     private int encrypt;
-    private byte[] originalPacket;
     private int _content_position;
     private int _content_capacity;
     private byte[] content = new byte[0];
     private Map<Object, Object> parameters;
-    private int times;// 该包当前转发次数，用于重发计数
-    private long timestamp;// 该包上一次转发的时间，用于判断重发间隔
 
     public Packet() {
         super();
@@ -98,14 +94,6 @@ public class Packet implements Serializable {
         return Convert.bytesToHexString(this.content);
     }
 
-    public long getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(long vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
     public int getCommandId() {
         return commandId;
     }
@@ -138,51 +126,12 @@ public class Packet implements Serializable {
         this.encrypt = encrypt;
     }
 
-    public byte[] getOriginalPacket() {
-        return originalPacket;
-    }
-
-    public void setOriginalPacket(byte[] originalPacket) {
-        this.originalPacket = originalPacket;
-    }
-
     public byte[] getContent() {
         return content;
     }
 
     public void setContent(byte[] content) {
         this.content = content;
-    }
-
-    public int getTimes() {
-        return times;
-    }
-
-    public void setTimes(int times) {
-        this.times = times;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public static Packet copyPacket(Packet packet){
-        Packet newPacket = new Packet();
-        newPacket.setVehicleId(packet.getVehicleId());
-        newPacket.setCommandId(packet.getCommandId());
-        newPacket.setAnswerId(packet.getAnswerId());
-        newPacket.setUniqueMark(packet.getUniqueMark());
-        newPacket.setEncrypt(packet.getEncrypt());
-        newPacket.setOriginalPacket(packet.getOriginalPacket());
-        newPacket.setContent(packet.getContent());
-        newPacket.setTimes(packet.getTimes());
-        newPacket.setTimestamp(packet.getTimestamp());
-
-        return newPacket;
     }
 
 }

@@ -8,6 +8,7 @@ import com.university.shenyang.air.testing.gateway.procotol.Protocols;
 import com.university.shenyang.air.testing.gateway.procotol.device.DeviceCommand;
 import com.university.shenyang.air.testing.gateway.util.Constants;
 import com.university.shenyang.air.testing.model.DeviceInfo;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -18,6 +19,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
  * 内部协议设备消息通过设备ID标识。
  */
 @Protocols(id = "01", type = Constants.PROTOCOL_GB)
+@ChannelHandler.Sharable
 public class GB_01_DeviceLogin extends DeviceCommand {
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_01_DeviceLogin.class);
 

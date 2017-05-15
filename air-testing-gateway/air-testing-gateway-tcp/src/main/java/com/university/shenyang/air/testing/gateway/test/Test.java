@@ -1,4 +1,4 @@
-package com.university.shenyang.air.testing.gateway;
+package com.university.shenyang.air.testing.gateway.test;
 
 import com.university.shenyang.air.testing.gateway.common.kit.Convert;
 import com.university.shenyang.air.testing.gateway.common.kit.lang.ArraysUtils;

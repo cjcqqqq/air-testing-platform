@@ -8,6 +8,7 @@ import com.university.shenyang.air.testing.gateway.cache.DevicesManager;
 import com.university.shenyang.air.testing.gateway.procotol.Protocols;
 import com.university.shenyang.air.testing.gateway.procotol.device.DeviceCommand;
 import com.university.shenyang.air.testing.gateway.util.Constants;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -17,6 +18,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
  * Created by chenjc on 2017/05/03.
  */
 @Protocols(id = "03", type = Constants.PROTOCOL_GB)
+@ChannelHandler.Sharable
 public class GB_03_RetryData extends DeviceCommand {
 
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_03_RetryData.class);

@@ -5,6 +5,7 @@ import com.university.shenyang.air.testing.gateway.common.kit.Packet;
 import com.university.shenyang.air.testing.gateway.procotol.Protocols;
 import com.university.shenyang.air.testing.gateway.procotol.device.DeviceCommand;
 import com.university.shenyang.air.testing.gateway.util.Constants;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -14,6 +15,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
  * Created by chenjc on 2017/05/03.
  */
 @Protocols(id = "08", type = Constants.PROTOCOL_GB)
+@ChannelHandler.Sharable
 public class GB_08_Timing extends DeviceCommand {
 
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_08_Timing.class);

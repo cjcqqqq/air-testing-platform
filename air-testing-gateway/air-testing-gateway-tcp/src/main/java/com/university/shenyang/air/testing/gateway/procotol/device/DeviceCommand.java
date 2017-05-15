@@ -25,7 +25,6 @@ public abstract class DeviceCommand extends Command {
         answer.setAnswerId(0x01);
         answer.setEncrypt(packet.getEncrypt());
         answer.setUniqueMark(packet.getUniqueMark());
-        answer.setVehicleId(packet.getVehicleId());
 
         byte[] content = null;
         // 判断是否是终端校时指令

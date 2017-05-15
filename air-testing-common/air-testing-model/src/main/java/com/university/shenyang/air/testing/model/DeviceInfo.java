@@ -1,19 +1,24 @@
 package com.university.shenyang.air.testing.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
-/**
- * Created by chenjc on 2017/05/03.
- * 设备信息
- */
-public class DeviceInfo implements  Serializable{
-    private Long id; //设备id
-    private String deviceCode; //设备标识码
-    private Long longitude; // 经度 以度为单位的经度值乘以10的6次方，精确到百万分之一度。 一代设备使用
-    private Long latitude; // 纬度 以度为单位的纬度值乘以10的6次方，精确到百万分之一度。 一代设备使用
-    private String sim; //sim卡号
-    private String protocol;//协议类型，对应字典里面的编码。
-    private String remoteAddress; //无连接的时候为"";
+public class DeviceInfo implements Serializable {
+    private Long id;
+
+    private String deviceCode;
+
+    private Float longitude;
+
+    private Float latitude;
+
+    private String sim;
+
+    private String protocol;
+
+    private Date createtime;
+
+    private Date updatetime;
 
     public Long getId() {
         return id;
@@ -28,22 +33,22 @@ public class DeviceInfo implements  Serializable{
     }
 
     public void setDeviceCode(String deviceCode) {
-        this.deviceCode = deviceCode;
+        this.deviceCode = deviceCode == null ? null : deviceCode.trim();
     }
 
-    public Long getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Float latitude) {
         this.latitude = latitude;
     }
 
@@ -52,7 +57,7 @@ public class DeviceInfo implements  Serializable{
     }
 
     public void setSim(String sim) {
-        this.sim = sim;
+        this.sim = sim == null ? null : sim.trim();
     }
 
     public String getProtocol() {
@@ -60,14 +65,22 @@ public class DeviceInfo implements  Serializable{
     }
 
     public void setProtocol(String protocol) {
-        this.protocol = protocol;
+        this.protocol = protocol == null ? null : protocol.trim();
     }
 
-    public String getRemoteAddress() {
-        return remoteAddress;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setRemoteAddress(String remoteAddress) {
-        this.remoteAddress = remoteAddress;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 }

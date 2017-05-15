@@ -1,19 +1,133 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.university.shenyang.air.testing.mapper.DeviceInfoMapper">
-    <resultMap id="BaseResultMap" type="com.university.shenyang.air.testing.model.DeviceInfo">
-        <id column="ID" property="id" jdbcType="BIGINT"/>
-        <result column="DEVICE_CODE" property="deviceCode" jdbcType="VARCHAR"/>
-        <result column="LONGITUDE" property="longitude" jdbcType="BIGINT"/>
-        <result column="LATITUDE" property="latitude" jdbcType="BIGINT"/>
-        <result column="SIM" property="sim" jdbcType="BIGINT"/>
-        <result column="PROTOCOL" property="protocol" jdbcType="VARCHAR"/>
-    </resultMap>
-
-    <select id="selectALL" resultMap="BaseResultMap">
-		select ID,DEVICE_CODE,LONGITUDE,LATITUDE,SIM,PROTOCOL
-		from dy_car
-		where 1=1 and  del_flag = 0
-	</select>
-
+  <resultMap id="BaseResultMap" type="com.university.shenyang.air.testing.model.DeviceInfo">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="DEVICE_CODE" jdbcType="VARCHAR" property="deviceCode" />
+    <result column="LONGITUDE" jdbcType="REAL" property="longitude" />
+    <result column="LATITUDE" jdbcType="REAL" property="latitude" />
+    <result column="SIM" jdbcType="VARCHAR" property="sim" />
+    <result column="PROTOCOL" jdbcType="VARCHAR" property="protocol" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DEVICE_CODE, LONGITUDE, LATITUDE, SIM, PROTOCOL, CREATETIME, UPDATETIME
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from device_info
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from device_info
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from device_info
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.university.shenyang.air.testing.model.DeviceInfo">
+    insert into device_info (ID, DEVICE_CODE, LONGITUDE, 
+      LATITUDE, SIM, PROTOCOL, 
+      CREATETIME, UPDATETIME)
+    values (#{id,jdbcType=BIGINT}, #{deviceCode,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL}, 
+      #{latitude,jdbcType=REAL}, #{sim,jdbcType=VARCHAR}, #{protocol,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.university.shenyang.air.testing.model.DeviceInfo">
+    insert into device_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="deviceCode != null">
+        DEVICE_CODE,
+      </if>
+      <if test="longitude != null">
+        LONGITUDE,
+      </if>
+      <if test="latitude != null">
+        LATITUDE,
+      </if>
+      <if test="sim != null">
+        SIM,
+      </if>
+      <if test="protocol != null">
+        PROTOCOL,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceCode != null">
+        #{deviceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=REAL},
+      </if>
+      <if test="sim != null">
+        #{sim,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null">
+        #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.university.shenyang.air.testing.model.DeviceInfo">
+    update device_info
+    <set>
+      <if test="deviceCode != null">
+        DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        LONGITUDE = #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null">
+        LATITUDE = #{latitude,jdbcType=REAL},
+      </if>
+      <if test="sim != null">
+        SIM = #{sim,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null">
+        PROTOCOL = #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.university.shenyang.air.testing.model.DeviceInfo">
+    update device_info
+    set DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR},
+      LONGITUDE = #{longitude,jdbcType=REAL},
+      LATITUDE = #{latitude,jdbcType=REAL},
+      SIM = #{sim,jdbcType=VARCHAR},
+      PROTOCOL = #{protocol,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

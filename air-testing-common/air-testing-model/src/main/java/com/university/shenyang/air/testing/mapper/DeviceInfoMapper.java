@@ -1,17 +1,23 @@
 package com.university.shenyang.air.testing.mapper;
 
 import com.university.shenyang.air.testing.model.DeviceInfo;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-/**
- * Created by chenjc on 2017/5/7.
- */
+@Mapper
 public interface DeviceInfoMapper {
-    /**
-     * 获取所有设备信息
-     *
-     * @return
-     */
-    List<DeviceInfo> selectALL();
+    List<DeviceInfo> selectAll();
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(DeviceInfo record);
+
+    int insertSelective(DeviceInfo record);
+
+    DeviceInfo selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(DeviceInfo record);
+
+    int updateByPrimaryKey(DeviceInfo record);
 }

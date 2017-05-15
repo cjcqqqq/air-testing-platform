@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!--<classPathEntry location="E:\cjcqqqq\air-testing-platform\air-testing-common\air-testing-model\src\main\resources\lib\mysql-connector-java-5.1.37.jar"/>-->
+    <!--relative path-->
+    <classPathEntry location="src\main\resources\lib\mysql-connector-java-5.1.37.jar"/>
+
+    <context id="MysqlTables" targetRuntime="MyBatis3">
+        <commentGenerator type="">
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/world" userId="root" password="cjc.567">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.university.shenyang.air.testing.model" targetProject="src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--ANNOTATEDMAPPER XMLMAPPER-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.university.shenyang.air.testing.mapper" targetProject="src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+<!--        <table schema="world" tableName="device_info" domainObjectName="DeviceInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+        <table schema="world" tableName="report_info" domainObjectName="ReportInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>-->
+
+
+
+    </context>
+
+</generatorConfiguration>

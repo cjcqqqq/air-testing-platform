@@ -3,13 +3,11 @@ package com.university.shenyang.air.testing.gateway.test;
 import com.university.shenyang.air.testing.gateway.common.kit.Convert;
 import com.university.shenyang.air.testing.gateway.common.kit.lang.ArraysUtils;
 import com.university.shenyang.air.testing.gateway.util.Constants;
-import com.university.shenyang.air.testing.model.DeviceInfo;
 import com.university.shenyang.air.testing.model.ReportInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * Created by Administrator on 2016/12/26.
@@ -29,8 +27,8 @@ public class Test {
         reportInfo.setPm1_0(950);
         reportInfo.setPm2_5(800);
         reportInfo.setPm10(30);
-        reportInfo.setFormaldehyde(120);
-        reportInfo.setTemperature(720);
+        reportInfo.setFormaldehyde(1.20F);
+        reportInfo.setTemperature(22);
         reportInfo.setHumidity(35);
         reportInfo.setCo(111);
         reportInfo.setCo2(222);
@@ -41,8 +39,8 @@ public class Test {
         reportInfo.setTvoc(777);
         reportInfo.setWindSpeed(888);
         reportInfo.setWindDirection(95);
-        reportInfo.setLongitude(121123456L);
-        reportInfo.setLatitude(31123456L);
+        reportInfo.setLongitude(121.123456F);
+        reportInfo.setLatitude(31.123456F);
         reportInfo.setElectricity(95);
 
         // 生成实时上报报文
@@ -154,9 +152,9 @@ public class Test {
         // pm10;      // pm10  单位:微克/立方米 整数 4个字节
         ArraysUtils.arrayappend(requestContent, 42 + 16, Convert.intTobytes(reportInfo.getPm10(), 4));
         // formaldehyde; // 甲醛 0.00-9.99 * 100 2个字节
-        ArraysUtils.arrayappend(requestContent, 46 + 16, Convert.intTobytes(reportInfo.getFormaldehyde(), 2));
+        ArraysUtils.arrayappend(requestContent, 46 + 16, Convert.intTobytes((int) (reportInfo.getFormaldehyde()*100), 2));
         // temperature; // 温度 0-255 * 10 偏移500 0表示-50摄氏度 2个字节
-        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes(reportInfo.getTemperature(), 2));
+        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes(reportInfo.getTemperature()*10, 2));
         // humidity; // 湿度 0-100 1个字节
         ArraysUtils.arrayappend(requestContent, 50 + 16, Convert.intTobytes(reportInfo.getHumidity(), 1));
         // co; // 一氧化碳 预留4个字节
@@ -178,9 +176,9 @@ public class Test {
         // windDirection; // 风向 预留2个字节
         ArraysUtils.arrayappend(requestContent, 83 + 16, Convert.intTobytes(reportInfo.getWindDirection(), 2));
         // longitude; // 经度 以度为单位的经度值乘以10的6次方，精确到百万分之一度。 4个字节
-        ArraysUtils.arrayappend(requestContent, 85 + 16, Convert.longTobytes(reportInfo.getLongitude(), 4));
+        ArraysUtils.arrayappend(requestContent, 85 + 16, Convert.longTobytes((long) (reportInfo.getLongitude()*1000000), 4));
         // latitude; // 纬度 以度为单位的纬度值乘以10的6次方，精确到百万分之一度。 4个字节
-        ArraysUtils.arrayappend(requestContent, 89 + 16, Convert.longTobytes(reportInfo.getLatitude(), 4));
+        ArraysUtils.arrayappend(requestContent, 89 + 16, Convert.longTobytes((long) (reportInfo.getLatitude()*1000000), 4));
         // electricity; // 太阳能电源电量0-100 1个字节
         ArraysUtils.arrayappend(requestContent, 93 + 16, Convert.intTobytes(reportInfo.getElectricity(), 1));
         byte crc = Convert.checkPackage(requestContent, 2, requestContent.length - 2);
@@ -250,9 +248,9 @@ public class Test {
         // pm10;      // pm10  单位:微克/立方米 整数 4个字节
         ArraysUtils.arrayappend(requestContent, 42 + 16, Convert.intTobytes(reportInfo.getPm10(), 4));
         // formaldehyde; // 甲醛 0.00-9.99 * 100 2个字节
-        ArraysUtils.arrayappend(requestContent, 46 + 16, Convert.intTobytes(reportInfo.getFormaldehyde(), 2));
+        ArraysUtils.arrayappend(requestContent, 46 + 16, Convert.intTobytes((int) (reportInfo.getFormaldehyde()*100), 2));
         // temperature; // 温度 0-255 * 10 偏移500 0表示-50摄氏度 2个字节
-        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes(reportInfo.getTemperature(), 2));
+        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes(reportInfo.getTemperature()*10, 2));
         // humidity; // 湿度 0-100 1个字节
         ArraysUtils.arrayappend(requestContent, 50 + 16, Convert.intTobytes(reportInfo.getHumidity(), 1));
         // co; // 一氧化碳 预留4个字节
@@ -274,9 +272,9 @@ public class Test {
         // windDirection; // 风向 预留2个字节
         ArraysUtils.arrayappend(requestContent, 83 + 16, Convert.intTobytes(reportInfo.getWindDirection(), 2));
         // longitude; // 经度 以度为单位的经度值乘以10的6次方，精确到百万分之一度。 4个字节
-        ArraysUtils.arrayappend(requestContent, 85 + 16, Convert.longTobytes(reportInfo.getLongitude(), 4));
+        ArraysUtils.arrayappend(requestContent, 85 + 16, Convert.longTobytes((long) (reportInfo.getLongitude()*1000000), 4));
         // latitude; // 纬度 以度为单位的纬度值乘以10的6次方，精确到百万分之一度。 4个字节
-        ArraysUtils.arrayappend(requestContent, 89 + 16, Convert.longTobytes(reportInfo.getLatitude(), 4));
+        ArraysUtils.arrayappend(requestContent, 89 + 16, Convert.longTobytes((long) (reportInfo.getLatitude()*1000000), 4));
         // electricity; // 太阳能电源电量0-100 1个字节
         ArraysUtils.arrayappend(requestContent, 93 + 16, Convert.intTobytes(reportInfo.getElectricity(), 1));
         byte crc = Convert.checkPackage(requestContent, 2, requestContent.length - 2);

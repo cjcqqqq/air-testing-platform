@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 public class Test {
     public static void main(String[] args) throws UnsupportedEncodingException {
         // 终端标识码
-        String deviceCode = "deviceCode0000001";
+        String deviceCode = "deviceCode0000002";
         // 生成登入报文
         create01Report(deviceCode, new java.util.Date());
 

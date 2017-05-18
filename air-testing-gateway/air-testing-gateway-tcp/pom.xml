@@ -110,10 +110,10 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
 
-<!--        &lt;!&ndash; redis &ndash;&gt;
+        <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-redis</artifactId>
-        </dependency>-->
+        </dependency>
     </dependencies>
 </project>

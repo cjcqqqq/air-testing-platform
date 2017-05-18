@@ -1,5 +1,9 @@
 package com.university.shenyang.air.testing.gateway.common.kit;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 进制转换
  * 
@@ -339,5 +343,19 @@ public final class Convert {
 		sb.append(fillZeroHead(bytes[4], 2)).append(":");
 		sb.append(fillZeroHead(bytes[5], 2));
 		return sb.toString();
+	}
+
+	/**
+	 * 将长时间格式字符串转换为时间 yyyy-MM-dd HH:mm:ss
+	 *
+	 * @param strDate
+	 * @return
+	 */
+	public static Date strToDate(String strDate) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		ParsePosition pos = new ParsePosition(0);
+		Date strtodate = formatter.parse(strDate, pos);
+
+		return strtodate;
 	}
 }

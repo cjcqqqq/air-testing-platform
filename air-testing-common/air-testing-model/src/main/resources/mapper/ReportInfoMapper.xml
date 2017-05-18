@@ -30,7 +30,7 @@
     ELECTRICITY
   </sql>
   <select id="selectByPrimaryKey" parameterType="com.university.shenyang.air.testing.model.ReportInfoKey" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from report_info
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
@@ -41,6 +41,25 @@
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
       and COLLECT_TIME = #{collectTime,jdbcType=TIMESTAMP}
   </delete>
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into report_info (DEVICE_CODE, COLLECT_TIME, SIM,
+    PM1_0, PM2_5, PM10, FORMALDEHYDE,
+    TEMPERATURE, HUMIDITY, CO,
+    CO2, NO, NO2, O3,
+    SO2, TVOC, WIND_SPEED,
+    WIND_DIRECTION, LONGITUDE, LATITUDE,
+    ELECTRICITY)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.deviceCode,jdbcType=VARCHAR}, #{item.collectTime,jdbcType=TIMESTAMP}, #{item.sim,jdbcType=VARCHAR},
+      #{item.pm1_0,jdbcType=INTEGER}, #{item.pm2_5,jdbcType=INTEGER}, #{item.pm10,jdbcType=INTEGER}, #{item.formaldehyde,jdbcType=REAL},
+      #{item.temperature,jdbcType=INTEGER}, #{item.humidity,jdbcType=INTEGER}, #{item.co,jdbcType=INTEGER},
+      #{item.co2,jdbcType=INTEGER}, #{item.no,jdbcType=INTEGER}, #{item.no2,jdbcType=INTEGER}, #{item.o3,jdbcType=INTEGER},
+      #{item.so2,jdbcType=INTEGER}, #{item.tvoc,jdbcType=INTEGER}, #{item.windSpeed,jdbcType=INTEGER},
+      #{item.windDirection,jdbcType=INTEGER}, #{item.longitude,jdbcType=REAL}, #{item.latitude,jdbcType=REAL},
+      #{item.electricity,jdbcType=INTEGER})
+    </foreach>
+  </insert>
   <insert id="insert" parameterType="com.university.shenyang.air.testing.model.ReportInfo">
     insert into report_info (DEVICE_CODE, COLLECT_TIME, SIM, 
       PM1_0, PM2_5, PM10, FORMALDEHYDE, 
@@ -50,7 +69,7 @@
       WIND_DIRECTION, LONGITUDE, LATITUDE, 
       ELECTRICITY)
     values (#{deviceCode,jdbcType=VARCHAR}, #{collectTime,jdbcType=TIMESTAMP}, #{sim,jdbcType=VARCHAR}, 
-      #{pm10,jdbcType=INTEGER}, #{pm2_5,jdbcType=INTEGER}, #{pm10,jdbcType=INTEGER}, #{formaldehyde,jdbcType=REAL},
+      #{pm1_0,jdbcType=INTEGER}, #{pm2_5,jdbcType=INTEGER}, #{pm10,jdbcType=INTEGER}, #{formaldehyde,jdbcType=REAL},
       #{temperature,jdbcType=INTEGER}, #{humidity,jdbcType=INTEGER}, #{co,jdbcType=INTEGER}, 
       #{co2,jdbcType=INTEGER}, #{no,jdbcType=INTEGER}, #{no2,jdbcType=INTEGER}, #{o3,jdbcType=INTEGER}, 
       #{so2,jdbcType=INTEGER}, #{tvoc,jdbcType=INTEGER}, #{windSpeed,jdbcType=INTEGER}, 
@@ -69,7 +88,7 @@
       <if test="sim != null">
         SIM,
       </if>
-      <if test="pm10 != null">
+      <if test="pm1_0 != null">
         PM1_0,
       </if>
       <if test="pm2_5 != null">
@@ -134,8 +153,8 @@
       <if test="sim != null">
         #{sim,jdbcType=VARCHAR},
       </if>
-      <if test="pm10 != null">
-        #{pm10,jdbcType=INTEGER},
+      <if test="pm1_0 != null">
+        #{pm1_0,jdbcType=INTEGER},
       </if>
       <if test="pm2_5 != null">
         #{pm2_5,jdbcType=INTEGER},
@@ -196,8 +215,8 @@
       <if test="sim != null">
         SIM = #{sim,jdbcType=VARCHAR},
       </if>
-      <if test="pm10 != null">
-        PM1_0 = #{pm10,jdbcType=INTEGER},
+      <if test="pm1_0 != null">
+        PM1_0 = #{pm1_0,jdbcType=INTEGER},
       </if>
       <if test="pm2_5 != null">
         PM2_5 = #{pm2_5,jdbcType=INTEGER},
@@ -257,7 +276,7 @@
   <update id="updateByPrimaryKey" parameterType="com.university.shenyang.air.testing.model.ReportInfo">
     update report_info
     set SIM = #{sim,jdbcType=VARCHAR},
-      PM1_0 = #{pm10,jdbcType=INTEGER},
+      PM1_0 = #{pm1_0,jdbcType=INTEGER},
       PM2_5 = #{pm2_5,jdbcType=INTEGER},
       PM10 = #{pm10,jdbcType=INTEGER},
       FORMALDEHYDE = #{formaldehyde,jdbcType=REAL},

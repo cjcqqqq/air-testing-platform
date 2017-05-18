@@ -25,7 +25,7 @@
         <module name="air-testing-configuration" />
         <module name="air-testing-gateway-tcp" />
         <module name="air-testing-model" />
-        <module name="air-testing-modules" />
+        <module name="air-testing-task" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -36,6 +36,7 @@
       <module name="air-testing-model" target="1.7" />
       <module name="air-testing-modules" target="1.7" />
       <module name="air-testing-platform" target="1.7" />
+      <module name="air-testing-task" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

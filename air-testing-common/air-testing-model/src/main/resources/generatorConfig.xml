@@ -37,6 +37,9 @@
         <table schema="world" tableName="report_info" domainObjectName="ReportInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
+        <table schema="world" tableName="command_send_log" domainObjectName="CommandSendLog" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
 
 
 

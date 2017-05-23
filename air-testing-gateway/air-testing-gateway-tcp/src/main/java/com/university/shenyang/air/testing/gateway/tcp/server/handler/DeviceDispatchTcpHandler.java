@@ -136,7 +136,7 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
             Packet packet = new Packet();
             packet.setCommandId(Convert.byte2Int(ArraysUtils.subarrays(original, 2, 1), 1));
             packet.setAnswerId(Convert.byte2Int(ArraysUtils.subarrays(original, 3, 1), 1));
-            packet.setUniqueMark(new String(ArraysUtils.subarrays(original, 4, 17), "ASCII"));
+            packet.setUniqueMark(new String(ArraysUtils.subarrays(original, 4, 17), "ASCII").trim());
             //TODO 加载设备信息后，此处做校验，非法断开链路
             packet.setEncrypt(Convert.byte2Int(ArraysUtils.subarrays(original, 21, 1), 1));
             int len = Convert.byte2Int(ArraysUtils.subarrays(original, 22, 2), 2);
@@ -159,6 +159,7 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
 //                }
             } else {
                 logger.info("指令[ " + packet.getCommandIdForHex() + " ]未找到匹配的应答协议类 . ");
+                channelHandlerContext.close();
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

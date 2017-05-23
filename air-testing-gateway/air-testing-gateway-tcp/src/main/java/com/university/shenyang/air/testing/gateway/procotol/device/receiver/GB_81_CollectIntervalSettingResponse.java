@@ -1,17 +1,22 @@
 package com.university.shenyang.air.testing.gateway.procotol.device.receiver;
 
 import com.university.shenyang.air.testing.gateway.cache.DevicesManager;
+import com.university.shenyang.air.testing.gateway.common.kit.Convert;
 import com.university.shenyang.air.testing.gateway.common.kit.Packet;
+import com.university.shenyang.air.testing.gateway.common.kit.lang.ArraysUtils;
 import com.university.shenyang.air.testing.gateway.procotol.Protocols;
 import com.university.shenyang.air.testing.gateway.procotol.device.DeviceCommand;
 import com.university.shenyang.air.testing.gateway.util.Constants;
+import com.university.shenyang.air.testing.model.CommandSendLog;
+import com.university.shenyang.air.testing.service.CommandSendLogService;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 终端校时
+ * 采集间隔设置应答处理
  * Created by chenjc on 2017/05/03.
  */
 @Protocols(id = "81", type = Constants.PROTOCOL_GB)
@@ -19,6 +24,9 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 public class GB_81_CollectIntervalSettingResponse extends DeviceCommand {
 
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_81_CollectIntervalSettingResponse.class);
+
+    @Autowired
+    CommandSendLogService commandSendLogService;
 
     @Override
     public void processor(ChannelHandlerContext ctx, Packet packet) {
@@ -28,8 +36,12 @@ public class GB_81_CollectIntervalSettingResponse extends DeviceCommand {
 
             // 判断设备是否合法并登入
             if (loginCtx == ctx) {
-                // TODO
-
+                CommandSendLog record = new CommandSendLog();
+                record.setCommandId(packet.getCommandId());
+                record.setDeviceCode(packet.getUniqueMark());
+                record.setSendtime(Convert.strToDate(Convert.gbDateToString(ArraysUtils.subarrays(packet.getContent(), 0, 6))));
+                record.setCommandStatus(packet.getAnswerId());
+                commandSendLogService.updateByCodeCommandIdAndTime(record);
             } else {
                 logger.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
                 ctx.close();

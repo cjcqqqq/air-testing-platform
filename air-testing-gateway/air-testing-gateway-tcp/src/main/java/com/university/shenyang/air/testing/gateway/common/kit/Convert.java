@@ -346,6 +346,22 @@ public final class Convert {
 	}
 
 	/**
+	 * 国标的时间转为时间字符串yyyymmddHHmmss
+	 * @param bytes 国标时间格式
+	 * @return 时间字符串
+     */
+	public static String bytesToDateString(byte[] bytes){
+		StringBuffer sb = new StringBuffer();
+		sb.append("20").append(fillZeroHead(bytes[0], 2));
+		sb.append(fillZeroHead(bytes[1], 2));
+		sb.append(fillZeroHead(bytes[2], 2));
+		sb.append(fillZeroHead(bytes[3], 2));
+		sb.append(fillZeroHead(bytes[4], 2));
+		sb.append(fillZeroHead(bytes[5], 2));
+		return sb.toString();
+	}
+
+	/**
 	 * 将长时间格式字符串转换为时间 yyyy-MM-dd HH:mm:ss
 	 *
 	 * @param strDate

@@ -44,7 +44,8 @@ public class GB_01_DeviceLogin extends DeviceCommand {
                 // 获取老的链路上下文
                 ChannelHandlerContext oldCtx = DevicesManager.getInstance().getCtxByDeviceCode(deviceInfo.getDeviceCode());
                 // 如果老的链路和当前链路不是一个链路
-                if(oldCtx != null && !ctx.channel().remoteAddress().toString().equals(oldCtx.channel().remoteAddress().toString())){
+//                if(oldCtx != null && !ctx.channel().remoteAddress().toString().equals(oldCtx.channel().remoteAddress().toString())){
+                if(oldCtx != null && oldCtx != ctx){
                     // 关闭老链路
                     oldCtx.close();
                 }

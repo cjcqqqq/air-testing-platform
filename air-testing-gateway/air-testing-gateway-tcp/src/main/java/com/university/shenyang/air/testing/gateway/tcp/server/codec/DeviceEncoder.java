@@ -24,8 +24,9 @@ public class DeviceEncoder extends MessageToByteEncoder<Packet> {
         ArraysUtils.arrayappend(bytes, 0, Convert.intTobytes(Constants.HEAD, 2));
         ArraysUtils.arrayappend(bytes, 2, Convert.intTobytes(packet.getCommandId(), 1));
         ArraysUtils.arrayappend(bytes, 3, Convert.intTobytes(packet.getAnswerId(), 1));
-        if (packet.getUniqueMark().getBytes("ASCII").length == 17){
-            ArraysUtils.arrayappend(bytes, 4, packet.getUniqueMark().getBytes("ASCII"));
+        if (packet.getUniqueMark().getBytes("ASCII").length <= 17){
+            ArraysUtils.arrayappend(bytes, 4, ArraysUtils.fillArrayTail(packet.getUniqueMark().getBytes("ASCII"), 17, (byte) 0x00));
+//            ArraysUtils.arrayappend(bytes, 4, packet.getUniqueMark().getBytes("ASCII"));
         }else{
             logger.info("设备code码错误", packet.getUniqueMark());
             return ;

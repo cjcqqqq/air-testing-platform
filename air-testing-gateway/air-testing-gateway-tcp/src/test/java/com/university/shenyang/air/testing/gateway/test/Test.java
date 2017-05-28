@@ -4,6 +4,8 @@ import com.university.shenyang.air.testing.gateway.common.kit.Convert;
 import com.university.shenyang.air.testing.gateway.common.kit.lang.ArraysUtils;
 import com.university.shenyang.air.testing.gateway.util.Constants;
 import com.university.shenyang.air.testing.model.ReportInfo;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
@@ -15,9 +17,10 @@ import java.text.SimpleDateFormat;
 public class Test {
     public static void main(String[] args) throws UnsupportedEncodingException {
         // 终端标识码
+//        String deviceCode = "999001";
         String deviceCode = "deviceCode0000001";
         // 生成登入报文
-        create01Report(deviceCode, 1, new java.util.Date());
+        create01Report(deviceCode, 1, new java.util.Date(), 10);
 //        create01Report(deviceCode, 2, new java.util.Date());
 
         // 上报信息封装
@@ -49,7 +52,7 @@ public class Test {
 //        create02Report(reportInfo, 2);
 
         // 生成补发上报报文
-//        create03Report(reportInfo, 1);
+        create03Report(reportInfo, 1);
 //        create03Report(reportInfo, 2);
 
         // 生成终端校时报文
@@ -70,7 +73,7 @@ public class Test {
         create8FReport(deviceCode, 1, "123qwe", "12345678", 10, new byte[]{17, 5, 20, 2, 28, 52});
 }
 
-    private static void create01Report(String deviceCode, int answerId, java.util.Date deviceTime) {
+    private static void create01Report(String deviceCode, int answerId, java.util.Date deviceTime, int interval) {
         byte[] requestContent = new byte[31];
         ArraysUtils.arrayappend(requestContent, 0, Convert.intTobytes(Constants.HEAD, 2));
         ArraysUtils.arrayappend(requestContent, 2, Convert.intTobytes(1, 1));
@@ -105,7 +108,7 @@ public class Test {
         ArraysUtils.arrayappend(requestContent, requestContent.length - 1, new byte[]{crc});
         System.out.println("终端登入请求报文:" + Convert.bytesToHexString(requestContent));
 
-        byte[] responseContent = new byte[31];
+        byte[] responseContent = new byte[39];
 
         ArraysUtils.arrayappend(responseContent, 0, Convert.intTobytes(Constants.HEAD, 2));
         ArraysUtils.arrayappend(responseContent, 2, Convert.intTobytes(1, 1));
@@ -122,9 +125,12 @@ public class Test {
             e.printStackTrace();
         }
         ArraysUtils.arrayappend(responseContent, 21, Convert.intTobytes(1, 1));
-        ArraysUtils.arrayappend(responseContent, 22, Convert.intTobytes(6, 2));
-
+        ArraysUtils.arrayappend(responseContent, 22, Convert.intTobytes(14, 2));
+        // 终端指令请求时间
         ArraysUtils.arrayappend(responseContent, 24, content);
+        // 服务器时间
+        ArraysUtils.arrayappend(responseContent, 30, content);
+        ArraysUtils.arrayappend(responseContent, 36, Convert.intTobytes(interval, 2));
         crc = Convert.checkPackage(responseContent, 2, responseContent.length - 2);
         ArraysUtils.arrayappend(responseContent, responseContent.length - 1, new byte[]{crc});
         System.out.println("终端登入应答报文:" + Convert.bytesToHexString(responseContent));

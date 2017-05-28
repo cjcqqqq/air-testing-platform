@@ -4,23 +4,27 @@
   <resultMap id="BaseResultMap" type="com.university.shenyang.air.testing.model.DeviceInfo">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="DEVICE_CODE" jdbcType="VARCHAR" property="deviceCode" />
+    <result column="DEVICE_DESC" jdbcType="VARCHAR" property="deviceDesc" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="LONGITUDE" jdbcType="REAL" property="longitude" />
     <result column="LATITUDE" jdbcType="REAL" property="latitude" />
     <result column="SIM" jdbcType="VARCHAR" property="sim" />
     <result column="PROTOCOL" jdbcType="VARCHAR" property="protocol" />
+    <result column="COLLECT_INTERVAL" jdbcType="INTEGER" property="collectInterval" />
     <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
     <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, DEVICE_CODE, LONGITUDE, LATITUDE, SIM, PROTOCOL, CREATETIME, UPDATETIME
+    ID, DEVICE_CODE, DEVICE_DESC, ADDRESS, LONGITUDE, LATITUDE, SIM, PROTOCOL, COLLECT_INTERVAL, 
+    CREATETIME, UPDATETIME
   </sql>
   <select id="selectAll" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from device_info
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from device_info
     where ID = #{id,jdbcType=BIGINT}
@@ -30,11 +34,13 @@
     where ID = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.university.shenyang.air.testing.model.DeviceInfo">
-    insert into device_info (ID, DEVICE_CODE, LONGITUDE, 
-      LATITUDE, SIM, PROTOCOL, 
+    insert into device_info (ID, DEVICE_CODE, DEVICE_DESC, 
+      ADDRESS, LONGITUDE, LATITUDE, 
+      SIM, PROTOCOL, COLLECT_INTERVAL, 
       CREATETIME, UPDATETIME)
-    values (#{id,jdbcType=BIGINT}, #{deviceCode,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL}, 
-      #{latitude,jdbcType=REAL}, #{sim,jdbcType=VARCHAR}, #{protocol,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{deviceCode,jdbcType=VARCHAR}, #{deviceDesc,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, 
+      #{sim,jdbcType=VARCHAR}, #{protocol,jdbcType=VARCHAR}, #{collectInterval,jdbcType=INTEGER}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.university.shenyang.air.testing.model.DeviceInfo">
@@ -45,6 +51,12 @@
       </if>
       <if test="deviceCode != null">
         DEVICE_CODE,
+      </if>
+      <if test="deviceDesc != null">
+        DEVICE_DESC,
+      </if>
+      <if test="address != null">
+        ADDRESS,
       </if>
       <if test="longitude != null">
         LONGITUDE,
@@ -57,6 +69,9 @@
       </if>
       <if test="protocol != null">
         PROTOCOL,
+      </if>
+      <if test="collectInterval != null">
+        COLLECT_INTERVAL,
       </if>
       <if test="createtime != null">
         CREATETIME,
@@ -72,6 +87,12 @@
       <if test="deviceCode != null">
         #{deviceCode,jdbcType=VARCHAR},
       </if>
+      <if test="deviceDesc != null">
+        #{deviceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
       <if test="longitude != null">
         #{longitude,jdbcType=REAL},
       </if>
@@ -83,6 +104,9 @@
       </if>
       <if test="protocol != null">
         #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="collectInterval != null">
+        #{collectInterval,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -98,6 +122,12 @@
       <if test="deviceCode != null">
         DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR},
       </if>
+      <if test="deviceDesc != null">
+        DEVICE_DESC = #{deviceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
       <if test="longitude != null">
         LONGITUDE = #{longitude,jdbcType=REAL},
       </if>
@@ -109,6 +139,9 @@
       </if>
       <if test="protocol != null">
         PROTOCOL = #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="collectInterval != null">
+        COLLECT_INTERVAL = #{collectInterval,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         CREATETIME = #{createtime,jdbcType=TIMESTAMP},
@@ -122,10 +155,13 @@
   <update id="updateByPrimaryKey" parameterType="com.university.shenyang.air.testing.model.DeviceInfo">
     update device_info
     set DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR},
+      DEVICE_DESC = #{deviceDesc,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
       LONGITUDE = #{longitude,jdbcType=REAL},
       LATITUDE = #{latitude,jdbcType=REAL},
       SIM = #{sim,jdbcType=VARCHAR},
       PROTOCOL = #{protocol,jdbcType=VARCHAR},
+      COLLECT_INTERVAL = #{collectInterval,jdbcType=INTEGER},
       CREATETIME = #{createtime,jdbcType=TIMESTAMP},
       UPDATETIME = #{updatetime,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=BIGINT}

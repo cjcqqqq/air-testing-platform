@@ -1,11 +1,12 @@
 package com.university.shenyang.air.testing.gateway.procotol.device;
 
 
+import com.university.shenyang.air.testing.gateway.cache.DevicesManager;
 import com.university.shenyang.air.testing.gateway.common.kit.Convert;
 import com.university.shenyang.air.testing.gateway.common.kit.Packet;
 import com.university.shenyang.air.testing.gateway.common.kit.lang.ArraysUtils;
 import com.university.shenyang.air.testing.gateway.procotol.Command;
-import com.university.shenyang.air.testing.gateway.util.Constants;
+import com.university.shenyang.air.testing.model.DeviceInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,7 +58,8 @@ public abstract class DeviceCommand extends Command {
             ArraysUtils.arrayappend(content, 6, systemTime);
 
             // 设置采集周期
-            ArraysUtils.arrayappend(content, 12, Convert.intTobytes(10, 2));
+            DeviceInfo deviceInfo = DevicesManager.getInstance().getDeviceByCode(packet.getUniqueMark());
+            ArraysUtils.arrayappend(content, 12, Convert.intTobytes(deviceInfo.getCollectInterval(), 2));
         } else {
             // 如果非终端校时指令应答内容为终端请求指令时间
             content = ArraysUtils.subarrays(packet.getContent(), 0, 6);

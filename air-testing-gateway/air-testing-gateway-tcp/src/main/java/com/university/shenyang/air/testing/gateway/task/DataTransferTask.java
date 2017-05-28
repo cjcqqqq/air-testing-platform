@@ -1,6 +1,5 @@
 package com.university.shenyang.air.testing.gateway.task;
 
-import com.university.shenyang.air.testing.gateway.cache.DevicesManager;
 import com.university.shenyang.air.testing.gateway.util.Constants;
 import com.university.shenyang.air.testing.model.DeviceInfo;
 import com.university.shenyang.air.testing.model.ReportInfo;

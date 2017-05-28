@@ -4,21 +4,22 @@ import com.university.shenyang.air.testing.gateway.cache.DevicesManager;
 import com.university.shenyang.air.testing.model.DeviceInfo;
 import com.university.shenyang.air.testing.service.DeviceInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
  * 设备信息初始化
  */
 @Component
-public class InitDeviceInfo {
+public class InitDeviceInfo implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     DeviceInfoService deviceInfoService;
 
-    @PostConstruct
-    public void initDate() {
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
         List<DeviceInfo> deviceInfoList = deviceInfoService.queryAll();
         for(DeviceInfo deviceInfo : deviceInfoList){
             DevicesManager.getInstance().addIdMappingDevice(deviceInfo.getId(), deviceInfo);

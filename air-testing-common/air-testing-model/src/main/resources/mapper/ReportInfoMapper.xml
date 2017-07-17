@@ -297,4 +297,13 @@
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
       and COLLECT_TIME = #{collectTime,jdbcType=TIMESTAMP}
   </update>
+
+  <select id="selectLatestByDeviceCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from report_info
+    where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
+    order by COLLECT_TIME DESC
+    limit 1
+  </select>
 </mapper>

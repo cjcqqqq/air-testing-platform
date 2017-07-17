@@ -11,9 +11,9 @@ import com.university.shenyang.air.testing.gateway.dto.CollectIntervalSettingDto
 import com.university.shenyang.air.testing.gateway.dto.ParamQueryDto;
 import com.university.shenyang.air.testing.gateway.dto.WifiSettingDto;
 import com.university.shenyang.air.testing.gateway.pojo.DeviceParam;
+import com.university.shenyang.air.testing.gateway.service.CommandSendLogService;
 import com.university.shenyang.air.testing.gateway.util.Constants;
 import com.university.shenyang.air.testing.model.CommandSendLog;
-import com.university.shenyang.air.testing.service.CommandSendLogService;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

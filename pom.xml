@@ -185,6 +185,11 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.mybatis.generator</groupId>
+                    <artifactId>mybatis-generator-maven-plugin</artifactId>
+                    <version>${mybatis-generator-maven-plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>

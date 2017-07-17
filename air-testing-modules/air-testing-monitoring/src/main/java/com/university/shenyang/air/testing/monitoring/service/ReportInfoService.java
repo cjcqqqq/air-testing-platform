@@ -1,4 +1,4 @@
-package com.university.shenyang.air.testing.service;
+package com.university.shenyang.air.testing.monitoring.service;
 
 import com.university.shenyang.air.testing.model.ReportInfo;
 
@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface ReportInfoService {
     int batchInsert(List<ReportInfo> records);
+    ReportInfo queryLatestReportByDeviceCode(String deviceCode);
 }

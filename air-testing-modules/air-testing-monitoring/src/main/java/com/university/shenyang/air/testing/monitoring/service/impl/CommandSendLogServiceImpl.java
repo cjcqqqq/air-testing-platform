@@ -1,12 +1,10 @@
-package com.university.shenyang.air.testing.service.impl;
+package com.university.shenyang.air.testing.monitoring.service.impl;
 
 import com.university.shenyang.air.testing.mapper.CommandSendLogMapper;
 import com.university.shenyang.air.testing.model.CommandSendLog;
-import com.university.shenyang.air.testing.service.CommandSendLogService;
+import com.university.shenyang.air.testing.monitoring.service.CommandSendLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by cjcqqqq on 2017/5/16.

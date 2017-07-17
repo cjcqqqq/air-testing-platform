@@ -1,8 +1,8 @@
-package com.university.shenyang.air.testing.service.impl;
+package com.university.shenyang.air.testing.gateway.service.impl;
 
+import com.university.shenyang.air.testing.gateway.service.ReportInfoService;
 import com.university.shenyang.air.testing.mapper.ReportInfoMapper;
 import com.university.shenyang.air.testing.model.ReportInfo;
-import com.university.shenyang.air.testing.service.ReportInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +19,10 @@ public class ReportInfoServiceImpl implements ReportInfoService {
     @Override
     public int batchInsert(List<ReportInfo> records) {
         return reportInfoMapper.batchInsert(records);
+    }
+
+    @Override
+    public ReportInfo queryLatestReportByDeviceCode(String deviceCode) {
+        return reportInfoMapper.selectLatestByDeviceCode(deviceCode);
     }
 }

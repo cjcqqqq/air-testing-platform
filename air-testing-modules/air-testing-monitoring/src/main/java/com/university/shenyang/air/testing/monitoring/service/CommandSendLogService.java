@@ -1,9 +1,6 @@
-package com.university.shenyang.air.testing.service;
+package com.university.shenyang.air.testing.monitoring.service;
 
 import com.university.shenyang.air.testing.model.CommandSendLog;
-import com.university.shenyang.air.testing.model.ReportInfo;
-
-import java.util.List;
 
 /**
  * Created by cjcqqqq on 2017/5/15.

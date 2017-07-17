@@ -1,8 +1,8 @@
 package com.university.shenyang.air.testing.gateway.init;
 
 import com.university.shenyang.air.testing.gateway.cache.DevicesManager;
+import com.university.shenyang.air.testing.gateway.service.DeviceInfoService;
 import com.university.shenyang.air.testing.model.DeviceInfo;
-import com.university.shenyang.air.testing.service.DeviceInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

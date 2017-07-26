@@ -1,7 +1,8 @@
-package com.university.shenyang.air.testing.gateway.test;
+package com.university.shenyang.air.testing;
 
 import com.university.shenyang.air.testing.gateway.util.Constants;
 import com.university.shenyang.air.testing.model.ReportInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -38,13 +39,13 @@ public class RedisDataTest {
     @PostConstruct
     public void initDate() {
 
-        for(int i = 1; i < 201; i++){
-            long startTime = strToDateLong("2017-05-16 00:00:00").getTime();
-            for(int j = 1; j < 8641; j++){
+        for(int i = 1; i < 151; i++){
+            long startTime = strToDateLong("2017-07-24 00:00:00").getTime();
+            for(int j = 1; j < 17281; j++){
                 // 上报信息封装
                 ReportInfo reportInfo = new ReportInfo();
                 reportInfo.setCollectTime(new Date(startTime));
-                reportInfo.setDeviceCode(String.valueOf(999000 + i));
+                reportInfo.setDeviceCode("deviceCode" + StringUtils.leftPad(String.valueOf(i), 7, "0"));
                 reportInfo.setSim("13998184711");
                 reportInfo.setPm1_0(950);
                 reportInfo.setPm2_5(800);

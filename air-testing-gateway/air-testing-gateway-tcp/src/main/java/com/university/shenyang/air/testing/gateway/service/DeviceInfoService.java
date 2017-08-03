@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface DeviceInfoService {
     List<DeviceInfo> queryAll();
+
+    int updateDeviceCollectInterval(String deviceCode, int interval);
 }

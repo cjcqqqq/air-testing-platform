@@ -12,6 +12,7 @@ import com.university.shenyang.air.testing.gateway.dto.ParamQueryDto;
 import com.university.shenyang.air.testing.gateway.dto.WifiSettingDto;
 import com.university.shenyang.air.testing.gateway.pojo.DeviceParam;
 import com.university.shenyang.air.testing.gateway.service.CommandSendLogService;
+import com.university.shenyang.air.testing.gateway.service.DeviceInfoService;
 import com.university.shenyang.air.testing.gateway.util.Constants;
 import com.university.shenyang.air.testing.model.CommandSendLog;
 import io.netty.channel.ChannelHandlerContext;
@@ -41,6 +42,9 @@ public class DeviceController extends BaseController {
 
     @Autowired
     CommandSendLogService commandSendLogService;
+
+    @Autowired
+    DeviceInfoService deviceInfoService;
 
     @Autowired
     public RedisTemplate<String, DeviceParam> redisTemplate;
@@ -119,6 +123,65 @@ public class DeviceController extends BaseController {
      * @return
      * @throws RuntimeException
      */
+//    @RequestMapping(value = "/collectIntervalSetting")
+//    public CollectIntervalSettingDto wifiSetting(@Validated CollectIntervalSettingCommand command, BindingResult bindingResult) throws RuntimeException {
+//        CollectIntervalSettingDto result = new CollectIntervalSettingDto();
+//
+//        if (bindingResult.hasErrors()) {
+//            bindingResultFill(result, bindingResult);
+//        } else {
+//            // 获取登入链路上下文
+//            ChannelHandlerContext loginCtx = DevicesManager.getInstance().getCtxByDeviceCode(command.getDeviceCode());
+//            if (loginCtx == null) {
+//                result.setResultCode(400);
+//                result.setMsg(new String[]{"Device are not login"});
+//            } else {
+//                Packet packet = new Packet();
+//                packet.setUniqueMark(command.getDeviceCode().trim());
+//                packet.setCommandId(0x81);
+//                packet.setAnswerId(0xfe);
+//                packet.setEncrypt(1);
+//
+//                byte[] content = new byte[8];
+//
+//                Date nowTime = Calendar.getInstance().getTime();
+//                // 如果是终端校时指令应答内容为系统当前时间
+//                byte year = Byte.valueOf(new SimpleDateFormat("yy").format(nowTime));
+//                byte month = Byte.valueOf(new SimpleDateFormat("MM").format(nowTime));
+//                byte day = Byte.valueOf(new SimpleDateFormat("dd").format(nowTime));
+//                byte hour = Byte.valueOf(new SimpleDateFormat("HH").format(nowTime));
+//                byte minute = Byte.valueOf(new SimpleDateFormat("mm").format(nowTime));
+//                byte second = Byte.valueOf(new SimpleDateFormat("ss").format(nowTime));
+//
+//                byte[] time = new byte[]{year, month, day, hour, minute, second};
+//
+//                ArraysUtils.arrayappend(content, 0, time);
+//                ArraysUtils.arrayappend(content, 6, Convert.intTobytes(command.getInterval(), 2));
+//
+//                packet.setContent(content);
+//                loginCtx.writeAndFlush(packet);
+//
+//                CommandSendLog record = new CommandSendLog();
+//                record.setCommandId(0x81);
+//                record.setDeviceCode(command.getDeviceCode());
+//                record.setSendtime(nowTime);
+//                record.setUpdatetime(nowTime);
+//                record.setCommandContent(Convert.bytesToHexString(packet.getContent()));
+//                record.setCommandStatus(0);
+//                commandSendLogService.insert(record);
+//
+//                result.setResultCode(200);
+//                result.setMsg(new String[]{"success"});
+//            }
+//        }
+    /**
+     * 设置设备采集间隔
+     *
+     * @param command
+     * @param bindingResult
+     * @return
+     * @throws RuntimeException
+     */
     @RequestMapping(value = "/collectIntervalSetting")
     public CollectIntervalSettingDto wifiSetting(@Validated CollectIntervalSettingCommand command, BindingResult bindingResult) throws RuntimeException {
         CollectIntervalSettingDto result = new CollectIntervalSettingDto();
@@ -126,49 +189,17 @@ public class DeviceController extends BaseController {
         if (bindingResult.hasErrors()) {
             bindingResultFill(result, bindingResult);
         } else {
-            // 获取登入链路上下文
-            ChannelHandlerContext loginCtx = DevicesManager.getInstance().getCtxByDeviceCode(command.getDeviceCode());
-            if (loginCtx == null) {
-                result.setResultCode(400);
-                result.setMsg(new String[]{"Device are not login"});
-            } else {
-                Packet packet = new Packet();
-                packet.setUniqueMark(command.getDeviceCode().trim());
-                packet.setCommandId(0x81);
-                packet.setAnswerId(0xfe);
-                packet.setEncrypt(1);
+            int updateResult = deviceInfoService.updateDeviceCollectInterval(command.getDeviceCode(), command.getInterval());
 
-                byte[] content = new byte[8];
-
-                Date nowTime = Calendar.getInstance().getTime();
-                // 如果是终端校时指令应答内容为系统当前时间
-                byte year = Byte.valueOf(new SimpleDateFormat("yy").format(nowTime));
-                byte month = Byte.valueOf(new SimpleDateFormat("MM").format(nowTime));
-                byte day = Byte.valueOf(new SimpleDateFormat("dd").format(nowTime));
-                byte hour = Byte.valueOf(new SimpleDateFormat("HH").format(nowTime));
-                byte minute = Byte.valueOf(new SimpleDateFormat("mm").format(nowTime));
-                byte second = Byte.valueOf(new SimpleDateFormat("ss").format(nowTime));
-
-                byte[] time = new byte[]{year, month, day, hour, minute, second};
-
-                ArraysUtils.arrayappend(content, 0, time);
-                ArraysUtils.arrayappend(content, 6, Convert.intTobytes(command.getInterval(), 2));
-
-                packet.setContent(content);
-                loginCtx.writeAndFlush(packet);
-
-                CommandSendLog record = new CommandSendLog();
-                record.setCommandId(0x81);
-                record.setDeviceCode(command.getDeviceCode());
-                record.setSendtime(nowTime);
-                record.setUpdatetime(nowTime);
-                record.setCommandContent(Convert.bytesToHexString(packet.getContent()));
-                record.setCommandStatus(0);
-                commandSendLogService.insert(record);
-
-                result.setResultCode(200);
-                result.setMsg(new String[]{"success"});
+            if(updateResult > 0){
+                // 获取登入链路上下文
+                ChannelHandlerContext loginCtx = DevicesManager.getInstance().getCtxByDeviceCode(command.getDeviceCode());
+                if (loginCtx != null) {
+                    loginCtx.close();
+                }
             }
+            result.setResultCode(200);
+            result.setMsg(new String[]{"success"});
         }
 
         return result;

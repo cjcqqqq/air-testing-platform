@@ -1,11 +1,13 @@
 package com.university.shenyang.air.testing.gateway.service.impl;
 
+import com.university.shenyang.air.testing.gateway.cache.DevicesManager;
 import com.university.shenyang.air.testing.gateway.service.DeviceInfoService;
 import com.university.shenyang.air.testing.mapper.DeviceInfoMapper;
 import com.university.shenyang.air.testing.model.DeviceInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,5 +21,21 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
     @Override
     public List<DeviceInfo> queryAll() {
         return deviceInfoMapper.selectAll();
+    }
+
+    @Override
+    public int updateDeviceCollectInterval(String deviceCode, int interval) {
+        int updateResult = 0;
+        DeviceInfo deviceInfo = deviceInfoMapper.selectByDeviceCode(deviceCode);
+        deviceInfo.setCollectInterval(interval);
+        deviceInfo.setUpdatetime(new Date());
+
+        updateResult = deviceInfoMapper.updateByPrimaryKey(deviceInfo);
+        if(updateResult > 0){
+            DevicesManager.getInstance().addIdMappingDevice(deviceInfo.getId(), deviceInfo);
+            DevicesManager.getInstance().addCodeMappingDevice(deviceInfo.getDeviceCode(), deviceInfo);
+        }
+
+        return updateResult;
     }
 }

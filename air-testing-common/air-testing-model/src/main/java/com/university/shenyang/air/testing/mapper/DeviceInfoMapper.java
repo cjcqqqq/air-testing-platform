@@ -17,6 +17,8 @@ public interface DeviceInfoMapper {
 
     DeviceInfo selectByPrimaryKey(Long id);
 
+    DeviceInfo selectByDeviceCode(String deviceCode);
+
     int updateByPrimaryKeySelective(DeviceInfo record);
 
     int updateByPrimaryKey(DeviceInfo record);

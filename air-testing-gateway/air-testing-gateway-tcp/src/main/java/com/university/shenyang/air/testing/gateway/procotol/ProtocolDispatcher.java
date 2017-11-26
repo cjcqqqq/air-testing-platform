@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 @ChannelHandler.Sharable
 public class ProtocolDispatcher {
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(ProtocolDispatcher.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(ProtocolDispatcher.class);
     private final Map<String, Command> handlers;
 
     @Autowired
@@ -35,10 +35,10 @@ public class ProtocolDispatcher {
             if(!StringUtils.isEmpty(protocols.type())){
                 key= protocols.type()+"_"+ protocols.id();
             }
-            logger.info("{} loading handler : {}", key, handler.getClass());
+            LOGGER.info("{} loading handler : {}", key, handler.getClass());
             map.put(key, handler);
         }
-        logger.info("load proto count:{}",map.size());
+        LOGGER.info("load proto count:{}",map.size());
         handlers = Collections.unmodifiableMap(map);
     }
 

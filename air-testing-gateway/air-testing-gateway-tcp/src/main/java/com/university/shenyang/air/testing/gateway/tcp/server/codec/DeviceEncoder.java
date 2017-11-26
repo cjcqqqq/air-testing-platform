@@ -15,7 +15,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
  * Packet 到Encoder之前要完成code码补全17位
  */
 public class DeviceEncoder extends MessageToByteEncoder<Packet> {
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DeviceEncoder.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(DeviceEncoder.class);
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
@@ -28,7 +28,7 @@ public class DeviceEncoder extends MessageToByteEncoder<Packet> {
             ArraysUtils.arrayappend(bytes, 4, ArraysUtils.fillArrayTail(packet.getUniqueMark().getBytes("ASCII"), 17, (byte) 0x00));
 //            ArraysUtils.arrayappend(bytes, 4, packet.getUniqueMark().getBytes("ASCII"));
         }else{
-            logger.info("设备code码错误", packet.getUniqueMark());
+            LOGGER.info("设备code码错误", packet.getUniqueMark());
             return ;
         }
         ArraysUtils.arrayappend(bytes, 21, Convert.intTobytes(packet.getEncrypt(), 1));
@@ -36,7 +36,7 @@ public class DeviceEncoder extends MessageToByteEncoder<Packet> {
         ArraysUtils.arrayappend(bytes, 24, packet.getContent());
         byte crc = Convert.checkPackage(bytes, 2, bytes.length-2);
         ArraysUtils.arrayappend(bytes, bytes.length - 1, new byte[]{crc});
-        logger.info(ctx.channel().toString() + "发送给终端的最终数据:" + Convert.bytesToHexString(bytes));
+        LOGGER.info(ctx.channel().toString() + "发送给终端的最终数据:" + Convert.bytesToHexString(bytes));
         out.writeBytes(bytes);
     }
 }

@@ -24,7 +24,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 @ChannelHandler.Sharable
 public class GB_03_RetryData extends DeviceCommand {
 
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_03_RetryData.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(GB_03_RetryData.class);
 
     @Autowired
     public RedisTemplate<String, ReportInfo> redisTemplate;
@@ -71,7 +71,7 @@ public class GB_03_RetryData extends DeviceCommand {
                 reportInfo.setFormaldehyde(((float) formaldehyde) / 100);
                 // temperature; // 温度 0-255 * 10 偏移500 0表示-50摄氏度 2个字节
                 int temperature = Convert.byte2Int(ArraysUtils.subarrays(content, 40, 2), 2);
-                reportInfo.setTemperature((temperature - 500) / 10);
+                reportInfo.setTemperature(Float.valueOf(temperature - 500) / 10);
                 // humidity; // 湿度 0-100 1个字节
                 int humidity = Convert.byte2Int(ArraysUtils.subarrays(content, 42, 1), 1);
                 reportInfo.setHumidity(humidity);
@@ -112,8 +112,11 @@ public class GB_03_RetryData extends DeviceCommand {
                 int electricity = Convert.byte2Int(ArraysUtils.subarrays(content, 85, 1), 1);
                 reportInfo.setElectricity(electricity);
 
+                // 上报数据添加至redis缓存，隔天凌晨转存mysql
                 redisTemplate.opsForZSet().add(Constants.REPORT_REDIS_KEY_PREFIX + code, reportInfo, reportInfo.getCollectTime().getTime());
-                logger.debug("收到设备补传采集数据 设备识别码{}，" +
+                // 更新最新上报数据
+                redisTemplate.opsForValue().set(Constants.LATEST_REPORT_REDIS_KEY_PREFIX + code, reportInfo);
+                LOGGER.debug("收到设备补传采集数据 设备识别码{}，" +
                                 "采集时间：{}，" +
                                 "sim卡号：{}，" +
                                 "pm1.0：{}，" +
@@ -156,12 +159,12 @@ public class GB_03_RetryData extends DeviceCommand {
                         latitude,
                         electricity);
             } else {
-                logger.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
                 ctx.close();
             }
 
         } catch (Exception ex) {
-            logger.error("解析补传上报信息出错:" + ex);
+            LOGGER.error("解析补传上报信息出错:" + ex);
         }
     }
 }

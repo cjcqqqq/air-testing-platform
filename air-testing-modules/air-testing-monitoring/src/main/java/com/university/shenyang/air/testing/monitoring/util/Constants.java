@@ -2,9 +2,6 @@ package com.university.shenyang.air.testing.monitoring.util;
 
 
 public class Constants {
-    public final static String PROTOCOL_GB = "GB";
-    public final static int HEAD = 0x2323;
-
+    // 上报数据存储在redis中key的前缀
     public final static String REPORT_REDIS_KEY_PREFIX = "REPORT_";
-    public final static String PARAM_REDIS_KEY_PREFIX = "PARAM_";
 }

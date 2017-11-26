@@ -11,7 +11,7 @@ import java.util.Date;
  * 
  */
 public final class Convert {
-	private final static byte[] hex = "0123456789ABCDEF".getBytes();
+	private final static byte[] HEX = "0123456789ABCDEF".getBytes();
 
 	/*1个字节，FF*/
 	public static int BytesOf1=255;
@@ -62,8 +62,8 @@ public final class Convert {
 	public static String bytesToHexString(byte[] bytes) {
 		byte[] buff = new byte[2 * bytes.length];
 		for (int i = 0, length = bytes.length; i < length; i++) {
-			buff[2 * i] = hex[(bytes[i] >> 4) & 0x0f];
-			buff[2 * i + 1] = hex[bytes[i] & 0x0f];
+			buff[2 * i] = HEX[(bytes[i] >> 4) & 0x0f];
+			buff[2 * i + 1] = HEX[bytes[i] & 0x0f];
 		}
 		return new String(buff);
 	}
@@ -87,10 +87,12 @@ public final class Convert {
 	}
 
 	private static int parse(char c) {
-		if (c >= 'a')
+		if (c >= 'a') {
 			return (c - 'a' + 10) & 0x0f;
-		if (c >= 'A')
+		}
+		if (c >= 'A') {
 			return (c - 'A' + 10) & 0x0f;
+		}
 		return (c - '0') & 0x0f;
 	}
 
@@ -120,8 +122,9 @@ public final class Convert {
 	public static String fillZeroHead(Object text, int length) {
 		StringBuilder builder = new StringBuilder(length);
 		if (text == null) {
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < length; i++) {
 				builder.append("0");
+			}
 		} else {
 			for (int i = String.valueOf(text).length(); i < length; i++) {
 				builder.append("0");
@@ -164,7 +167,7 @@ public final class Convert {
 	 * @return
 	 */
 	public static long byte2Long(byte[] bytes, int size) {
-		long intValue = 0l;
+		long intValue = 0L;
 		for (int i = 0; i < bytes.length; i++) {
 			intValue |= (long)(bytes[i] & 0xFF) << (8 * (size - i - 1));
 		}
@@ -185,7 +188,7 @@ public final class Convert {
 	}
 
 	public static long byte2LongLittleEndian(byte[] bytes) {
-		long intValue = 0l;
+		long intValue = 0L;
 		for (int i = 0; i < bytes.length; i++) {
 			intValue |= (long)(bytes[i] & 0xFF) << (8 * i);
 		}

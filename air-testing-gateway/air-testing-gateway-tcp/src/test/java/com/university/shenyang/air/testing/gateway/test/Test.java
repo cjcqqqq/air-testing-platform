@@ -32,7 +32,7 @@ public class Test {
         reportInfo.setPm2_5(800);
         reportInfo.setPm10(30);
         reportInfo.setFormaldehyde(1.20F);
-        reportInfo.setTemperature(22);
+        reportInfo.setTemperature(78.8F);
         reportInfo.setHumidity(35);
         reportInfo.setCo(111);
         reportInfo.setCo2(222);
@@ -53,7 +53,7 @@ public class Test {
 //        create02Report(reportInfo, 2);
 
         // 生成补发上报报文
-        create03Report(reportInfo, 1);
+//        create03Report(reportInfo, 1);
 //        create03Report(reportInfo, 2);
 
         // 生成终端校时报文
@@ -180,7 +180,7 @@ public class Test {
         // formaldehyde; // 甲醛 0.00-9.99 * 100 2个字节
         ArraysUtils.arrayappend(requestContent, 46 + 16, Convert.intTobytes((int) (reportInfo.getFormaldehyde() * 100), 2));
         // temperature; // 温度 0-255 * 10 偏移500 0表示-50摄氏度 2个字节
-        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes(reportInfo.getTemperature() * 10, 2));
+        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes((int) (reportInfo.getTemperature() * 10), 2));
         // humidity; // 湿度 0-100 1个字节
         ArraysUtils.arrayappend(requestContent, 50 + 16, Convert.intTobytes(reportInfo.getHumidity(), 1));
         // co; // 一氧化碳 预留4个字节
@@ -278,7 +278,7 @@ public class Test {
         // formaldehyde; // 甲醛 0.00-9.99 * 100 2个字节
         ArraysUtils.arrayappend(requestContent, 46 + 16, Convert.intTobytes((int) (reportInfo.getFormaldehyde() * 100), 2));
         // temperature; // 温度 0-255 * 10 偏移500 0表示-50摄氏度 2个字节
-        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes(reportInfo.getTemperature() * 10, 2));
+        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes((int) (reportInfo.getTemperature() * 10), 2));
         // humidity; // 湿度 0-100 1个字节
         ArraysUtils.arrayappend(requestContent, 50 + 16, Convert.intTobytes(reportInfo.getHumidity(), 1));
         // co; // 一氧化碳 预留4个字节
@@ -376,7 +376,7 @@ public class Test {
         // formaldehyde; // 甲醛 0.00-9.99 * 100 2个字节
         ArraysUtils.arrayappend(requestContent, 46 + 16, Convert.intTobytes((int) (reportInfo.getFormaldehyde() * 100), 2));
         // temperature; // 温度 0-255 * 10 偏移500 0表示-50摄氏度 2个字节
-        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes(reportInfo.getTemperature() * 10, 2));
+        ArraysUtils.arrayappend(requestContent, 48 + 16, Convert.intTobytes((int) (reportInfo.getTemperature() * 10), 2));
         // humidity; // 湿度 0-100 1个字节
         ArraysUtils.arrayappend(requestContent, 50 + 16, Convert.intTobytes(reportInfo.getHumidity(), 1));
         // co; // 一氧化碳 预留4个字节

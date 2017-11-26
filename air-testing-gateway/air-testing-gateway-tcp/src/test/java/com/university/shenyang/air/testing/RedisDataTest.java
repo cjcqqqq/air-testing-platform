@@ -51,7 +51,7 @@ public class RedisDataTest {
                 reportInfo.setPm2_5(800);
                 reportInfo.setPm10(30);
                 reportInfo.setFormaldehyde(1.20F);
-                reportInfo.setTemperature(22);
+                reportInfo.setTemperature(22F);
                 reportInfo.setHumidity(35);
                 reportInfo.setCo(111);
                 reportInfo.setCo2(222);

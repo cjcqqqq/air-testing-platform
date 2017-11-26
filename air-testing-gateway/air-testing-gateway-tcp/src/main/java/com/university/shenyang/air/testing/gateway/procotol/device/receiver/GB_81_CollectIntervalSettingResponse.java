@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @ChannelHandler.Sharable
 public class GB_81_CollectIntervalSettingResponse extends DeviceCommand {
 
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_81_CollectIntervalSettingResponse.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(GB_81_CollectIntervalSettingResponse.class);
 
     @Autowired
     CommandSendLogService commandSendLogService;
@@ -43,11 +43,11 @@ public class GB_81_CollectIntervalSettingResponse extends DeviceCommand {
                 record.setCommandStatus(packet.getAnswerId());
                 commandSendLogService.updateByCodeCommandIdAndTime(record);
             } else {
-                logger.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
                 ctx.close();
             }
         } catch (Exception ex) {
-            logger.error("解析设备采集间隔设置应答信息出错:" + ex);
+            LOGGER.error("解析设备采集间隔设置应答信息出错:" + ex);
         }
     }
 }

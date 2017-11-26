@@ -13,7 +13,7 @@ public class ReportInfo extends ReportInfoKey implements Serializable {
 
     private Float formaldehyde;
 
-    private Integer temperature;
+    private Float temperature;
 
     private Integer humidity;
 
@@ -81,11 +81,11 @@ public class ReportInfo extends ReportInfoKey implements Serializable {
         this.formaldehyde = formaldehyde;
     }
 
-    public Integer getTemperature() {
+    public Float getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(Integer temperature) {
+    public void setTemperature(Float temperature) {
         this.temperature = temperature;
     }
 

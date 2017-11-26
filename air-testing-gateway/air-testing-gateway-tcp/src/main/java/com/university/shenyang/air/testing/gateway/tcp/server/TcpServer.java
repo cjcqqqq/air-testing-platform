@@ -14,14 +14,13 @@ import java.util.concurrent.TimeUnit;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.Lifecycle;
 
 /**
  * Created by chenjc on 2017/05/03.
  */
 public class TcpServer implements Lifecycle, BeanNameAware {
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(TcpServer.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(TcpServer.class);
 
     private final ServerBootstrap serverBootstrap;
     private final NioEventLoopGroup group;
@@ -101,31 +100,34 @@ public class TcpServer implements Lifecycle, BeanNameAware {
         this.serverBootstrap.childHandler(channelHandler);
     }
 
+    @Override
     public void setBeanName(String name) {
         this.beanName = name;
     }
 
+    @Override
     public void start() {
         try {
             InetAddress e = InetAddress.getByName(this.host);
             this.channel = this.serverBootstrap.bind(new InetSocketAddress(e, this.port)).sync();
         } catch (Exception var2) {
-            logger.error("Unable to start TCP server \'" + this.beanName + "\'", var2);
+            LOGGER.error("Unable to start TCP server \'" + this.beanName + "\'", var2);
             this.started = false;
             return;
         }
 
-        logger.info("Server \'{}\' started on {}:{}", new Object[]{this.beanName, this.host, Integer.valueOf(this.port)});
+        LOGGER.info("Server \'{}\' started on {}:{}", new Object[]{this.beanName, this.host, Integer.valueOf(this.port)});
         this.started = true;
     }
 
+    @Override
     public void stop() {
         if (this.started) {
             try {
                 this.channel.channel().close();
                 return;
             } catch (Exception var5) {
-                logger.error("Unable to stop server \'" + this.beanName + "\'", var5);
+                LOGGER.error("Unable to stop server \'" + this.beanName + "\'", var5);
             } finally {
                 this.group.shutdownGracefully(0L, 0L, TimeUnit.MILLISECONDS);
             }
@@ -133,6 +135,7 @@ public class TcpServer implements Lifecycle, BeanNameAware {
         }
     }
 
+    @Override
     public boolean isRunning() {
         return this.started;
     }

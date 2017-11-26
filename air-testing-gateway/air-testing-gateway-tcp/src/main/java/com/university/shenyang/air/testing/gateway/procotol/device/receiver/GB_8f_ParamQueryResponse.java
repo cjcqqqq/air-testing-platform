@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @ChannelHandler.Sharable
 public class GB_8F_ParamQueryResponse extends DeviceCommand {
 
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_8F_ParamQueryResponse.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(GB_8F_ParamQueryResponse.class);
 
     @Autowired
     CommandSendLogService commandSendLogService;
@@ -63,11 +63,11 @@ public class GB_8F_ParamQueryResponse extends DeviceCommand {
                 record.setCommandStatus(packet.getAnswerId());
                 commandSendLogService.updateByCodeCommandIdAndTime(record);
             } else {
-                logger.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
                 ctx.close();
             }
         } catch (Exception ex) {
-            logger.error("解析设备参数查询应答信息出错:" + ex);
+            LOGGER.error("解析设备参数查询应答信息出错:" + ex);
         }
     }
 }

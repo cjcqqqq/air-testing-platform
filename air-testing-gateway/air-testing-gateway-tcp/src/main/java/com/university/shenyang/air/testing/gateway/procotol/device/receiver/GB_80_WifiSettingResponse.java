@@ -15,8 +15,6 @@ import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-
 /**
  * Wifi账号密码设置应答处理
  * Created by chenjc on 2017/05/03.
@@ -25,7 +23,7 @@ import java.util.Date;
 @ChannelHandler.Sharable
 public class GB_80_WifiSettingResponse extends DeviceCommand {
 
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_80_WifiSettingResponse.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(GB_80_WifiSettingResponse.class);
 
     @Autowired
     CommandSendLogService commandSendLogService;
@@ -46,11 +44,11 @@ public class GB_80_WifiSettingResponse extends DeviceCommand {
                 commandSendLogService.updateByCodeCommandIdAndTime(record);
 
             } else {
-                logger.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
                 ctx.close();
             }
         } catch (Exception ex) {
-            logger.error("解析设备Wifi设置应答信息出错:" + ex);
+            LOGGER.error("解析设备Wifi设置应答信息出错:" + ex);
         }
     }
 }

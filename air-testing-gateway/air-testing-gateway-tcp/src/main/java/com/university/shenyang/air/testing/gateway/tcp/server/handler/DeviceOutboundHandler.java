@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @ChannelHandler.Sharable
 @Component
 public class DeviceOutboundHandler extends ChannelOutboundHandlerAdapter {
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DeviceOutboundHandler.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(DeviceOutboundHandler.class);
     @Autowired
     private ProtocolDispatcher protocolDispatcher;
 

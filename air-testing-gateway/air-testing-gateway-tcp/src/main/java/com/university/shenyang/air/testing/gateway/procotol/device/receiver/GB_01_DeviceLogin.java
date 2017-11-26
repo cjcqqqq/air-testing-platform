@@ -21,7 +21,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 @Protocols(id = "01", type = Constants.PROTOCOL_GB)
 @ChannelHandler.Sharable
 public class GB_01_DeviceLogin extends DeviceCommand {
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_01_DeviceLogin.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(GB_01_DeviceLogin.class);
 
     @Override
     public void processor(ChannelHandlerContext ctx, Packet packet) {
@@ -29,7 +29,7 @@ public class GB_01_DeviceLogin extends DeviceCommand {
             DeviceInfo deviceInfo = DevicesManager.getInstance().getDeviceByCode(packet.getUniqueMark());
 
             if (deviceInfo == null) {
-                logger.info("该设备不存在，设备标识码为：{}" + packet.getUniqueMark());
+                LOGGER.info("该设备不存在，设备标识码为：{}" + packet.getUniqueMark());
                 // TODO
                 ctx.close();
             } else {
@@ -56,7 +56,7 @@ public class GB_01_DeviceLogin extends DeviceCommand {
                 DevicesManager.getInstance().addChannelMappingDeviceCode(ctx.channel().remoteAddress().toString(), deviceInfo.getDeviceCode());
             }
         } catch (Exception ex) {
-            logger.error("解析登入信息出错:" + ex);
+            LOGGER.error("解析登入信息出错:" + ex);
         }
     }
 }

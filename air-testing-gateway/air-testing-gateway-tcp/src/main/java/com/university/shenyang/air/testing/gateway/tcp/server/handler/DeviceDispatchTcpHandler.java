@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ChannelHandler.Sharable
 public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DeviceDispatchTcpHandler.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(DeviceDispatchTcpHandler.class);
 
     private static int COUNT_START = 0;
 
@@ -43,7 +43,7 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         ctx.fireChannelRegistered();
-        logger.info("channelRegistered {}", ctx.channel().remoteAddress().toString());
+        LOGGER.info("channelRegistered {}", ctx.channel().remoteAddress().toString());
     }
 
     /**
@@ -52,9 +52,10 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
      * @param ctx
      * @throws Exception
      */
+    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.fireChannelActive();
-        logger.info("channelActive {} {}", ctx.channel().remoteAddress().toString(), COUNT_START);
+        LOGGER.info("channelActive {} {}", ctx.channel().remoteAddress().toString(), COUNT_START);
         COUNT_START++;
     }
 
@@ -78,7 +79,7 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
         }
 
         ctx.fireChannelInactive();
-        logger.info("channelInactive{} {}", ctx.channel().remoteAddress().toString(), COUNT_END);
+        LOGGER.info("channelInactive{} {}", ctx.channel().remoteAddress().toString(), COUNT_END);
         COUNT_END++;
     }
 
@@ -102,7 +103,7 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
             DevicesManager.getInstance().removeChannelMappingDeviceCode(ctx.channel().remoteAddress().toString());
         }
         ctx.fireExceptionCaught(cause);
-        logger.info("[exceptionCaught] 终端异常断开连接,[{}],{}", ctx.channel().remoteAddress().toString(), cause.getMessage());
+        LOGGER.info("[exceptionCaught] 终端异常断开连接,[{}],{}", ctx.channel().remoteAddress().toString(), cause.getMessage());
     }
 
     /**
@@ -130,6 +131,7 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
      * @param o
      * @throws Exception
      */
+    @Override
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
         try {
             byte[] original = (byte[])o;
@@ -158,11 +160,11 @@ public class DeviceDispatchTcpHandler extends ChannelInboundHandlerAdapter {
 //                    channelHandlerContext.writeAndFlush(answer);
 //                }
             } else {
-                logger.info("指令[ " + packet.getCommandIdForHex() + " ]未找到匹配的应答协议类 . ");
+                LOGGER.info("指令[ " + packet.getCommandIdForHex() + " ]未找到匹配的应答协议类 . ");
                 channelHandlerContext.close();
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 

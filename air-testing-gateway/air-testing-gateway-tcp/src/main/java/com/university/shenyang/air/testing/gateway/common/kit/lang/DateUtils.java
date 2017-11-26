@@ -20,12 +20,13 @@ public class DateUtils {
 	public static Date parse(String dateText, DateFormat dateFormat) {
 		SimpleDateFormat sdf = new SimpleDateFormat(
 				dateFormatCache.get(dateFormat.ordinal()));
-		if (sdf != null)
-			try {
-				return sdf.parse(dateText);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+		if (sdf != null) {
+            try {
+                return sdf.parse(dateText);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 		return null;
 	}
 	
@@ -36,10 +37,11 @@ public class DateUtils {
 	public static Calendar calendar(int year, int month, int day, int hour, int minute,
 									int second) {
 		Calendar calendar = Calendar.getInstance();
-		if ((hour | minute | second) != 0)
-			calendar.set(year, month - 1, day, hour, minute, second);
-		else
-			calendar.set(year, month - 1, day);
+		if ((hour | minute | second) != 0) {
+            calendar.set(year, month - 1, day, hour, minute, second);
+        } else {
+            calendar.set(year, month - 1, day);
+        }
 		return calendar;
 	}
 

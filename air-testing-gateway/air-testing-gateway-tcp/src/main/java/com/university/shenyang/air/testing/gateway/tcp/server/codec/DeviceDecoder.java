@@ -10,7 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -19,11 +18,11 @@ import java.util.List;
  */
 public class DeviceDecoder extends ByteToMessageDecoder {
 
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DeviceDecoder.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(DeviceDecoder.class);
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        logger.info(ctx.channel().toString() + "收到终端原始数据:" + ByteBufUtil.hexDump(in));
+        LOGGER.info(ctx.channel().toString() + "收到终端原始数据:" + ByteBufUtil.hexDump(in));
         if (in.writerIndex() > in.readerIndex()) {
             String channelKey = ctx.channel().remoteAddress().toString();
             byte[] lastBytes = ChannelPacket.getInstance().get(channelKey);
@@ -47,14 +46,14 @@ public class DeviceDecoder extends ByteToMessageDecoder {
                         byte[] packet = ArraysUtils.subarrays(bytes, 0, len);
                         byte  crc = Convert.checkPackage(packet, 2, len-2);
                         if(crc != packet[len-1]){
-                            logger.info("crc check error ! 计算校验码和数据包校验码为：", crc, packet[len - 1]);
+                            LOGGER.info("crc check error ! 计算校验码和数据包校验码为：", crc, packet[len - 1]);
                             return;
                         }
-                        logger.info("packet : " + Convert.bytesToHexString(packet));
+                        LOGGER.info("packet : " + Convert.bytesToHexString(packet));
                         out.add(packet);
                         bytes = ArraysUtils.subarrays(bytes, len);
                     }else{
-                        logger.info("当前数据包消息头格式错误！", head);
+                        LOGGER.info("当前数据包消息头格式错误！", head);
                         bytes = ArraysUtils.subarrays(bytes, 1);
                     }
                     if(bytes.length < 25){

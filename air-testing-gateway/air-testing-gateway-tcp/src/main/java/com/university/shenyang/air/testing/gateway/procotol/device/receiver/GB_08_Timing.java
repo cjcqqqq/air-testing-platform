@@ -18,7 +18,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 @ChannelHandler.Sharable
 public class GB_08_Timing extends DeviceCommand {
 
-    private static final InternalLogger logger = InternalLoggerFactory.getInstance(GB_08_Timing.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(GB_08_Timing.class);
 
     @Override
     public void processor(ChannelHandlerContext ctx, Packet packet) {
@@ -33,11 +33,11 @@ public class GB_08_Timing extends DeviceCommand {
                 // 发送应答
                 ctx.writeAndFlush(packet);
             } else {
-                logger.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
                 ctx.close();
             }
         } catch (Exception ex) {
-            logger.error("解析设备校时信息出错:" + ex);
+            LOGGER.error("解析设备校时信息出错:" + ex);
         }
     }
 }

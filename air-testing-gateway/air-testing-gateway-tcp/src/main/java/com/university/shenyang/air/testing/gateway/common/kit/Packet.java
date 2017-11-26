@@ -18,8 +18,8 @@ public class Packet implements Serializable {
     private int answerId;
     private String uniqueMark;// 设备标识码，长度17字节
     private int encrypt;
-    private int _content_position;
-    private int _content_capacity;
+    private int contentPosition;
+    private int contentCapacity;
     private byte[] content = new byte[0];
     private Map<Object, Object> parameters;
 
@@ -35,17 +35,17 @@ public class Packet implements Serializable {
     public Packet(int capacity) {
         if (capacity > 0) {
             this.content = new byte[capacity];
-            this._content_capacity = capacity;
+            this.contentCapacity = capacity;
         }
     }
 
     public Packet appendContent(byte[] bytes) {
-        if (bytes.length + this._content_position > this._content_capacity) {
+        if (bytes.length + this.contentPosition > this.contentCapacity) {
             throw new RuntimeException(
                     "Packet Content Capacity is not enough .");
         }
-        ArraysUtils.arrayappend(this.content, this._content_position, bytes);
-        this._content_position += bytes.length;
+        ArraysUtils.arrayappend(this.content, this.contentPosition, bytes);
+        this.contentPosition += bytes.length;
         return this;
     }
 
@@ -57,15 +57,17 @@ public class Packet implements Serializable {
      * @return
      */
     public Packet addParameter(Object pKey, Object pValue) {
-        if (this.parameters == null)
+        if (this.parameters == null) {
             this.parameters = new ConcurrentHashMap<Object, Object>();
+        }
         this.parameters.put(pKey, pValue);
         return this;
     }
 
     public Object getParamter(Object pKey) {
-        if (this.parameters != null)
+        if (this.parameters != null) {
             return this.parameters.get(pKey);
+        }
         return null;
     }
 

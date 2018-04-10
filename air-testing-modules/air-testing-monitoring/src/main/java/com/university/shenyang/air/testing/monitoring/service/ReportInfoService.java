@@ -1,6 +1,9 @@
 package com.university.shenyang.air.testing.monitoring.service;
 
 import com.university.shenyang.air.testing.model.ReportInfo;
+import com.university.shenyang.air.testing.monitoring.pojo.ReportInfoSim;
+import com.university.shenyang.air.testing.monitoring.pojo.ReportTypeInfo;
+
 
 import java.util.List;
 
@@ -9,5 +12,14 @@ import java.util.List;
  */
 public interface ReportInfoService {
     int batchInsert(List<ReportInfo> records);
+
+
     ReportInfo queryLatestReportByDeviceCode(String deviceCode);
+
+    List<ReportInfo> queryAllDeviceLatestReport();
+
+    List<ReportInfoSim> queryAllDeviceLatestSim();
+
+    List<ReportTypeInfo> queryAllDeviceLatestInfoByType(String type);
+
 }

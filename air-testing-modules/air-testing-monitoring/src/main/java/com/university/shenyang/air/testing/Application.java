@@ -23,5 +23,4 @@ public class Application {
         application.setWebEnvironment(true);
         application.run(args);
     }
-
 }

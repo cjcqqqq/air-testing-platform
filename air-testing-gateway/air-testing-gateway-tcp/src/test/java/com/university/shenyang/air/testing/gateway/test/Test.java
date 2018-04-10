@@ -18,7 +18,7 @@ public class Test {
     public static void main(String[] args) throws UnsupportedEncodingException {
         // 终端标识码
 //        String deviceCode = "999001";
-        String deviceCode = "deviceCode0000002";
+        String deviceCode = "deviceCode0000006";
         // 生成登入报文
         create01Report(deviceCode, 1, new java.util.Date(), 10);
 //        create01Report(deviceCode, 2, new java.util.Date());

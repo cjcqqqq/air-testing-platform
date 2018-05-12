@@ -183,7 +183,7 @@ public class DeviceController extends BaseController {
      * @throws RuntimeException
      */
     @RequestMapping(value = "/collectIntervalSetting")
-    public CollectIntervalSettingDto wifiSetting(@Validated CollectIntervalSettingCommand command, BindingResult bindingResult) throws RuntimeException {
+    public CollectIntervalSettingDto collectIntervalSetting(@Validated CollectIntervalSettingCommand command, BindingResult bindingResult) throws RuntimeException {
         CollectIntervalSettingDto result = new CollectIntervalSettingDto();
 
         if (bindingResult.hasErrors()) {

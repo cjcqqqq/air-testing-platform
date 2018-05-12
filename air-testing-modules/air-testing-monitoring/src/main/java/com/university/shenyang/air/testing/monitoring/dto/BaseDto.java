@@ -11,15 +11,15 @@ public class BaseDto {
         return resultCode;
     }
 
-    public void setResultCode(int resultCode) {
-        this.resultCode = resultCode;
-    }
-
+     public void setResultCode(int resultCode) {
+       this.resultCode = resultCode;
+   }
     public String[] getMsg() {
-        return msg;
+     return msg;
+   }
+
+   public void setMsg(String[] msg) {
+       this.msg = msg;
     }
 
-    public void setMsg(String[] msg) {
-        this.msg = msg;
-    }
 }

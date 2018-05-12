@@ -8,7 +8,7 @@ import com.university.shenyang.air.testing.model.ReportInfo;
 public class QueryLatestReportDto extends BaseDto{
     private ReportInfo data;
 
-    public ReportInfo getData() {
+   public ReportInfo getData() {
         return data;
     }
 

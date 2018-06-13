@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by Administrator on 2016/12/26.
@@ -23,9 +24,18 @@ public class Test {
         create01Report(deviceCode, 1, new java.util.Date(), 10);
 //        create01Report(deviceCode, 2, new java.util.Date());
 
+        Calendar todayStart = Calendar.getInstance();
+        todayStart.set(Calendar.HOUR_OF_DAY, 0);
+        todayStart.set(Calendar.MINUTE, 0);
+        todayStart.set(Calendar.SECOND, 0);
+        todayStart.set(Calendar.MILLISECOND, 0);
+
+        long startTime = todayStart.getTime().getTime() - 1000 * 60 * 60 * 24;
+
+
         // 上报信息封装
         ReportInfo reportInfo = new ReportInfo();
-        reportInfo.setCollectTime(new Date(new java.util.Date().getTime()));
+        reportInfo.setCollectTime(new Date(startTime));
         reportInfo.setDeviceCode(deviceCode);
         reportInfo.setSim("13998184711");
         reportInfo.setPm1_0(950);

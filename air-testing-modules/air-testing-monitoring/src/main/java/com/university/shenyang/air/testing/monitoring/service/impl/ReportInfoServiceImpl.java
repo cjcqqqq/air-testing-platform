@@ -155,7 +155,7 @@ public class ReportInfoServiceImpl implements ReportInfoService {
                 }
                 // Formaldehyde
                 if("11".equals(type)){
-                    reportTypeInfo.setTypeValue(String.valueOf(reportInfo.getFormaldehyde()));
+                    reportTypeInfo.setTypeValue(String.valueOf(reportInfo.getFormaldehyde()*1000));
                 }
                 // Humidity
                 if("12".equals(type)){

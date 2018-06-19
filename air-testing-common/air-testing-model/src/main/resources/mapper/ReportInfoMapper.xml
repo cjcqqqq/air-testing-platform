@@ -306,4 +306,26 @@
     order by COLLECT_TIME DESC
     limit 1
   </select>
+
+  <select id="selectByDeviceCodeAndTime" parameterType="com.university.shenyang.air.testing.pojo.ReportQueryParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from report_info t
+    WHERE
+    1 = 1
+    <if test="deviceCode != null">
+    AND t.DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
+    </if>
+    AND t.COLLECT_TIME BETWEEN str_to_date(
+    #{startTime,jdbcType=VARCHAR},
+    '%Y%m%d%H%i%s'
+    )
+    AND str_to_date(
+    #{endTime,jdbcType=VARCHAR},
+    '%Y%m%d%H%i%s'
+    )
+    order by t.COLLECT_TIME asc
+    LIMIT #{skipCount,jdbcType=INTEGER},
+    #{pageSize,jdbcType=INTEGER}
+  </select>
 </mapper>

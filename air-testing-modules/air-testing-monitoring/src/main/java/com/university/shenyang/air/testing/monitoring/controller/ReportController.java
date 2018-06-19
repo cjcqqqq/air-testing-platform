@@ -1,11 +1,8 @@
 package com.university.shenyang.air.testing.monitoring.controller;
 
-import com.university.shenyang.air.testing.monitoring.command.QueryAllDeviceLatestInfoByTypeCommand;
-import com.university.shenyang.air.testing.monitoring.command.QueryAllDeviceLatestSimCommand;
-import com.university.shenyang.air.testing.monitoring.command.QueryLatestReportCommand;
-import com.university.shenyang.air.testing.monitoring.dto.QueryAllDeviceLatestSimDto;
-import com.university.shenyang.air.testing.monitoring.dto.QueryLatestInfoByTypeDto;
-import com.university.shenyang.air.testing.monitoring.dto.QueryLatestReportDto;
+import com.university.shenyang.air.testing.model.ReportInfo;
+import com.university.shenyang.air.testing.monitoring.command.*;
+import com.university.shenyang.air.testing.monitoring.dto.*;
 import com.university.shenyang.air.testing.monitoring.service.ReportInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/report", method = {RequestMethod.GET, RequestMethod.POST}, produces = {"application/json;charset=UTF-8"})
@@ -53,6 +50,54 @@ public class ReportController extends BaseController {
         return result;
     }
 
+    @RequestMapping(value = "/getAllLatestReport")
+    public
+    QueryAllLatestReportDto getAllLatestReport(@Validated QueryAllLatestReportCommand command, BindingResult bindingResult) throws RuntimeException {
+        QueryAllLatestReportDto result = new QueryAllLatestReportDto();
+        if (bindingResult.hasErrors()) {
+            bindingResultFill(result, bindingResult);
+        } else {
+            result.setData(reportInfoService.queryAllDeviceLatestReport());
+            result.setResultCode(200);
+            result.setMsg(new String[]{"success"});
+        }
+
+        return result;
+    }
+
+
+
+
+
+
+
+
+    @RequestMapping(value = "/getAllHourInfo")
+    public QurryHourInfo getAllHourInfo(@Validated QueryAllHourInfoCommand command, BindingResult bindingResult) throws RuntimeException {
+        QurryHourInfo result = new QurryHourInfo();
+        if (bindingResult.hasErrors()) {
+            bindingResultFill(result, bindingResult);
+        } else {
+            result.setData(reportInfoService.queryAllHourDeviceLatestReport());
+            result.setResultCode(200);
+            result.setMsg(new String[]{"success"});
+        }
+
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     @RequestMapping(value = "/getAllDeviceLatestSim")
     public QueryAllDeviceLatestSimDto getAllDeviceLatestSim(@Validated QueryAllDeviceLatestSimCommand command, BindingResult bindingResult) throws RuntimeException {
         QueryAllDeviceLatestSimDto result = new QueryAllDeviceLatestSimDto();
@@ -80,4 +125,41 @@ public class ReportController extends BaseController {
 
         return result;
     }
+
+
+
+
+
+    @RequestMapping(value = "/getAllReportByDeviceCode")
+    public QueryLatestReportByDeviceCodeDto getAllReportByDeviceCode(@Validated queryAllReportByDeviceCodeBaseCommand command, BindingResult bindingResult) throws RuntimeException {
+        QueryLatestReportByDeviceCodeDto result = new QueryLatestReportByDeviceCodeDto();
+        if (bindingResult.hasErrors()) {
+            bindingResultFill(result, bindingResult);
+        } else {
+            result.setData(reportInfoService.queryAllReportByDeviceCode(command.getDeviceCode()));
+            result.setResultCode(200);
+
+            result.setMsg(new String[]{"success"});
+
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/queryReportByDeviceAndTime")
+    public QueryReportByDeviceCodeAndTimeDto queryReportByDeviceAndTime(@Validated QueryReportByDeviceCodeAndTimeCommand command, BindingResult bindingResult) throws RuntimeException {
+        QueryReportByDeviceCodeAndTimeDto result = new QueryReportByDeviceCodeAndTimeDto();
+        if (bindingResult.hasErrors()) {
+            bindingResultFill(result, bindingResult);
+        } else {
+            result.setData(reportInfoService.queryReportByDeviceCodeAndTime(command));
+            result.setResultCode(200);
+
+            result.setMsg(new String[]{"success"});
+
+        }
+
+        return result;
+    }
+
 }

@@ -1,0 +1,180 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+    <title> 信息采集监测界面</title>
+    <style>
+
+    </style>
+    <script type="text/javascript">
+        $(function(){
+            //调用加载数据函数
+            loadstu();
+            //查询接口
+
+
+            //为添加按钮绑定一个添加动作
+            $("#aid").click(function(){
+                $("#fill").show();
+                $("#myform").show();
+            });
+        });
+        //定时刷新
+        $(document).ready(function () {
+            setInterval("loadstu()",10000)
+
+        })
+        //加载学生信息
+        function loadstu(){
+            $.ajax({
+                type:"GET",
+                url:"http://127.0.0.1:9999/report/getAllLatestReport",
+                dataType:"json",
+                success:function(result){
+                    //alert(data);
+                    var str=null;
+                    for(var i=0;i<result.data.length;i++){
+
+
+                        var unixTimestamp = new Date( result.data[i].collectTime ) ;
+                        commonTime = unixTimestamp.toLocaleString();
+
+                        //计算两个时间相差了几个小时
+
+                            var startDate =unixTimestamp;
+                            var endDate =new Date();
+                            var date3 = (endDate.getTime() -  new Date(startDate).getTime())/1000;
+                            var min = parseInt(date3/60);
+                             var ob=null;
+                             if(min<15){
+
+                                 var ob="正常";
+                                 str+="<tr>";
+                                 str+="<td>"+result.data[i].deviceCode+"</td>";
+                                 str+="<td>"+commonTime+"</td>";
+                                 str+="<td>"+result.data[i].sim+"</td>";
+                                 str+="<td>"+result.data[i].pm1_0+"</td>";
+                                 str+="<td>"+result.data[i].pm2_5+"</td>";
+                                 str+="<td>"+result.data[i].pm10+"</td>";
+                                 str+="<td>"+result.data[i].formaldehyde+"</td>";
+                                 str+="<td>"+result.data[i].temperature+"</td>";
+                                 str+="<td>"+result.data[i].humidity+"</td>";
+                                 str+="<td>"+result.data[i].co+"</td>";
+                                 str+="<td>"+result.data[i].co2+"</td>";
+                                 str+="<td>"+result.data[i].no+"</td>";
+                                 str+="<td>"+result.data[i].no2+"</td>";
+                                 str+="<td>"+result.data[i].o3+"</td>";
+                                 str+="<td>"+result.data[i].so2+"</td>";
+                                 str+="<td>"+result.data[i].tvoc+"</td>";
+                                 str+="<td>"+result.data[i].windSpeed+"</td>";
+                                 str+="<td>"+result.data[i].windDirection+"</td>";
+                                 str+="<td>"+result.data[i].longitude+"</td>";
+                                 str+="<td>"+result.data[i].latitude+"</td>";
+                                 str+="<td >"+result.data[i].electricity+"</td>";
+                                 str+="<td>"+ob+"</td>";
+                                 str+="</tr>";
+
+                            }
+                            else {
+
+                                 var ob = "掉线";
+                                 str+="<tr style='color:#F00'>";
+                                 str+="<td>"+result.data[i].deviceCode+"</td>";
+                                 str+="<td>"+commonTime+"</td>";
+                                 str+="<td>"+result.data[i].sim+"</td>";
+                                 str+="<td>"+result.data[i].pm1_0+"</td>";
+                                 str+="<td>"+result.data[i].pm2_5+"</td>";
+                                 str+="<td>"+result.data[i].pm10+"</td>";
+                                 str+="<td>"+result.data[i].formaldehyde+"</td>";
+                                 str+="<td>"+result.data[i].temperature+"</td>";
+                                 str+="<td>"+result.data[i].humidity+"</td>";
+                                 str+="<td>"+result.data[i].co+"</td>";
+                                 str+="<td>"+result.data[i].co2+"</td>";
+                                 str+="<td>"+result.data[i].no+"</td>";
+                                 str+="<td>"+result.data[i].no2+"</td>";
+                                 str+="<td>"+result.data[i].o3+"</td>";
+                                 str+="<td>"+result.data[i].so2+"</td>";
+                                 str+="<td>"+result.data[i].tvoc+"</td>";
+                                 str+="<td>"+result.data[i].windSpeed+"</td>";
+                                 str+="<td>"+result.data[i].windDirection+"</td>";
+                                 str+="<td>"+result.data[i].longitude+"</td>";
+                                 str+="<td>"+result.data[i].latitude+"</td>";
+                                 str+="<td >"+result.data[i].electricity+"</td>";
+                                 str+="<td>"+ob+"</td>";
+                                 str+="</tr>";
+                             }
+
+//                        str+="<tr fonts color=red>";
+//                        str+="<td>"+result.data[i].deviceCode+"</td>";
+//                        str+="<td>"+commonTime+"</td>";
+//                        str+="<td>"+result.data[i].sim+"</td>";
+//                        str+="<td>"+result.data[i].pm1_0+"</td>";
+//                        str+="<td>"+result.data[i].pm2_5+"</td>";
+//                        str+="<td>"+result.data[i].pm10+"</td>";
+//                        str+="<td>"+result.data[i].formaldehyde+"</td>";
+//                        str+="<td>"+result.data[i].temperature+"</td>";
+//                        str+="<td>"+result.data[i].humidity+"</td>";
+//                        str+="<td>"+result.data[i].co+"</td>";
+//                        str+="<td>"+result.data[i].co2+"</td>";
+//                        str+="<td>"+result.data[i].no+"</td>";
+//                        str+="<td>"+result.data[i].no2+"</td>";
+//                        str+="<td>"+result.data[i].o3+"</td>";
+//                        str+="<td>"+result.data[i].so2+"</td>";
+//                        str+="<td>"+result.data[i].tvoc+"</td>";
+//                        str+="<td>"+result.data[i].windSpeed+"</td>";
+//                        str+="<td>"+result.data[i].windDirection+"</td>";
+//                        str+="<td>"+result.data[i].longitude+"</td>";
+//                        str+="<td>"+result.data[i].latitude+"</td>";
+//                        str+="<td >"+result.data[i].electricity+"</td>";
+//                        str+="<td>"+ob+"</td>";
+//                        str+="</tr>";
+
+                    }
+                    $("#stuid tbody").empty();
+                    $("#stuid tbody").append(str);
+                }
+            });
+        }
+
+        //删除函数
+        function doDel(id,ob){
+            //执行ajax删除
+            if(confirm("确定要删除吗？"))
+                $.ajax({
+                    url:"http://127.0.0.1:9999/device/deleteOneDevice/{id}",
+                    type:"DELETE",
+                    data:{id:id},
+                    dataType:"json",
+                    success:function(res){
+                        //判断是否删除成功
+                        if(res.num>0){
+                            //alert(res.num);
+                            $(ob).parents("tr").remove();
+                        }
+                    },
+                    error:function(){
+                        alert('error');
+                    }
+                });
+        }
+
+    </script>
+
+</head>
+<body><h2>信息采集监测界面</h2>
+<h3>采集信息</h3>
+<table id="stuid" width="500" border="1"　 style="color: #000; font-size: 12px">
+    <thead>
+    <tr>
+       <th>deviceCode</th><th>collectTime</th><th>sim</th><th>pm1_0</th><th>pm2_5</th><th>pm10</th><th>formaldehyde</th><th>temperature</th><th>humidity</th><th>co</th><th>co2</th><th>no</th><th>no2</th><th>o3</th><th>so2</th><th>tvoc</th><th>windSpeed</th><th>windDirection</th><th>longitude</th><th>latitude</th><th>electricity</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+</body>
+</html>

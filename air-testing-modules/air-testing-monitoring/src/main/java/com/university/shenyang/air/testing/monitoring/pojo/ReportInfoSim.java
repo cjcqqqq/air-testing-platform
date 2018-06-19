@@ -1,33 +1,35 @@
 package com.university.shenyang.air.testing.monitoring.pojo;
 
 public class ReportInfoSim {
-    private String sim;
 
-    private Float longitude;
+    private Float lng;
 
-    private Float latitude;
+    private Float lat;
+    private String count;
 
-    public String getSim() {
-        return sim;
+
+
+    public Float getLng() {
+        return lng;
     }
 
-    public void setSim(String sim) {
-        this.sim = sim;
+    public void setLng(Float lng) {
+        this.lng = lng;
     }
 
-    public Float getLongitude() {
-        return longitude;
+    public Float getLat() {
+        return lat;
     }
 
-    public void setLongitude(Float longitude) {
-        this.longitude = longitude;
+    public void setLat(Float lat) {
+        this.lat = lat;
     }
 
-    public Float getLatitude() {
-        return latitude;
+    public String getCount() {
+        return count;
     }
 
-    public void setLatitude(Float latitude) {
-        this.latitude = latitude;
+    public void setCount(String count) {
+        this.count = count;
     }
 }

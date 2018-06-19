@@ -1,6 +1,7 @@
 package com.university.shenyang.air.testing.monitoring.service;
 
 import com.university.shenyang.air.testing.model.ReportInfo;
+import com.university.shenyang.air.testing.monitoring.command.QueryReportByDeviceCodeAndTimeCommand;
 import com.university.shenyang.air.testing.monitoring.pojo.ReportInfoSim;
 import com.university.shenyang.air.testing.monitoring.pojo.ReportTypeInfo;
 
@@ -18,8 +19,14 @@ public interface ReportInfoService {
 
     List<ReportInfo> queryAllDeviceLatestReport();
 
+    List<ReportInfo> queryAllHourDeviceLatestReport();
+
     List<ReportInfoSim> queryAllDeviceLatestSim();
 
     List<ReportTypeInfo> queryAllDeviceLatestInfoByType(String type);
+
+    List<ReportInfo> queryAllReportByDeviceCode(String deviceCode);
+
+    List<ReportInfo> queryReportByDeviceCodeAndTime(QueryReportByDeviceCodeAndTimeCommand command);
 
 }

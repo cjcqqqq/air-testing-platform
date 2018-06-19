@@ -1,6 +1,7 @@
 package com.university.shenyang.air.testing.monitoring.service;
 
 import com.university.shenyang.air.testing.model.DeviceInfo;
+import com.university.shenyang.air.testing.monitoring.command.AddDeviceCommand;
 
 import java.util.List;
 
@@ -9,4 +10,11 @@ import java.util.List;
  */
 public interface DeviceInfoService {
     List<DeviceInfo> queryAll();
+
+    DeviceInfo queryOneDeviceByDeviceCode(String deviceCode);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insertDeviceInfo(AddDeviceCommand record);
+
 }

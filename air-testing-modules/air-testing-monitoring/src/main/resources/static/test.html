@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap{width:100%;height:500px;}
+        p{margin-left:5px; font-size:14px;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=XPgKMONgobyPfxQywAS8B9ZZn54LE8jD"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <title>给多个点添加信息窗口</title>
+</head>
+<body>
+<div id="allmap"></div>
+<div id="r-result">
+    <input type="button"  onclick="openmapByType(1);" value="温度热力图"/>
+    <input type="button"  onclick="openmapByType(12);" value="湿度热力图"/>
+    <input type="button"  onclick="openmapByType(9);" value="PM1.0热力图"/>
+    <input type="button"  onclick="openmapByType(2);" value="PM2.5热力图"/>
+    <input type="button"  onclick="openmapByType(3);" value="PM10热力图"/>
+    <input type="button"  onclick="openmapByType(11);" value="甲醛热力图"/>
+    <input type="button"  onclick="openmapByType(13);" value="有机气态物质热力图"/>
+    <input type="button"  onclick="openmapByType(4);" value="CO热力图"/>
+    <input type="button"  onclick="openmapByType(5);" value="CO2热力图"/>
+    <input type="button"  onclick="openmapByType(6);" value="NO热力图"/>
+    <input type="button"  onclick="openmapByType(7);" value="NO2热力图"/>
+    <input type="button"  onclick="openmapByType(8);" value="O3热力图"/>
+    <input type="button"  onclick="openmapByType(10);" value="SO2热力图"/>
+
+</div>
+<p>点击标注点，可查看由纯文本构成的简单型信息窗口</p>
+</body>
+</html>
+<script src="js/test.js"></script>

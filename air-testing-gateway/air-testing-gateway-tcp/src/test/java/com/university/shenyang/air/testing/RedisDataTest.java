@@ -40,31 +40,31 @@ public class RedisDataTest {
     public void initDate() {
 
         for(int i = 1; i < 151; i++){
-            long startTime = strToDateLong("2017-07-24 00:00:00").getTime();
-            for(int j = 1; j < 17281; j++){
+            long startTime = strToDateLong("2018-06-13 22:59:00").getTime();
+            for(int j = 1; j < 361; j++){
                 // 上报信息封装
                 ReportInfo reportInfo = new ReportInfo();
                 reportInfo.setCollectTime(new Date(startTime));
                 reportInfo.setDeviceCode("deviceCode" + StringUtils.leftPad(String.valueOf(i), 7, "0"));
-                reportInfo.setSim("13998184711");
-                reportInfo.setPm1_0(950);
-                reportInfo.setPm2_5(800);
-                reportInfo.setPm10(30);
-                reportInfo.setFormaldehyde(1.20F);
-                reportInfo.setTemperature(22F);
-                reportInfo.setHumidity(35);
-                reportInfo.setCo(111);
-                reportInfo.setCo2(222);
-                reportInfo.setNo(333);
-                reportInfo.setNo2(444);
-                reportInfo.setO3(555);
-                reportInfo.setSo2(666);
-                reportInfo.setTvoc(777);
-                reportInfo.setWindSpeed(888);
-                reportInfo.setWindDirection(95);
+                reportInfo.setSim("13998184" + StringUtils.leftPad(String.valueOf(i), 3, "0"));
+                reportInfo.setPm1_0(950+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setPm2_5(800+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setPm10(30+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setFormaldehyde(1.20F+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setTemperature(22F+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setHumidity(35+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setCo(111+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setCo2(222+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setNo(333+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setNo2(444+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setO3(555+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setSo2(666+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setTvoc(777+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setWindSpeed(888+(int)(1+Math.random()*(10-1+1)));
+                reportInfo.setWindDirection(95+(int)(1+Math.random()*(10-1+1)));
                 reportInfo.setLongitude(121.123456F);
                 reportInfo.setLatitude(31.123456F);
-                reportInfo.setElectricity(95);
+                reportInfo.setElectricity(85+(int)(1+Math.random()*(10-1+1)));
 
                 redisTemplate.opsForZSet().add(Constants.REPORT_REDIS_KEY_PREFIX + reportInfo.getDeviceCode(), reportInfo, reportInfo.getCollectTime().getTime());
 

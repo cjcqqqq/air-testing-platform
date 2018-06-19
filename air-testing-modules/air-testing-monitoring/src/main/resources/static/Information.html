@@ -1,0 +1,192 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+    <title> 信息管理界面</title>
+    <style>
+
+    </style>
+    <script type="text/javascript">
+        $(function(){
+            //调用加载数据函数
+            loadstu();
+            //查询接口
+
+
+            //为添加按钮绑定一个添加动作
+            $("#aid").click(function(){
+                $("#fill").show();
+                $("#myform").show();
+            });
+        });
+
+        //加载学生信息
+        function loadstu(){
+            $.ajax({
+                type:"GET",
+                url:"http://127.0.0.1:9999/device/getAllLatestDevice",
+                dataType:"json",
+                success:function(result){
+                    //alert(data);
+                    var str=null;
+                    for(var i=0;i<result.data.length;i++){
+
+
+                        var unixTimestamp = new Date( result.data[i].createtime ) ;
+                        commonTime = unixTimestamp.toLocaleString();
+                        //alert(commonTime);
+                        var unixTimestamp1 = new Date( result.data[i].updatetime ) ;
+                        commonTime1 = unixTimestamp1.toLocaleString();
+
+                        str+="<tr>";
+                        str+="<td>"+result.data[i].id+"</td>";
+                        str+="<td>"+result.data[i].deviceCode+"</td>";
+                        str+="<td>"+result.data[i].deviceDesc+"</td>";
+                        str+="<td>"+result.data[i].address+"</td>";
+                        str+="<td>"+result.data[i].longitude+"</td>";
+                        str+="<td>"+result.data[i].latitude+"</td>";
+                        str+="<td>"+result.data[i].sim+"</td>";
+                        str+="<td>"+result.data[i].protocol+"</td>";
+                        str+="<td>"+result.data[i].collectInterval+"</td>";
+                        str+="<td>"+commonTime+"</td>";
+                        str+="<td>"+commonTime1+"</td>";
+                        str+="<td><a href=\"javascript:void(0);\" onclick='doDel("+result.data[i].id+",this)'>删除</a></td>";
+                        str+="</tr>";
+
+                    }
+                    $("#stuid tbody").empty();
+                    $("#stuid tbody").append(str);
+                }
+            });
+        }
+
+        //删除函数
+        function doDel(id,ob){
+            //执行ajax删除
+            if(confirm("确定要删除吗？"))
+                $.ajax({
+                    url:"http://127.0.0.1:9999/device/deleteOneDevice/{id}",
+                    type:"DELETE",
+                    data:{id:id},
+                    dataType:"json",
+                    success:function(res){
+                        //判断是否删除成功
+                        if(res.num>0){
+                            //alert(res.num);
+                            $(ob).parents("tr").remove();
+                        }
+                    },
+                    error:function(){
+                        alert('error');
+                    }
+                });
+        }
+
+        //执行添加
+        function doAdd(form){
+            var addform = {$(form)};
+            alert($(form).serialize());
+            $.ajax({
+                url:"http://127.0.0.1:9999/device/insertOneDevice",
+                type:"POST",
+                data:$(form).json,
+                dataType:"json",
+                success:function(res){
+                    if(res.id>0){
+                        $('#fill').hide();
+                        $('#myform').hide();
+                        $(form).find(":reset").trigger("click");
+                        loadstu();//重新加载
+                    }else{
+                        alert('添加失败！');
+                    }
+                }
+            });
+
+            return false;
+        }
+    </script>
+</head>
+<body><h2>设备信息管理</h2>
+<h3>设备信息</h3><button id="aid">添加</button>
+<table id="stuid" width="500" border="1">
+    <thead>
+    <tr>
+        <th>ID</th><th>DeviceCode</th><th>DeviceDesc</th><th>Address</th><th>Longitude</th><th>Latidute</th><th>SIM</th><th>Protocol</th><th>Collect_Interval</th><th>Createtime</th><th>Updatetime</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+<div id="fill" style="width:100%;height:100%;background-color:#000;position:absolute;top:0px;left:0px;opacity:0.3;display:none;z-index:100">
+</div>
+
+<div id="myform" style="width:100%;height:100%;position:absolute;top:0px;left:0px;z-index:101;display:none">
+    <form  action="" method="post" onsubmit="return doAdd(this)">
+        <table width="340" border="0" style="margin:20% auto;background-color:#fff">
+            <tr>
+                <td>ID：</td>
+                <td><input type='text' name="id"/></td>
+            </tr>
+            <tr>
+                <td>DeviceCode：</td>
+                <td><input type='text' name="deviceCode"/></td>
+            </tr>
+            <tr>
+                <td>DeviceDesc：</td>
+                <td><input type='text' name="deviceDesc"/></td>
+            </tr>
+            <tr>
+                <td>Address：</td>
+                <td><input type='text' name="address"/></td>
+            </tr>
+            <tr>
+                <td>Longitude：</td>
+                <td><input type='text' name="longitude"/></td>
+            </tr>
+            <tr>
+                <td>Latidute：</td>
+                <td><input type='text' name="latitude"/></td>
+            </tr>
+            <tr>
+                <td>SIM：</td>
+                <td><input type='text' name="sim"/></td>
+            </tr>
+            <tr>
+                <td>Protocol：</td>
+                <td><input type='text' name="protocol"/></td>
+            </tr>
+            <tr>
+                <td>Collect_Interval：</td>
+                <td><input type='text' name="collectInterval"/></td>
+            </tr>
+            <tr>
+                <td>Createtime：</td>
+                <td><input type='text' name="createtime"/></td>
+            </tr>
+            <tr>
+                <td>Updatetime：</td>
+                <td><input type='text' name="updatetime"/></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td >
+                    <input type='submit' value="添加"/>
+                    <input type='reset' value="重置"/>
+                    <input type="button" onclick="$('#fill').hide();$('#myform').hide();" value="关闭"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+</body>
+</html>

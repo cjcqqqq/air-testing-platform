@@ -108,60 +108,67 @@ public class ReportInfoServiceImpl implements ReportInfoService {
         return result;
     }
 
+
     @Override
     public List<ReportInfo> queryAllHourDeviceLatestReport() {
-        List<ReportInfo> result = new ArrayList<>();
+//        List<ReportInfo> result = new ArrayList<>();
         List<DeviceInfo> deviceInfoList = deviceInfoService.queryAll();
-        Calendar todayStart = Calendar.getInstance();
-        todayStart.set(Calendar.HOUR_OF_DAY, 0);
-        todayStart.set(Calendar.MINUTE, 0);
-        todayStart.set(Calendar.SECOND, 0);
-        todayStart.set(Calendar.MILLISECOND, 0);
+//        Calendar todayStart = Calendar.getInstance();
+//        todayStart.set(Calendar.HOUR_OF_DAY, 0);
+//        todayStart.set(Calendar.MINUTE, 0);
+//        todayStart.set(Calendar.SECOND, 0);
+//        todayStart.set(Calendar.MILLISECOND, 0);
+//
+//        long startTime = todayStart.getTime().getTime() - 1000 * 60 * 60 * 24 ;
+//        long endTime = todayStart.getTime().getTime();
 
-        long startTime = todayStart.getTime().getTime() - 1000 * 60 * 60 * 24 ;
-        long endTime = todayStart.getTime().getTime();
+
+        List<ReportInfo> reportInfoList = new ArrayList<>();
         for (DeviceInfo deviceInfo : deviceInfoList) {
-            List<ReportInfo> reportInfoList = new ArrayList<>();
-            Set<ReportInfo> Infos = redisTemplate.opsForZSet().rangeByScore(Constants.REPORT_REDIS_KEY_PREFIX + deviceInfo.getDeviceCode(), startTime, endTime);
-            reportInfoList.addAll(Infos);
-//            ReportInfo record = null;
-            ReportInfo record = new ReportInfo();
-            if (reportInfoList != null && reportInfoList.size() > 0) {
-                for (int i = 0; i < reportInfoList.size(); i++) {
-//                    record.setSim(reportInfoList.get(0).getSim());
-                    record.setPm1_0(record.getPm1_0() + reportInfoList.get(i).getPm1_0() / reportInfoList.size());
-                    record.setPm2_5(record.getPm2_5() + reportInfoList.get(i).getPm2_5() / reportInfoList.size());
-                    record.setPm10(record.getPm10() + reportInfoList.get(i).getPm10() / reportInfoList.size());
-                    record.setFormaldehyde(record.getFormaldehyde() + reportInfoList.get(i).getFormaldehyde() / reportInfoList.size());
-                    record.setTemperature(record.getTemperature() + reportInfoList.get(i).getTemperature() / reportInfoList.size());
-                    record.setHumidity(record.getHumidity() + reportInfoList.get(i).getHumidity() / reportInfoList.size());
-                    record.setCo(record.getCo() + reportInfoList.get(i).getCo() / reportInfoList.size());
-                    record.setCo2(record.getCo2() + reportInfoList.get(i).getCo2() / reportInfoList.size());
-                    record.setNo(record.getNo() + reportInfoList.get(i).getNo() / reportInfoList.size());
-                    record.setNo2(record.getNo2() + reportInfoList.get(i).getNo2() / reportInfoList.size());
-                    record.setO3(record.getO3() + reportInfoList.get(i).getO3() / reportInfoList.size());
-                    record.setSo2(record.getSo2() + reportInfoList.get(i).getSo2() / reportInfoList.size());
-                    record.setTvoc(record.getTvoc() + reportInfoList.get(i).getTvoc() / reportInfoList.size());
-                    record.setWindSpeed(record.getWindSpeed() + reportInfoList.get(i).getWindSpeed() / reportInfoList.size());
-
-//                    record.setWindDirection(reportInfoList.get(0).getWindDirection());
-//                    record.setLongitude(reportInfoList.get(0).getLongitude());
-//                    record.setLatitude(reportInfoList.get(0).getLatitude());
-//                    record.setElectricity(reportInfoList.get(0).getElectricity());
-
-                }
-                record.setSim( deviceInfo.getSim());
-                record.setWindDirection(reportInfoList.get(0).getWindDirection());
-                record.setLongitude(reportInfoList.get(0).getLongitude());
-                record.setLatitude(reportInfoList.get(0).getLatitude());
-                record.setElectricity(reportInfoList.get(0).getElectricity());
-
+//            List<ReportInfo> reportInfoList = new ArrayList<>();
+            Set<ReportInfo> set = redisTemplate.opsForZSet().rangeByScore(Constants.REPORT_REDIS_KEY_PREFIX + deviceInfo.getDeviceCode(),  0, 10);
+            if(set != null) {
+                reportInfoList.addAll(set);
             }
-              result.add(record);
+//            ReportInfo record = null;
+//            ReportInfo record = new ReportInfo();
+//            if (reportInfoList != null && reportInfoList.size() > 0) {
+//                for (int i = 0; i < reportInfoList.size(); i++) {
+////                    record.setSim(reportInfoList.get(0).getSim());
+//                    record.setPm1_0(record.getPm1_0() + reportInfoList.get(i).getPm1_0() / reportInfoList.size());
+//                    record.setPm2_5(record.getPm2_5() + reportInfoList.get(i).getPm2_5() / reportInfoList.size());
+//                    record.setPm10(record.getPm10() + reportInfoList.get(i).getPm10() / reportInfoList.size());
+//                    record.setFormaldehyde(record.getFormaldehyde() + reportInfoList.get(i).getFormaldehyde() / reportInfoList.size());
+//                    record.setTemperature(record.getTemperature() + reportInfoList.get(i).getTemperature() / reportInfoList.size());
+//                    record.setHumidity(record.getHumidity() + reportInfoList.get(i).getHumidity() / reportInfoList.size());
+//                    record.setCo(record.getCo() + reportInfoList.get(i).getCo() / reportInfoList.size());
+//                    record.setCo2(record.getCo2() + reportInfoList.get(i).getCo2() / reportInfoList.size());
+//                    record.setNo(record.getNo() + reportInfoList.get(i).getNo() / reportInfoList.size());
+//                    record.setNo2(record.getNo2() + reportInfoList.get(i).getNo2() / reportInfoList.size());
+//                    record.setO3(record.getO3() + reportInfoList.get(i).getO3() / reportInfoList.size());
+//                    record.setSo2(record.getSo2() + reportInfoList.get(i).getSo2() / reportInfoList.size());
+//                    record.setTvoc(record.getTvoc() + reportInfoList.get(i).getTvoc() / reportInfoList.size());
+//                    record.setWindSpeed(record.getWindSpeed() + reportInfoList.get(i).getWindSpeed() / reportInfoList.size());
+//
+////                    record.setWindDirection(reportInfoList.get(0).getWindDirection());
+////                    record.setLongitude(reportInfoList.get(0).getLongitude());
+////                    record.setLatitude(reportInfoList.get(0).getLatitude());
+////                    record.setElectricity(reportInfoList.get(0).getElectricity());
+//
+//                }
+//                record.setSim( deviceInfo.getSim());
+//                record.setWindDirection(reportInfoList.get(0).getWindDirection());
+//                record.setLongitude(reportInfoList.get(0).getLongitude());
+//                record.setLatitude(reportInfoList.get(0).getLatitude());
+//                record.setElectricity(reportInfoList.get(0).getElectricity());
+//
+//            }
+//               result.add(record);
 
 
         }
-        return result;
+
+        return reportInfoList;
 
     }
 

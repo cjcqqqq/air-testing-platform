@@ -117,6 +117,47 @@ public class HourDataTransferTask {
                     record.setLatitude(deviceInfo.getLatitude());
                     record.setElectricity(electricity / reportInfoList.size());
                     hourInfoList.add(record);
+                }else {
+                    int pm1_0 = 0;
+                    int pm2_5 = 0;
+                    int pm10 = 0;
+                    float formaldehyde = 0F;
+                    float temperature = 0F;
+                    int humidity = 0;
+                    int co = 0;
+                    int co2 = 0;
+                    int no = 0;
+                    int no2 = 0;
+                    int o3 = 0;
+                    int so2 = 0;
+                    int tvoc = 0;
+                    int windSpeed = 0;
+                    int windDirection = 0;
+                    int electricity = 0;
+
+                    HourInfo record = new HourInfo();
+                    record.setDeviceCode(deviceInfo.getDeviceCode());
+                    record.setCollectTime(new Date(startTime));
+                    record.setSim(deviceInfo.getSim());
+                    record.setPm1_0(pm1_0);
+                    record.setPm2_5(pm2_5);
+                    record.setPm10(pm10 );
+                    record.setFormaldehyde(formaldehyde);
+                    record.setTemperature(temperature );
+                    record.setHumidity(humidity);
+                    record.setCo(co);
+                    record.setCo2(co2);
+                    record.setNo(no);
+                    record.setNo2(no2);
+                    record.setO3(o3);
+                    record.setSo2(so2);
+                    record.setTvoc(tvoc);
+                    record.setWindSpeed(windSpeed);
+                    record.setWindDirection(windDirection);
+                    record.setLongitude(deviceInfo.getLongitude());
+                    record.setLatitude(deviceInfo.getLatitude());
+                    record.setElectricity(electricity);
+                    hourInfoList.add(record);
                 }
 
             }

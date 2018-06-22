@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" href="../css/jqm-demos.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.2.min.js"></script>
+    <script src="js/highchart/highcharts.js"></script>
+    <script src="js/highchart/modules/exporting.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.params.js"></script>
+</head>
+<body>
+<div class="title_1">
+    <span id="back"><img src="images/return.png"></span>
+    <span class="txt_16 white">pm1.0值分析结果</span>
+</div>
+<ul class="date">
+    <li class="on"><a href="#" target="_parent">日统计</a></li>
+    <li class="off" id="ctn">月统计</li>
+</ul>
+<div id="container5" style="margin: 0 auto;width:100%;"></div>
+<script type="text/javascript">
+    $(function(){
+        getData1();
+        $("#back").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour02.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#ctn").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "month-pm1.0.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+    });
+    function getData1() {
+        var deviceCode = $.query.get("deviceCode");
+        $("#deviceCode").text(deviceCode);
+
+
+        function loadstu() {
+
+            $("#tab").empty();
+            var points = [];
+            var pot = [];
+            $.ajax
+            ({
+                type: "post",
+                url: "/hour/queryOneHour",
+                async: false,
+                dataType: 'json',
+                data: {deviceCode: deviceCode},
+                success: function (result) {
+                    $.each(result.data, function (index, item) {
+                        var pts01 = item.collectTime;
+                        var pts = new Date(pts01);
+                        var hour = pts.getHours();
+                        points.push(hour);
+                    })
+                }
+
+            })
+            pot = points.reverse();
+            return pot;
+        }
+
+        function loadstu01() {
+
+            $("#tab").empty();
+            var points = [];
+            var pot = [];
+            $.ajax
+            ({
+
+                type: "post",
+                url: "/hour/queryOneHour",
+                async: false,
+                dataType: 'json',
+                data: {deviceCode: deviceCode},
+                success: function (result) {
+                    $.each(result.data, function (index, item) {
+                        var pts = item.pm1_0;
+                        points.push(pts);
+                    })
+                }
+
+            })
+            pot = points.reverse();
+            return pot;
+        }
+
+        $('#container5').highcharts({
+
+            chart: {
+                type: 'spline'
+            },
+            credits: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            title: {
+                text: ''
+
+            },
+            xAxis: {
+                labels: {
+                    step: 3
+                },
+                categories: loadstu()
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value
+                    }
+                }
+            },
+            tooltip: {
+                crosshairs: true,
+                shared: true
+            },
+            plotOptions: {
+                spline: {
+                    marker: {
+                        radius: 4,
+                        lineColor: '#666666',
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: [{
+                name: 'pm1.0每小时平均值',
+                data: loadstu01()
+
+            }]
+        });
+    }
+
+</script>
+</div>
+</body>
+</html>

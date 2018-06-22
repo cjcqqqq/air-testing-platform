@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.params.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        a{ text-decoration:none;}
+    </style>
+</head>
+<body>
+<div class="title_1 shadow">
+    <span class="txt_16 white">数据分析展示</span>
+</div>
+<div id="id1" class="num"></div>
+<table width="100%" border="0" cellspacing="1" cellpadding="0">
+    <tr>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f"  id="atn01" class="menu"><span class="txt_14 white">pm1.0 </span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn02"  ><span class="txt_14 white">pm2_5</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn03" ><span class="txt_14 white">pm10</span></td>
+    </tr>
+    <tr >
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn04"  class="menu"><span class="txt_14 white">甲醛</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn05"  ><span class="txt_14 white">温度</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn06"  ><span class="txt_14 white">湿度</span></td>
+    </tr>
+    <tr>
+        <td width="33%" align="center" valign="middle" bgcolor="#e40077" id="atn07"  target="_parent" class="menu"><span class="txt_14 white">一氧化碳</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#e40077" id="atn08"  ><span class="txt_14 white">二氧化碳</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#e40077" id="atn09"  ><span class="txt_14 white">一氧化氮</span></td>
+    </tr>
+    <tr>
+        <td width="33%" align="center" valign="middle" bgcolor="#e40077" id="atn10"  target="_parent" class="menu"><span class="txt_14 white">二氧化氮</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#e40077" id="atn11"  ><span class="txt_14 white">臭氧</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#e40077" id="atn12"  ><span class="txt_14 white">二氧化硫</span></td>
+    </tr>
+    <tr>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn13"  target="_parent" class="menu"><span class="txt_14 white">有机气态物质 </span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn14"  ><span class="txt_14 white">风速</span></td>
+        <td width="33%" align="center" valign="middle" bgcolor="#8ec31f" id="atn15" ><span class="txt_14 white">太阳能电源电量</span></td>
+    </tr>
+</table>
+</body>
+</html>
+<script>
+    $(function(){
+        getData1();
+
+        $("#atn01").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-pm1.0.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn02").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-pm2_5.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn03").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-pm10.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn04").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-formaldehyde.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn05").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-temperature.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn06").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-humidity.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn07").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-co.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn08").on("click",function(){
+            var  showType= $.query.get("deviceCode");
+            url = "hour03-co2.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+        $("#atn09").on("click",function(){
+             var  showType= $.query.get("deviceCode");
+             url = "hour03-no.html?deviceCode="+showType;//此处拼接内容
+             window.location.href = url;
+         })
+          $("#atn10").on("click",function(){
+             var  showType= $.query.get("deviceCode");
+             url = "hour03-no2.html?deviceCode="+showType;//此处拼接内容
+             window.location.href = url;
+         })
+         $("#atn11").on("click",function(){
+             var  showType= $.query.get("deviceCode");
+             url = "hour03-o3.html?deviceCode="+showType;//此处拼接内容
+             window.location.href = url;
+         })
+          $("#atn12").on("click",function(){
+              var  showType= $.query.get("deviceCode");
+              url = "hour03-so2.html?deviceCode="+showType;//此处拼接内容
+              window.location.href = url;
+          })
+        $("#atn13").on("click",function(){
+              var  showType= $.query.get("deviceCode");
+              url = "hour03-tvoc.html?deviceCode="+showType;//此处拼接内容
+              window.location.href = url;
+          })
+          $("#atn14").on("click",function(){
+              var  showType= $.query.get("deviceCode");
+              url = "hour03-windSpeed.html?deviceCode="+showType;//此处拼接内容
+              window.location.href = url;
+          })
+          $("#atn15").on("click",function(){
+              var  showType= $.query.get("deviceCode");
+              url = "hour03-electricity.html?deviceCode="+showType;//此处拼接内容
+              window.location.href = url;
+          })
+
+
+
+    });
+    function getData1(){
+        var deviceCode = $.query.get("deviceCode");
+        $("#deviceCode").text(deviceCode);
+        $.ajax
+        ({
+            type: "post",
+            url: "/report/getLatestReport",
+            async: false,
+            dataType: 'json',
+            data: {deviceCode : deviceCode},
+            success: function (result) {
+                var collectTi = new Date( result.data.collectTime) ;
+                document.getElementById("id1").innerHTML="设备号："+result.data.deviceCode+"&nbsp"+" 经度:"+result.data.longitude+"&nbsp"+"纬度:"+result.data.latitude+"<br/>"
+               +"SIM:"+result.data.sim+"&nbsp"+"收集时间:"+collectTi+"&nbsp"+"pm1_0:"+result.data.pm1_0+"<br/>"
+               +"pm2_5:"+result.data.pm2_5+"&nbsp"+"pm10:"+result.data.pm10+"&nbsp"+"甲醛:"+result.data.formaldehyde+"<br/>"
+               +"温度:"+result.data.temperature+"湿度:"+result.data.humidity+"co:"+result.data.co+"<br/>"
+               +"co2:"+result.data.co2+"&nbsp"+"no:"+result.data.no+"&nbsp"+"no2:"+result.data.no2+"<br/>"
+               +"臭氧："+result.data.o3+"&nbsp"+"so2："+result.data.so2+"&nbsp"+"有机气态物质："+result.data.tvoc+"<br/>"
+               +"风速："+result.data.windSpeed+"&nbsp"+"风向："+result.data.windDirection+"&nbsp"+"太阳能电源："+result.data.electricity;
+            }
+        });
+    }
+
+</script>

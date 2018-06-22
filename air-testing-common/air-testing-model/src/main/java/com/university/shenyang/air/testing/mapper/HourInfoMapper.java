@@ -1,7 +1,7 @@
 package com.university.shenyang.air.testing.mapper;
 
 import com.university.shenyang.air.testing.model.HourInfo;
-import com.university.shenyang.air.testing.model.ReportInfoKey;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public interface HourInfoMapper {
 
     int insert(HourInfo record);
 
-    HourInfo selectLatestByDeviceCode(String deviceCode);
+    List<HourInfo> selectLatestByDeviceCode(String deviceCode);
 }

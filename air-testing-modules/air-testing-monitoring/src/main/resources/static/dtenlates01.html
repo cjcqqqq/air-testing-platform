@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+   <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+</head>
+<body>
+    请输入设备号: <input type="text" id="field1" value=""><br>
+    <input type="button" onclick="loadstu();" value="查询"><table  id="tab" border="1">
+        <tr>
+            <th>deviceCode</th>
+            <th>longitude</th>
+            <th>latitude</th>
+            <th>sim</th>
+            <th>collectTime</th>
+            <th>pm1_0</th>
+            <th>pm2_5</th>
+            <th>pm10</th>
+            <th>formaldehyde</th>
+            <th>temperature </th>
+            <th>humidity</th>
+            <th>co</th>
+            <th>co2</th>
+            <th>no </th>
+            <th>no2</th>
+            <th>o3</th>
+            <th>so2</th>
+            <th>tvoc </th>
+            <th>windSpeed</th>
+            <th>windDirection</th>
+            <th>electricity</th>
+        </tr>
+    </table>
+</body>
+</html>
+<script>
+        function loadstu() {
+        var showType=document.getElementById("field1").value;
+        $("#tab").empty();
+        $.ajax
+        ({
+            type: "post",
+            url: "/report/getAllReportByDeviceCode",
+            async: false,
+            dataType: 'json',
+            data: {deviceCode : showType},
+            success: function (result) {
+                for (var i = 0; i<result.data.length; i++) {
+                    var str= "<tr><td>" + result.data[i].deviceCode + "</td>";
+                    str += "<td>" + result.data[i].longitude + "</td>";
+                    str += "<td>" + result.data[i].latitude + "</td>";
+                    str += "<td>" + result.data[i].sim + "</td>";
+                    str += "<td>" + result.data[i].collectTime + "</td>";
+                    str += "<td>" + result.data[i].pm1_0 + "</td>";
+                    str += "<td>" + result.data[i].pm2_5 + "</td>";
+                    str += "<td>" + result.data[i].pm10 + "</td>";
+                    str += "<td>" + result.data[i].formaldehyde + "</td>";
+                    str += "<td>" + result.data[i].temperature + "</td>";
+                    str += "<td>" + result.data[i].humidity + "</td>";
+                    str += "<td>" + result.data[i].co + "</td>";
+                    str += "<td>" + result.data[i].co2 + "</td>";
+                    str += "<td>" + result.data[i].no + "</td>";
+                    str += "<td>" + result.data[i].no2 + "</td>";
+                    str += "<td>" + result.data[i].o3 + "</td>";
+                    str += "<td>" + result.data[i].so2 + "</td>";
+                    str += "<td>" + result.data[i].tvoc + "</td>";
+                    str += "<td>" + result.data[i].windSpeed + "</td>";
+                    str += "<td>" + result.data[i].windDirection + "</td>";
+                    str += "<td>" + result.data[i].electricity + "</td>";
+                    str += "</tr>";
+                    $("#tab").append(str);
+                }
+            }
+        });
+
+    }
+
+
+</script>

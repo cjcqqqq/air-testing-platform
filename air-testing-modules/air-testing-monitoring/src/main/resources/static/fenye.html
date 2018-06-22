@@ -33,7 +33,7 @@
             <th>so2</th>
             <th>tvoc </th>
             <th>windSpeed</th>
-            <th>.windDirection</th>"
+            <th>windDirection</th>
             <th>electricity</th>
         </tr>
     </table>
@@ -49,7 +49,7 @@
         $.ajax
         ({
             type: "post",
-            url: "http://127.0.0.1:9999/report/queryReportByDeviceAndTime",
+            url: "/report/queryReportByDeviceAndTime",
             async: false,
             dataType: 'json',
             data: {deviceCode : showType01,

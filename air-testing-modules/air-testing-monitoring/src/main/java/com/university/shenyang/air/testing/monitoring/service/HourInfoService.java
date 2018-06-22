@@ -12,5 +12,6 @@ public interface HourInfoService {
 
     int batchInsert(List<HourInfo> records);
     int insert(HourInfo record);
+    List<HourInfo> selectLatestByDeviceCode(String deviceCode);
 
 }

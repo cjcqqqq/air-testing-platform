@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <title> 信息管理界面</title>
+    <script type="text/javascript">
+        $("#add").click(function(){
+            var deviceCode = $("#deviceCode").val();
+            var deviceDes = $("#deviceDes").val();
+            var address = $("#address").val();
+            var longitude = $("#longitude").val();
+            var latidute = $("#latidute").val();
+            var sim = $("#sim").val();
+            var protoco = $("#protoco").val();
+            var collectInterval = $("#collectInterval").val();
+                $.ajax({
+                    url:"/device/insertDevice",
+                    type:"POST",  //提交方式
+                    dataType:"JSON", //返回的数据类型，TEXT字符串 JSON返回JSON XML返回XML；dataType中T要大写！！
+                    data:{deviceCode:deviceCode,
+                        deviceDese:deviceDes,
+                        address:address,
+                        longitude:longitude,
+                        latitude:latidute,
+                        sim:sim,
+                        protocol:protoco,
+                        collectInterval:collectInterval},
+                    //要传过去的数据
+                    success: function(result){ //回调函数，data为形参，是从login-cl.php页面返回的值
+                        if(result.trim()=="OK") {//trim()去空格
+                            alert("添加成功");}
+                        else{
+                            alert("添加失败");}
+                    }
+
+                })
+
+        });
+    </script>
+</head>
+
+<body>
+<div id="r-result">
+    请输入设备号: <input type="text" id="field1"><br>
+    <input type="button"  onclick="loadstu();" value="查询"/>
+</div>
+
+<h1>添加数据</h1>
+<div>deviceCode:<input type="text" id="deviceCode" /></div>
+<div>deviceDes:<input type="text" id="deviceDes" /></div>
+<div>address:<input type="text" id="address" /></div>
+<div>longitude:<input type="text" id="longitud" /></div>
+<div>latidute:<input type="text" id="latidute" /></div>
+<div>sim:<input type="text" id="sim" /></div>
+<div>protoco:<input type="text" id="protoco" /></div>
+<div>collectInterval:<input type="text" id="collectIntervale" /></div>
+<input type="button" value="添加" id="add" />
+</body>
+
+</html>

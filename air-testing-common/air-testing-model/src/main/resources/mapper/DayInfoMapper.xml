@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.shenyang.air.testing.mapper.DayInfoMapper">
+  <resultMap id="BaseResultMap" type="com.university.shenyang.air.testing.model.DayInfo">
+    <id column="DEVICE_CODE" jdbcType="VARCHAR" property="deviceCode" />
+    <id column="COLLECT_TIME" jdbcType="TIMESTAMP" property="collectTime" />
+    <result column="SIM" jdbcType="VARCHAR" property="sim" />
+    <result column="PM1_0" jdbcType="INTEGER" property="pm1_0" />
+    <result column="PM2_5" jdbcType="INTEGER" property="pm2_5" />
+    <result column="PM10" jdbcType="INTEGER" property="pm10" />
+    <result column="FORMALDEHYDE" jdbcType="REAL" property="formaldehyde" />
+    <result column="TEMPERATURE" jdbcType="INTEGER" property="temperature" />
+    <result column="HUMIDITY" jdbcType="INTEGER" property="humidity" />
+    <result column="CO" jdbcType="INTEGER" property="co" />
+    <result column="CO2" jdbcType="INTEGER" property="co2" />
+    <result column="NO" jdbcType="INTEGER" property="no" />
+    <result column="NO2" jdbcType="INTEGER" property="no2" />
+    <result column="O3" jdbcType="INTEGER" property="o3" />
+    <result column="SO2" jdbcType="INTEGER" property="so2" />
+    <result column="TVOC" jdbcType="INTEGER" property="tvoc" />
+    <result column="WIND_SPEED" jdbcType="INTEGER" property="windSpeed" />
+    <result column="WIND_DIRECTION" jdbcType="INTEGER" property="windDirection" />
+    <result column="LONGITUDE" jdbcType="REAL" property="longitude" />
+    <result column="LATITUDE" jdbcType="REAL" property="latitude" />
+    <result column="ELECTRICITY" jdbcType="INTEGER" property="electricity" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DEVICE_CODE, COLLECT_TIME, SIM, PM1_0, PM2_5, PM10, FORMALDEHYDE, TEMPERATURE, HUMIDITY,
+    CO, CO2, NO, NO2, O3, SO2, TVOC, WIND_SPEED, WIND_DIRECTION, LONGITUDE, LATITUDE,
+    ELECTRICITY
+  </sql>
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into day_info (DEVICE_CODE, COLLECT_TIME, SIM,
+    PM1_0, PM2_5, PM10, FORMALDEHYDE,
+    TEMPERATURE, HUMIDITY, CO,
+    CO2, NO, NO2, O3,
+    SO2, TVOC, WIND_SPEED,
+    WIND_DIRECTION, LONGITUDE, LATITUDE,
+    ELECTRICITY)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.deviceCode,jdbcType=VARCHAR}, #{item.collectTime,jdbcType=TIMESTAMP}, #{item.sim,jdbcType=VARCHAR},
+      #{item.pm1_0,jdbcType=INTEGER}, #{item.pm2_5,jdbcType=INTEGER}, #{item.pm10,jdbcType=INTEGER}, #{item.formaldehyde,jdbcType=REAL},
+      #{item.temperature,jdbcType=INTEGER}, #{item.humidity,jdbcType=INTEGER}, #{item.co,jdbcType=INTEGER},
+      #{item.co2,jdbcType=INTEGER}, #{item.no,jdbcType=INTEGER}, #{item.no2,jdbcType=INTEGER}, #{item.o3,jdbcType=INTEGER},
+      #{item.so2,jdbcType=INTEGER}, #{item.tvoc,jdbcType=INTEGER}, #{item.windSpeed,jdbcType=INTEGER},
+      #{item.windDirection,jdbcType=INTEGER}, #{item.longitude,jdbcType=REAL}, #{item.latitude,jdbcType=REAL},
+      #{item.electricity,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insert" parameterType="com.university.shenyang.air.testing.model.HourInfo">
+    insert into day_info  (DEVICE_CODE, COLLECT_TIME, SIM,
+      PM1_0, PM2_5, PM10, FORMALDEHYDE,
+      TEMPERATURE, HUMIDITY, CO,
+      CO2, NO, NO2, O3,
+      SO2, TVOC, WIND_SPEED,
+      WIND_DIRECTION, LONGITUDE, LATITUDE,
+      ELECTRICITY)
+    values (#{deviceCode,jdbcType=VARCHAR}, #{collectTime,jdbcType=TIMESTAMP}, #{sim,jdbcType=VARCHAR},
+      #{pm1_0,jdbcType=INTEGER}, #{pm2_5,jdbcType=INTEGER}, #{pm10,jdbcType=INTEGER}, #{formaldehyde,jdbcType=REAL},
+      #{temperature,jdbcType=INTEGER}, #{humidity,jdbcType=INTEGER}, #{co,jdbcType=INTEGER},
+      #{co2,jdbcType=INTEGER}, #{no,jdbcType=INTEGER}, #{no2,jdbcType=INTEGER}, #{o3,jdbcType=INTEGER},
+      #{so2,jdbcType=INTEGER}, #{tvoc,jdbcType=INTEGER}, #{windSpeed,jdbcType=INTEGER},
+      #{windDirection,jdbcType=INTEGER}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL},
+      #{electricity,jdbcType=INTEGER})
+  </insert>
+  <select id="selectLatestByDeviceCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from day_info
+    where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
+    order by COLLECT_TIME DESC
+  </select>
+</mapper>

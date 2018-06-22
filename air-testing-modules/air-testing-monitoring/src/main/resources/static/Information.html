@@ -27,20 +27,12 @@
         function loadstu(){
             $.ajax({
                 type:"GET",
-                url:"http://127.0.0.1:9999/device/getAllLatestDevice",
+                url:"/device/getAllLatestDevice",
                 dataType:"json",
                 success:function(result){
                     //alert(data);
                     var str=null;
                     for(var i=0;i<result.data.length;i++){
-
-
-                        var unixTimestamp = new Date( result.data[i].createtime ) ;
-                        commonTime = unixTimestamp.toLocaleString();
-                        //alert(commonTime);
-                        var unixTimestamp1 = new Date( result.data[i].updatetime ) ;
-                        commonTime1 = unixTimestamp1.toLocaleString();
-
                         str+="<tr>";
                         str+="<td>"+result.data[i].id+"</td>";
                         str+="<td>"+result.data[i].deviceCode+"</td>";
@@ -51,9 +43,9 @@
                         str+="<td>"+result.data[i].sim+"</td>";
                         str+="<td>"+result.data[i].protocol+"</td>";
                         str+="<td>"+result.data[i].collectInterval+"</td>";
-                        str+="<td>"+commonTime+"</td>";
-                        str+="<td>"+commonTime1+"</td>";
-                        str+="<td><a href=\"javascript:void(0);\" onclick='doDel("+result.data[i].id+",this)'>删除</a></td>";
+                        str+="<td>"+result.data[i].createtime+"</td>";
+                        str+="<td>"+result.data[i].updatetime+"</td>";
+                        str+="<td><a href=\"javascript:void(0);\" onclick='doDel("+result.data[i].id+")'>删除</a></td>";
                         str+="</tr>";
 
                     }
@@ -64,50 +56,50 @@
         }
 
         //删除函数
-        function doDel(id,ob){
+        function doDel(id){
             //执行ajax删除
-            if(confirm("确定要删除吗？"))
+            if(confirm("确定要删除吗？")){
                 $.ajax({
-                    url:"http://127.0.0.1:9999/device/deleteOneDevice/{id}",
-                    type:"DELETE",
+                    url:"/device/deleteOneDevice/"+id,
+                    type:"POST",
                     data:{id:id},
                     dataType:"json",
-                    success:function(res){
+                    success:function(json){
                         //判断是否删除成功
-                        if(res.num>0){
+                        if(json.result=="true") {
                             //alert(res.num);
-                            $(ob).parents("tr").remove();
+                            $(id).parents("tr").remove();
                         }
                     },
                     error:function(){
                         alert('error');
                     }
-                });
+                });}
         }
 
-        //执行添加
-        function doAdd(form){
-            var addform = {$(form)};
-            alert($(form).serialize());
-            $.ajax({
-                url:"http://127.0.0.1:9999/device/insertOneDevice",
-                type:"POST",
-                data:$(form).json,
-                dataType:"json",
-                success:function(res){
-                    if(res.id>0){
-                        $('#fill').hide();
-                        $('#myform').hide();
-                        $(form).find(":reset").trigger("click");
-                        loadstu();//重新加载
-                    }else{
-                        alert('添加失败！');
+            //执行添加
+            function doAdd(form) {
+                //alert($(form).serialize());
+                $.ajax({
+                    url: "/device/insertOneDevice",
+                    type: "POST",
+                    data: $(form).serialize(),
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.id > 0) {
+                            $('#fill').hide();
+                            $('#myform').hide();
+                            $(form).find(":reset").trigger("click");
+                            loadstu();//重新加载
+                        } else {
+                            alert('添加失败！');
+                        }
                     }
-                }
-            });
+                });
 
-            return false;
-        }
+                return false;
+            }
+
     </script>
 </head>
 <body><h2>设备信息管理</h2>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" href="../css/jqm-demos.css">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.2.min.js"></script>
+
+    <script src="js/highchart/highcharts.js"></script>
+    <script src="js/highchart/modules/exporting.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+</head>
+<body>
+<div class="title_1">
+    <span><a href="index.html" target="_parent"><img src="images/return.png"></a></span>
+    <span class="txt_16 white">pm1.0值分析结果</span>
+</div>
+<ul class="date">
+    <li class="on"><a href="#" target="_parent">日统计</a></li>
+    <li class="off"><a href="page5 02.html" target="_parent">月统计</a></li>
+</ul>
+<div id="container5" style="margin: 0 auto;width:100%;"></div>
+<script type="text/javascript">
+    function loadstu() {
+        var showType="deviceCode0000001";
+        $("#tab").empty();
+        var points =[];
+        var pot = [];
+        $.ajax
+        ({
+            type: "post",
+            url: "/hour/queryOneHour",
+            async: false,
+            dataType: 'json',
+            data: {deviceCode : showType},
+            success: function (result) {
+                $.each(result.data,function(index,item){
+                    var pts01 = item.collectTime;
+                    var pts = new Date(pts01) ;
+                    var hour = pts.getHours();
+                    points.push(hour);
+                })
+            }
+
+        })
+        pot = points.reverse();
+        return  pot;
+    }
+    function loadstu01() {
+        var showType="deviceCode0000001";
+        $("#tab").empty();
+        var points =[];
+        var pot = [];
+        $.ajax
+        ({
+
+            type: "post",
+            url: "/hour/queryOneHour",
+            async: false,
+            dataType: 'json',
+            data: {deviceCode : showType},
+            success: function (result) {
+                $.each(result.data,function(index,item){
+                    var pts = item.collectTime;
+                    points.push(pts);
+                })
+            }
+
+        })
+        pot = points.reverse();
+        return  pot;
+    }
+
+    $('#container5').highcharts({
+
+        chart: {
+            type: 'spline'
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        title: {
+            text: ''
+
+        },
+        xAxis: {
+            labels: {
+                step:3
+            },
+            categories: loadstu()
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'pm1.0量'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value
+                }
+            }
+        },
+        tooltip: {
+            crosshairs: true,
+            shared: true
+        },
+        plotOptions: {
+            spline: {
+                marker: {
+                    radius: 4,
+                    lineColor: '#666666',
+                    lineWidth: 1
+                }
+            }
+        },
+        series: [{
+            name: 'pm1.0每小时平均值',
+            data: loadstu01()
+
+        }]
+    });
+
+</script>
+</div>
+
+<div data-role="footer">
+    <div data-role="navbar" data-iconpos="bottom">
+        <ul>
+            <li><a href="page4.html" data-icon="arrow-l" class="ui-btn-active">上一页</a></li>
+            <li><a href="index.html" data-icon="back" class="ui-btn-active">返回</a></li>
+            <li><a href="page6.html" data-icon="arrow-r" class="ui-btn-active">下一页</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div>
+</body>
+</html>

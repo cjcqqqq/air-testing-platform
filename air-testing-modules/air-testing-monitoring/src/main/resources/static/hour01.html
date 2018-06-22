@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.params.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>登录</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="login_logo mtop40"><img src="images/yuexiang.png"/></div>
+<div class="title mtop20 mbottom20 txt_20 red">监测数据统计系统</div>
+<div class="box"><span>设备号：</span><input type="text" id="field1" name="loginName" class="txt txt_16 black" value="" /></div><br>
+<div class="box_2"><input type="button" id="btn" class="btn txt_18" value="登录" /></div>
+</body>
+</html>
+<script>
+    $(function(){
+        $("#btn").on("click",function(){
+            var  showType=document.getElementById("field1").value;
+            url = "hour02.html?deviceCode="+showType;//此处拼接内容
+            window.location.href = url;
+        })
+    })
+
+</script>

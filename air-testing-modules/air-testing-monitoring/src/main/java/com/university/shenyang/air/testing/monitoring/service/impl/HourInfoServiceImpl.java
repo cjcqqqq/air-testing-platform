@@ -5,6 +5,7 @@ import com.university.shenyang.air.testing.monitoring.service.HourInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,4 +27,11 @@ public class HourInfoServiceImpl implements HourInfoService {
         return hourInfoMapper.insert(record);
     }
 
+    @Override
+    public  List<HourInfo> selectLatestByDeviceCode(String deviceCode) {
+        List<HourInfo> result = hourInfoMapper.selectLatestByDeviceCode(deviceCode);
+
+        return result;
+
+    }
 }

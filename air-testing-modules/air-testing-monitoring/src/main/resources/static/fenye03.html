@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+请输入设备号: <input type="text" id="field1" value=""><br>
+请输入开始时间: <input type="text" id="field2" value=""><br>
+请输入结束时间: <input type="text" id="field3" value=""><br>
+第<input type="text" id="field4" value="">页
+<input type="button" onclick="loadstu();" value="查询">
+<div class="row">
+    <div class="col-md-4 col-md-offset-4" >
+        <nav>
+            <ul class="pager">
+                <!--此处代码由js动态生成
+                   -->
+            </ul>
+        </nav>
+    </div>
+</div>
+<table  id="tab" class="table table-hover table-bordered" >
+    <tr>
+        <th>deviceCode</th>
+        <th>longitude</th>
+        <th>latitude</th>
+        <th>sim</th>
+        <th>collectTime</th>
+        <th>pm1_0</th>
+        <th>pm2_5</th>
+        <th>pm10</th>
+        <th>formaldehyde</th>
+        <th>temperature </th>
+        <th>humidity</th>
+        <th>co</th>
+        <th>co2</th>
+        <th>no </th>
+        <th>no2</th>
+        <th>o3</th>
+        <th>so2</th>
+        <th>tvoc </th>
+        <th>windSpeed</th>
+        <th>windDirection</th>
+        <th>electricity</th>
+    </tr>
+</table>
+
+</body>
+</html>
+<script>
+    $(function(){
+        var pageNo=1;//当前页面设置为1
+        var pageSize=5;//每页显示6条商品信息
+        var totalPage=4;//一共有多少页数据
+        var preLi;
+        if(pageNo===1){
+            //如果当前页是第一页,上一页功能就不可用.
+            preLi=$('<li class="disabled"><a href="javascript:void(0)">上一页</a></li>');
+        }else{
+            //如果当前页不是第一页,就添加点击事件,切换到上一页,把页码减一.
+            preLi=$('<li><a href="javascript:void(0)" onclick="skipPage('+(pageNo-1)+')">上一页</a></li>');
+        }
+        //通过类选择器,添加进去
+        $(".pager").append(preLi);
+
+        //遍历显示页码
+        for (var i = 1; i <= totalPage; i++) {
+            var li;
+            if(i===pageNo){
+                //=========是当前页,就高亮显示
+                li=$('<li class="active"><a href="javascript:void(0)">'+i+'</a> </li>');
+                //通过类选择器,添加到ul中
+                $(".pager").append(li);
+            }else{
+                //========不是当前页,不高亮显示.添加点击事件,参数传递为当前页码
+                li=$('<li><a href="javascript:void(0)"onclick="skipPage('+i+')">'+i+'</a></li>');
+                //通过类选择器,添加到ul中
+                $(".pager").append(li);
+            }
+        }
+        //显示下一页
+        var nextLi;
+        if(pageNo===totalPage){
+            //如果当前页是最后一页,上一页功能就不可用.
+            nextLi=$('<li class="disabled"><a href="javascript:void(0)">下一页</a> </li>');
+        }else {
+            //如果当前页不是最后一页,就添加点击事件,切换到上一页,把页码减一.
+            nextLi=$('<li><a href="javascript:void(0)" onclick="skipPage('+(pageNo+1)+')">下一页</a></li>');
+        }
+        //通过类选择器,添加进去
+        $(".pager").append(nextLi);
+
+        loadstu();
+    });
+    function loadstu() {
+        var  showType01=document.getElementById("field1").value;
+        var  showType02=document.getElementById("field2").value;
+        var  showType03=document.getElementById("field3").value;
+        var  showType04=document.getElementById("field4").value;
+        var  showType05=5;
+        $("#tab tr:not(:first)").empty();
+        $.ajax
+        ({
+            type: "post",
+            url: "/report/queryReportByDeviceAndTime",
+            async: false,
+            dataType: 'json',
+            data: {deviceCode : showType01,
+                startTime:showType02,
+                endTime:showType03,
+                pageNum:showType04,
+                pageSize:showType05
+            },
+            success: function (result) {
+                for (var i = 0; i<result.data.length; i++) {
+                    var str= "<tr><td>" + result.data[i].deviceCode + "</td>";
+                    str += "<td>" + result.data[i].longitude + "</td>";
+                    str += "<td>" + result.data[i].latitude + "</td>";
+                    str += "<td>" + result.data[i].sim + "</td>";
+                    str += "<td>" + result.data[i].collectTime + "</td>";
+                    str += "<td>" + result.data[i].pm1_0 + "</td>";
+                    str += "<td>" + result.data[i].pm2_5 + "</td>";
+                    str += "<td>" + result.data[i].pm10 + "</td>";
+                    str += "<td>" + result.data[i].formaldehyde + "</td>";
+                    str += "<td>" + result.data[i].temperature + "</td>";
+                    str += "<td>" + result.data[i].humidity + "</td>";
+                    str += "<td>" + result.data[i].co + "</td>";
+                    str += "<td>" + result.data[i].co2 + "</td>";
+                    str += "<td>" + result.data[i].no + "</td>";
+                    str += "<td>" + result.data[i].no2 + "</td>";
+                    str += "<td>" + result.data[i].o3 + "</td>";
+                    str += "<td>" + result.data[i].so2 + "</td>";
+                    str += "<td>" + result.data[i].tvoc + "</td>";
+                    str += "<td>" + result.data[i].windSpeed + "</td>";
+                    str += "<td>" + result.data[i].windDirection + "</td>";
+                    str += "<td>" + result.data[i].electricity + "</td>";
+                    str += "</tr>";
+                    $("#tab").append(str);
+                }
+            }
+        })
+    }
+
+
+</script>

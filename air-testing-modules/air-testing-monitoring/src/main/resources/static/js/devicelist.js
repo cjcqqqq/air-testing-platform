@@ -3,7 +3,7 @@
 function loaddata() {
 	$.ajax({
 		type:"GET",
-		url:"http://127.0.0.1:9999/device/getAllLatestDevice",
+		url:"/device/getAllLatestDevice",
 		dataType:"json",
 		success:function(result){
 			var str=null;

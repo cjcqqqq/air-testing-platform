@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.shenyang.air.testing.mapper.CommandSendLogMapper">
+  <resultMap id="BaseResultMap" type="com.university.shenyang.air.testing.model.CommandSendLog">
+    <id column="LOG_ID" jdbcType="BIGINT" property="logId" />
+    <result column="DEVICE_CODE" jdbcType="VARCHAR" property="deviceCode" />
+    <result column="SENDTIME" jdbcType="TIMESTAMP" property="sendtime" />
+    <result column="COMMAND_ID" jdbcType="INTEGER" property="commandId" />
+    <result column="COMMAND_CONTENT" jdbcType="VARCHAR" property="commandContent" />
+    <result column="COMMAND_STATUS" jdbcType="INTEGER" property="commandStatus" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LOG_ID, DEVICE_CODE, SENDTIME, COMMAND_ID, COMMAND_CONTENT, COMMAND_STATUS, UPDATETIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from command_send_log
+    where LOG_ID = #{logId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from command_send_log
+    where LOG_ID = #{logId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.university.shenyang.air.testing.model.CommandSendLog">
+    insert into command_send_log (LOG_ID, DEVICE_CODE, SENDTIME, 
+      COMMAND_ID, COMMAND_CONTENT, COMMAND_STATUS, 
+      UPDATETIME)
+    values (#{logId,jdbcType=BIGINT}, #{deviceCode,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, 
+      #{commandId,jdbcType=INTEGER}, #{commandContent,jdbcType=VARCHAR}, #{commandStatus,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.university.shenyang.air.testing.model.CommandSendLog">
+    insert into command_send_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        LOG_ID,
+      </if>
+      <if test="deviceCode != null">
+        DEVICE_CODE,
+      </if>
+      <if test="sendtime != null">
+        SENDTIME,
+      </if>
+      <if test="commandId != null">
+        COMMAND_ID,
+      </if>
+      <if test="commandContent != null">
+        COMMAND_CONTENT,
+      </if>
+      <if test="commandStatus != null">
+        COMMAND_STATUS,
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        #{logId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceCode != null">
+        #{deviceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null">
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commandId != null">
+        #{commandId,jdbcType=INTEGER},
+      </if>
+      <if test="commandContent != null">
+        #{commandContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commandStatus != null">
+        #{commandStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.university.shenyang.air.testing.model.CommandSendLog">
+    update command_send_log
+    <set>
+      <if test="deviceCode != null">
+        DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null">
+        SENDTIME = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commandId != null">
+        COMMAND_ID = #{commandId,jdbcType=INTEGER},
+      </if>
+      <if test="commandContent != null">
+        COMMAND_CONTENT = #{commandContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commandStatus != null">
+        COMMAND_STATUS = #{commandStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where LOG_ID = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.university.shenyang.air.testing.model.CommandSendLog">
+    update command_send_log
+    set DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR},
+      SENDTIME = #{sendtime,jdbcType=TIMESTAMP},
+      COMMAND_ID = #{commandId,jdbcType=INTEGER},
+      COMMAND_CONTENT = #{commandContent,jdbcType=VARCHAR},
+      COMMAND_STATUS = #{commandStatus,jdbcType=INTEGER},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP}
+    where LOG_ID = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByCodeCommandIdAndTime" parameterType="com.university.shenyang.air.testing.model.CommandSendLog">
+    update command_send_log
+    set
+    COMMAND_STATUS = #{commandStatus,jdbcType=INTEGER},
+    UPDATETIME = now()
+    where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
+    and SENDTIME = #{sendtime,jdbcType=TIMESTAMP}
+    and COMMAND_ID = #{commandId,jdbcType=INTEGER}
+  </update>
+</mapper>

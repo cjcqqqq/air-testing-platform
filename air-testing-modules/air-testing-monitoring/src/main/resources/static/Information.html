@@ -60,7 +60,7 @@
             //执行ajax删除
             if(confirm("确定要删除吗？")){
                 $.ajax({
-                    url:"/device/deleteOneDevice/"+id,
+                    url:"/device/deleteOneDevice/",
                     type:"POST",
                     data:{id:id},
                     dataType:"json",

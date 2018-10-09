@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>矢量图标</title>
+    <style type="text/css">
+        body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap{width:100%;height:500px;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vnVpAUuTCKe3qDIR1KjRStDt6L83akVG"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.min.js"></script>
+</head>
+
+<body>
+
+<div id="allmap"></div>
+<div id="control">
+    <input type="button" onclick="hide()" value="隐藏">
+    <input type="button" onclick="show()" value="显示">
+</div>
+
+</body>
+
+<script type="text/javascript">
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.473008,39.916605);
+    map.centerAndZoom(point, 16);
+    map.enableScrollWheelZoom(true);
+
+
+    //设置marker图标为水滴
+    var vectorMarker = new BMap.Marker(new BMap.Point(point.lng,point.lat-0.03), {
+        // 指定Marker的icon属性为Symbol
+        icon: new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+            scale: 0.8,//图标缩放大小
+            fillColor: "gray",//填充颜色
+            fillOpacity: 1//填充透明度
+        })
+    });
+
+
+    map.addOverlay(vectorMarker);
+
+
+    function hide(){
+        vectorMarker.hide();
+        vectorPeoplePath.hide();
+    }
+    function show(){
+        vectorMarker.show();
+    }
+</script>
+
+</html>

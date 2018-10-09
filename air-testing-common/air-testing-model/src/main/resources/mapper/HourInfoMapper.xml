@@ -70,5 +70,6 @@
     from hour_info
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
     order by COLLECT_TIME DESC
+    limit 24
   </select>
 </mapper>

@@ -1,51 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-   <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
     <!-- 引入 echarts.js -->
-    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
 </head>
 <body>
-    请输入设备号: <input type="text" id="field1" value=""><br>
-    请输入开始时间: <input type="text" id="field2" value=""><br>
-    请输入结束时间: <input type="text" id="field3" value=""><br>
-    <input type="button" onclick="loadstu();" value="查询">
-    <table  id="tab" border="1">
-        <tr>
-            <th>deviceCode</th>
-            <th>longitude</th>
-            <th>latitude</th>
-            <th>sim</th>
-            <th>collectTime</th>
-            <th>pm1_0</th>
-            <th>pm2_5</th>
-            <th>pm10</th>
-            <th>formaldehyde</th>
-            <th>temperature </th>
-            <th>humidity</th>
-            <th>co</th>
-            <th>co2</th>
-            <th>no </th>
-            <th>no2</th>
-            <th>o3</th>
-            <th>so2</th>
-            <th>tvoc </th>
-            <th>windSpeed</th>
-            <th>windDirection</th>
-            <th>electricity</th>
-        </tr>
-    </table>
+请输入设备号: <input type="text" id="field1" value=""><br>
+请输入开始时间: <input type="text" id="field2" value=""><br>
+请输入结束时间: <input type="text" id="field3" value=""><br>
+<input type="button" id="ck" value="查询">
+<p id="id" ></p>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4" >
+        <nav>
+            <ul class="pagination" id="fenye">
+                <li><a id="prev">上一页</a></li>
+                <li><a id="next">下一页</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<table  id="tab" class="table table-bordered header">
+    <tr>
+        <th>deviceCode</th>
+        <th>longitude</th>
+        <th>latitude</th>
+        <th>sim</th>
+        <th>collectTime</th>
+        <th>pm1_0</th>
+        <th>pm2_5</th>
+        <th>pm10</th>
+        <th>formaldehyde</th>
+        <th>temperature </th>
+        <th>humidity</th>
+        <th>co</th>
+        <th>co2</th>
+        <th>no </th>
+        <th>no2</th>
+        <th>o3</th>
+        <th>so2</th>
+        <th>tvoc </th>
+        <th>windSpeed</th>
+        <th>windDirection</th>
+        <th>electricity</th>
+    </tr>
+</table>
+
+
 </body>
 </html>
 <script>
-        function loadstu() {
-            var  showType01=document.getElementById("field1").value;
-            var  showType02=document.getElementById("field2").value;
-            var  showType03=document.getElementById("field3").value;
-            var  showType04=1;
-            var  showType05=5;
+    var page = 1;
+    $(function() {
+        $("#ck").on("click",function(){
+            Load();
+        })
+
+        $("#prev").click(function(){
+            if(page>1){
+                page--;
+            }
+            //页面加载数据
+            Load();
+
+        })
+        $("#next").click(function(){
+
+                page++;
+
+            //页面加载数据
+            Load();
+
+
+        })
+
+
+    })
+
+        function zys() {
+            $.ajax({
+                url: "/report/queryReportByDeviceAndTime",
+                dataType: "json",
+                success: function (result) {
+                    var zy = Math.ceil(result.data.length / 5);
+                        document.getElementById("id").innerHTML="共"+zy+"页";
+
+                }
+            })
+        }
+
+    function Load(){
+        var  showType01=document.getElementById("field1").value;
+        var  showType02=document.getElementById("field2").value;
+        var  showType03=document.getElementById("field3").value;
+        var  showType05=15;
+        $("#tab tr:not(:first)").empty();
         $.ajax
         ({
             type: "post",
@@ -55,7 +111,7 @@
             data: {deviceCode : showType01,
                 startTime:showType02,
                 endTime:showType03,
-                pageNum:showType04,
+                pageNum:page,
                 pageSize:showType05
             },
             success: function (result) {
@@ -85,8 +141,7 @@
                     $("#tab").append(str);
                 }
             }
-        });
-
+        })
     }
 
 

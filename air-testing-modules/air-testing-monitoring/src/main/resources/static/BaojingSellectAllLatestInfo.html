@@ -107,31 +107,6 @@
                                  str+="</tr>";
                              }
 
-//                        str+="<tr fonts color=red>";
-//                        str+="<td>"+result.data[i].deviceCode+"</td>";
-//                        str+="<td>"+commonTime+"</td>";
-//                        str+="<td>"+result.data[i].sim+"</td>";
-//                        str+="<td>"+result.data[i].pm1_0+"</td>";
-//                        str+="<td>"+result.data[i].pm2_5+"</td>";
-//                        str+="<td>"+result.data[i].pm10+"</td>";
-//                        str+="<td>"+result.data[i].formaldehyde+"</td>";
-//                        str+="<td>"+result.data[i].temperature+"</td>";
-//                        str+="<td>"+result.data[i].humidity+"</td>";
-//                        str+="<td>"+result.data[i].co+"</td>";
-//                        str+="<td>"+result.data[i].co2+"</td>";
-//                        str+="<td>"+result.data[i].no+"</td>";
-//                        str+="<td>"+result.data[i].no2+"</td>";
-//                        str+="<td>"+result.data[i].o3+"</td>";
-//                        str+="<td>"+result.data[i].so2+"</td>";
-//                        str+="<td>"+result.data[i].tvoc+"</td>";
-//                        str+="<td>"+result.data[i].windSpeed+"</td>";
-//                        str+="<td>"+result.data[i].windDirection+"</td>";
-//                        str+="<td>"+result.data[i].longitude+"</td>";
-//                        str+="<td>"+result.data[i].latitude+"</td>";
-//                        str+="<td >"+result.data[i].electricity+"</td>";
-//                        str+="<td>"+ob+"</td>";
-//                        str+="</tr>";
-
                     }
                     $("#stuid tbody").empty();
                     $("#stuid tbody").append(str);
@@ -144,7 +119,7 @@
             //执行ajax删除
             if(confirm("确定要删除吗？"))
                 $.ajax({
-                    url:"/device/deleteOneDevice/{id}",
+                    url:"/device/deleteOneDevice",
                     type:"DELETE",
                     data:{id:id},
                     dataType:"json",

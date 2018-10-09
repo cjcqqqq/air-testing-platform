@@ -19,7 +19,7 @@
             if(deviceCode!=""&&deviceCode!=""&&address!=""&&longitude!=""&&latidute!=""&&sim!=""
                 &&protoco!="" &&collectInterval!=""){
                 $.ajax({
-                    url:"/device/insertDevice?deviceCode=",
+                    url:"/device/deleteOneDevice/",
                     type:"POST",  //提交方式
                     dataType:"JSON", //返回的数据类型，TEXT字符串 JSON返回JSON XML返回XML；dataType中T要大写！！
                     data:{deviceCode:deviceCode,

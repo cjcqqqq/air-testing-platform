@@ -8,6 +8,10 @@ public class DeviceInfo implements Serializable {
 
     private String deviceCode;
 
+    private String deviceDesc;
+
+    private String address;
+
     private Float longitude;
 
     private Float latitude;
@@ -15,6 +19,8 @@ public class DeviceInfo implements Serializable {
     private String sim;
 
     private String protocol;
+
+    private Integer collectInterval;
 
     private Date createtime;
 
@@ -34,6 +40,22 @@ public class DeviceInfo implements Serializable {
 
     public void setDeviceCode(String deviceCode) {
         this.deviceCode = deviceCode == null ? null : deviceCode.trim();
+    }
+
+    public String getDeviceDesc() {
+        return deviceDesc;
+    }
+
+    public void setDeviceDesc(String deviceDesc) {
+        this.deviceDesc = deviceDesc == null ? null : deviceDesc.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 
     public Float getLongitude() {
@@ -66,6 +88,14 @@ public class DeviceInfo implements Serializable {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol == null ? null : protocol.trim();
+    }
+
+    public Integer getCollectInterval() {
+        return collectInterval;
+    }
+
+    public void setCollectInterval(Integer collectInterval) {
+        this.collectInterval = collectInterval;
     }
 
     public Date getCreatetime() {

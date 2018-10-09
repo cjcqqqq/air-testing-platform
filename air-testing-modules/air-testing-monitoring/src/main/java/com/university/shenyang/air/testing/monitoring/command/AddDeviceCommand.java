@@ -2,21 +2,23 @@ package com.university.shenyang.air.testing.monitoring.command;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
+
 public class AddDeviceCommand extends BaseCommand {
-    @NotEmpty(message = "deviceCode cannot be empty")
+    @NotNull(message = "deviceCode cannot be empty")
     private String deviceCode;
-    @NotEmpty(message = "deviceDesc cannot be empty")
+    @NotNull(message = "deviceDesc cannot be empty")
     private String deviceDesc;
     private String address;
-    @NotEmpty(message = "longitude cannot be empty")
-    private Float longitude;
-    @NotEmpty(message = "latitude cannot be empty")
-    private Float latitude;
-    @NotEmpty(message = "sim cannot be empty")
+    @NotNull(message = "longitude cannot be empty")
+    private float longitude;
+    @NotNull(message = "latitude cannot be empty")
+    private float latitude;
+    @NotNull(message = "sim cannot be empty")
     private String sim;
-    @NotEmpty(message = "protocol cannot be empty")
+    @NotNull(message = "protocol cannot be empty")
     private String protocol;
-    @NotEmpty(message = "collectInterval cannot be empty")
+    @NotNull(message = "collectInterval cannot be empty")
     private int collectInterval;
 
     public String getDeviceCode() {
@@ -43,19 +45,19 @@ public class AddDeviceCommand extends BaseCommand {
         this.address = address;
     }
 
-    public Float getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public Float getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 

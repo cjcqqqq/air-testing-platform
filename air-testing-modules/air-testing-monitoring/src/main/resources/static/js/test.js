@@ -6,22 +6,70 @@ map.addControl(new BMap.ScaleControl());                    // 添加比例尺�
 map.addControl(new BMap.OverviewMapControl());
 //map.centerAndZoom(new BMap.Point(123.468496,41.834763), 16);
 
+var stype = getQueryString("showType");
+
+switch(stype)
+{
+    case "1":
+        $(document).attr("title","温度热力图");
+        break;
+    case "12":
+        $(document).attr("title","湿度热力图");
+        break;
+    case "9":
+        $(document).attr("title","PM1.0热力图");
+        break;
+    case "2":
+        $(document).attr("title","PM2.5热力图");
+        break;
+    case "3":
+        $(document).attr("title","PM10热力图");
+        break;
+    case "11":
+        $(document).attr("title","甲醛热力图");
+        break;
+    case "13":
+        $(document).attr("title","有机气态物质热力图");
+        break;
+    case "4":
+        $(document).attr("title","CO热力图");
+        break;
+    case "5":
+        $(document).attr("title","CO2热力图");
+        break;
+    case "6":
+        $(document).attr("title","NO热力图");
+        break;
+    case "7":
+        $(document).attr("title","NO2热力图");
+        break;
+    case "8":
+        $(document).attr("title","O3热力图");
+        break;
+    case "10":
+        $(document).attr("title","SO2热力图");
+        break;
+    default:
+        $(document).attr("title","温度热力图");
+        break;
+}
+
 //定时刷新
 $(document).ready(function () {
     setInterval("openmapByType()",10000)
 
 })
-function openmapByType(showType) {
+function openmapByType() {
     清除地图上的覆盖物
     map.clearOverlays();
     var data_info =[];
     $.ajax
     ({
         type: "post",
-        url: "/report/getAllDeviceLatestInfo",
+        url: "http://127.0.0.1:9999/report/getAllDeviceLatestInfo",
         async: false,
         dataType: 'json',
-        data: {type : showType},
+        data: {type : stype},
         success: function (result) {
             $.each(result.data,function(index,item){
                 var lng = item.longitude;

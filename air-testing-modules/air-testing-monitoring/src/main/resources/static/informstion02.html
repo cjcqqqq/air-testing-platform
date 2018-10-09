@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <title> 信息管理界面</title>
+    <script type="text/javascript">
+        function loadstu() {
+            var  showType01=document.getElementById("field1").value;
+            var  showType02=document.getElementById("field2").value;
+            var  showType03=document.getElementById("field3").value;
+            var  showType04=document.getElementById("field4").value;
+            var  showType05=document.getElementById("field5").value;
+            var  showType06=document.getElementById("field6").value;
+            var  showType07=document.getElementById("field7").value;
+            var  showType08=document.getElementById("field8").value;
+            $.ajax({
+                type: "post",
+                url: "/device/insertOneDevice",
+                async: false,
+                dataType: 'json',
+                data: {deviceCode : showType01,
+                    deviceDesc:showType02,
+                    address:showType03,
+                    longitude:showType04,
+                    latitude:showType05,
+                    sim:showType06,
+                    protocol:showType07,
+                    collectInterval:showType08
+                },
+                beforeSend: function(){
+                    $("#span_content").text("数据处理中...");
+                },
+                success: function(result){
+                    $("#show").html(result);
+                }
+
+                })
+
+        };
+    </script>
+</head>
+
+<body>
+<h1>添加数据</h1>
+<div id="show">
+请输入设备号: <input type="text" id="field1" value=""><br/>
+请输入地点: <input type="text" id="field2" value=""><br/>
+请输入地址: <input type="text" id="field3" value=""><br/>
+请输入经度: <input type="text" id="field4" value=""><br/>
+请输入纬度: <input type="text" id="field5" value=""><br/>
+请输入sim号: <input type="text" id="field6" value=""><br/>
+请输入protoco: <input type="text" id="field7" value=""><br/>
+请输入collectInterval: <input type="text" id="field8" value=""><br/>
+<input type="button" onclick="loadstu();" value="添加">
+</div>
+</body>
+
+</html>

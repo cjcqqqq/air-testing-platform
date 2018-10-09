@@ -70,5 +70,6 @@
     from day_info
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
     order by COLLECT_TIME DESC
+    limit 30
   </select>
 </mapper>

@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:90%;}
+		p{margin-left:5px; font-size:14px;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vnVpAUuTCKe3qDIR1KjRStDt6L83akVG"></script>
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<title>给多个点添加信息窗口</title>
+</head>
+<body>
+<div id="allmap"></div>
+<div id="r-result">
+	<input type="button"  onclick="openmapByType();" value="数据显示"/>
+
+
+</div>
+<p>点击标注点，可查看由纯文本构成的简单型信息窗口</p>
+</body>
+</html>
+<script type="text/javascript">
+    map = new BMap.Map("allmap");
+    map.enableScrollWheelZoom();
+    map.enableKeyboard();                         // 启用键盘操作。
+    map.addControl(new BMap.NavigationControl()); // 添加平移缩放控件
+    map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
+    map.addControl(new BMap.OverviewMapControl());
+    map.centerAndZoom(new BMap.Point(123.46842,41.834133), 15);
+	//定时刷新
+	$(document).ready(function () {
+		setInterval("openmapByType()",60000)
+
+	})
+
+    function openmapByType() {
+
+        map.clearOverlays();
+        var data_info =[];
+
+        $.ajax
+        ({
+            type: "post",
+            url:"http://180.76.137.169:8888/report/getAllLatestReport",
+            async: false,
+            dataType: 'json',
+
+            success: function (result) {
+                $.each(result.data,function(index,item){
+                    var lng = item.longitude;
+                    var lat = item.latitude;
+                    //var pm1_0 = item.pm1_0;
+                    var str1 =  item.longitude.toString();
+                    var str2 =  item.latitude.toString();
+                    var str3 =  item.pm1_0.toString();
+					var str4 =  item.pm2_5.toString();
+					var str5 =  item.pm10.toString();
+					var str6 =  item.formaldehyde.toString();
+					var str7 =  item.temperature.toString();
+					var str8 =  item.humidity.toString();
+					var str9 =  item.co.toString();
+					var str10 =  item.co2.toString();
+					var str11 =  item.no.toString();
+					var str12 =  item.no2.toString();
+					var str13 =  item.o3.toString();
+					var str14 =  item.so2.toString();
+					var str15 =  item.tvoc.toString();
+					var str16 =  item.windSpeed.toString();
+					var str17 =  item.windDirection.toString();
+					var str18 =  item.electricity.toString();
+					var str19 =  item.collectTime.toString();
+					var str20 =  item.deviceCode.toString();
+                    var str21 = "deviceCode："+str20+";"+'\n'+"坐标："+str1+";"+str2+";"+'\n'+"pm1_0："+str3+";"+"pm2_5："+str4+";"+"pm10："+str5+";"+'\n'+"formaldehyde："+str6+";"+"temperature："+str7+";"+"humidity："+str8+";"+'\n'+"co："+str9+";"+"co2："+str10+";"+"no："+str11+";"+'\n'+"no2："+str12+";"+"o3："+str13+";"+"so2："+str14+";"+'\n'+"tvoc："+str15+";"+"windSpeed："+str16+";"+"windDirection："+str17+";"+'\n'+"electricity："+str18;
+                    var pts = [lng,lat,str3,str4,str5,str6,str7,str8,str9,str10,str11,str12,str13,str14,str15,str16,str17,str18,str19,str20,str21];
+                    data_info.push(pts);
+                });
+                //初始化地图，设置中心点坐标和地图级别
+                var point = new BMap.Point(data_info[1][0], data_info[1][1]);
+                map.centerAndZoom(point, 15);
+
+            }
+        });
+
+
+        var opts = {
+            width : 450,     // 信息窗口宽度
+            height: 200,     // 信息窗口高度
+            title : "信息窗口" , // 信息窗口标题
+            enableMessage:true//设置允许信息窗发送短息
+        };
+        for(var i=0;i<data_info.length;i++){
+//            var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
+//            var content = data_info[i][3];
+//            map.addOverlay(marker);               // 将标注添加到地图中
+//            addClickHandler(content,marker);
+
+			var endDate =new Date();
+            if(parseInt(endDate.getTime()-data_info[i][18]) >900000){
+                var pt = new BMap.Point(data_info[i][0],data_info[i][1]);
+                var myIcon = new BMap.Icon("images/216.png", new BMap.Size(50,70));
+                var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标
+                var content2 = data_info[i][20];
+                map.addOverlay(marker2);
+                addClickHandler(content2,marker2);}
+			else {
+                	if (parseInt(data_info[i][13])<500&&parseInt(data_info[i][11])<200&&parseInt(data_info[i][8])<10&&parseInt(data_info[i][12])<200&&parseInt(data_info[i][4])<150&&parseInt(data_info[i][3])<75)
+					{
+						var pt = new BMap.Point(data_info[i][0],data_info[i][1]);
+						var myIcon = new BMap.Icon("images/Map-Location-Pins_71_gaitubao_com_17x24.png", new BMap.Size(50,70));
+						var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标
+						var content2 = data_info[i][20];
+						map.addOverlay(marker2);
+						addClickHandler(content2,marker2);
+					}
+					else {
+
+
+						var pt = new BMap.Point(data_info[i][0],data_info[i][1]);
+						var myIcon = new BMap.Icon("images/Map-Location-Pins_67_gaitubao_com_18x24.png", new BMap.Size(50,70));
+						var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标
+						var content2 = data_info[i][20];
+						map.addOverlay(marker2);
+						addClickHandler(content2,marker2);
+					}
+			}
+        }
+
+        function addClickHandler(content,marker){
+            marker.addEventListener("click",function(e){
+                openInfo(content,e)}
+            );
+        }
+        function openInfo(content,e){
+            var p = e.target;
+            var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+            var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+            map.openInfoWindow(infoWindow,point); //开启信息窗口
+        }
+
+    }
+
+
+
+	</script>
+

@@ -58,8 +58,10 @@ public class DeviceInfoServiceImpl implements DeviceInfoService {
 
     }
 
-
-
+    @Override
+    public List<DeviceInfo> selectByUsernameAndTime(String username, int minutes) {
+        return deviceInfoMapper.selectByUsernameAndTime(username, minutes);
+    }
 
 
 }

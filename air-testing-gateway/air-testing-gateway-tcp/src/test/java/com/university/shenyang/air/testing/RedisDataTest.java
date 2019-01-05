@@ -1,6 +1,6 @@
 package com.university.shenyang.air.testing;
 
-import com.university.shenyang.air.testing.collector.util.Constants;
+import com.university.shenyang.air.testing.gateway.util.Constants;
 import com.university.shenyang.air.testing.model.ReportInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,6 +4,7 @@ package com.university.shenyang.air.testing.monitoring.controller;
 import com.university.shenyang.air.testing.model.DeviceInfo;
 import com.university.shenyang.air.testing.monitoring.command.AddDeviceCommand;
 import com.university.shenyang.air.testing.monitoring.command.QueryAllDeviceCommand;
+import com.university.shenyang.air.testing.monitoring.command.QueryDeviceByUserAndMinutesCommand;
 import com.university.shenyang.air.testing.monitoring.command.QueryOneDeviceCommand;
 import com.university.shenyang.air.testing.monitoring.dto.QueryAllDeviceDto;
 import com.university.shenyang.air.testing.monitoring.dto.QueryOneDeviceDto;
@@ -81,4 +82,26 @@ public class DeviceController extends BaseController {
         return deviceInfoService.insertDeviceInfo(addDeviceCommand);
     }
 
+    /**
+     * 根据用户名和更新时间查询设备信息
+     *
+     * @param command
+     * @param bindingResult
+     * @return
+     * @throws RuntimeException
+     */
+
+    @RequestMapping(value = "/queryDeviceByUserAndTime")
+    public QueryAllDeviceDto queryDeviceByUserAndTime(@Validated QueryDeviceByUserAndMinutesCommand command, BindingResult bindingResult) throws RuntimeException {
+        QueryAllDeviceDto result = new QueryAllDeviceDto();
+        if (bindingResult.hasErrors()) {
+            bindingResultFill(result, bindingResult);
+        } else {
+            List<DeviceInfo> deviceInfos = deviceInfoService.selectByUsernameAndTime(command.getUsername(), Integer.valueOf(command.getMinutes()));
+            result.setData(deviceInfos);
+            result.setResultCode(200);
+            result.setMsg(new String[]{"success"});
+        }
+        return result;
+    }
   }

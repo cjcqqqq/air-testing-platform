@@ -17,4 +17,6 @@ public interface DeviceInfoService {
 
     int insertDeviceInfo(AddDeviceCommand record);
 
+    List<DeviceInfo> selectByUsernameAndTime(String username, int minutes);
+
 }

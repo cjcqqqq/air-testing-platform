@@ -31,6 +31,49 @@ public class ReportInfoListener {
             redisTemplate.opsForZSet().add(Constants.REPORT_REDIS_KEY_PREFIX + reportInfo.getDeviceCode(), reportInfo, reportInfo.getCollectTime().getTime());
             // 更新最新上报数据
             redisTemplate.opsForValue().set(Constants.LATEST_REPORT_REDIS_KEY_PREFIX + reportInfo.getDeviceCode(), reportInfo);
+
+            logger.info("收到设备实时采集数据 设备识别码{}，" +
+                            "采集时间：{}，" +
+                            "sim卡号：{}，" +
+                            "pm1.0：{}，" +
+                            "pm2.5：{}，" +
+                            "pm10：{}，" +
+                            "甲醛：{}，" +
+                            "温度：{}，" +
+                            "湿度：{}，" +
+                            "一氧化碳：{}，" +
+                            "二氧化碳：{}，" +
+                            "一氧化氮：{}，" +
+                            "二氧化氮：{}，" +
+                            "臭氧：{}，" +
+                            "二氧化硫：{}，" +
+                            "有机气态物质：{}，" +
+                            "风速：{}，" +
+                            "风向：{}，" +
+                            "经度：{}，" +
+                            "纬度：{}，" +
+                            "太阳能电源电量：{}",
+                    reportInfo.getDeviceCode(),
+                    reportInfo.getCollectTime(),
+                    reportInfo.getSim(),
+                    reportInfo.getPm1_0(),
+                    reportInfo.getPm2_5(),
+                    reportInfo.getPm10(),
+                    reportInfo.getFormaldehyde(),
+                    reportInfo.getTemperature(),
+                    reportInfo.getHumidity(),
+                    reportInfo.getCo(),
+                    reportInfo.getCo2(),
+                    reportInfo.getNo(),
+                    reportInfo.getNo2(),
+                    reportInfo.getO3(),
+                    reportInfo.getSo2(),
+                    reportInfo.getTvoc(),
+                    reportInfo.getWindSpeed(),
+                    reportInfo.getWindDirection(),
+                    reportInfo.getLongitude(),
+                    reportInfo.getLatitude(),
+                    reportInfo.getElectricity());
         } catch (Exception e) {
             logger.error("kafka数据解析错误", e);
         }

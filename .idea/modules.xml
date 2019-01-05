@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/air-testing-gateway/air-testing-collector/air-testing-collector.iml" filepath="$PROJECT_DIR$/air-testing-gateway/air-testing-collector/air-testing-collector.iml" />
       <module fileurl="file://$PROJECT_DIR$/air-testing-common/air-testing-common.iml" filepath="$PROJECT_DIR$/air-testing-common/air-testing-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/air-testing-gateway/air-testing-gateway.iml" filepath="$PROJECT_DIR$/air-testing-gateway/air-testing-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/air-testing-gateway/air-testing-gateway-tcp/air-testing-gateway-tcp.iml" filepath="$PROJECT_DIR$/air-testing-gateway/air-testing-gateway-tcp/air-testing-gateway-tcp.iml" />
@@ -9,7 +10,6 @@
       <module fileurl="file://$PROJECT_DIR$/air-testing-modules/air-testing-modules.iml" filepath="$PROJECT_DIR$/air-testing-modules/air-testing-modules.iml" />
       <module fileurl="file://$PROJECT_DIR$/air-testing-modules/air-testing-monitoring/air-testing-monitoring.iml" filepath="$PROJECT_DIR$/air-testing-modules/air-testing-monitoring/air-testing-monitoring.iml" />
       <module fileurl="file://$PROJECT_DIR$/air-testing-platform.iml" filepath="$PROJECT_DIR$/air-testing-platform.iml" />
-      <module fileurl="file://$PROJECT_DIR$/air-testing-modules/air-testing-task/air-testing-task.iml" filepath="$PROJECT_DIR$/air-testing-modules/air-testing-task/air-testing-task.iml" />
     </modules>
   </component>
 </project>

@@ -1,25 +1,22 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<style type="text/css">
 		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-		#allmap{width:100%;height:90%;}
+		#allmap{width:100%;height:100%;}
 		p{margin-left:5px; font-size:14px;}
 	</style>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vnVpAUuTCKe3qDIR1KjRStDt6L83akVG"></script>
 	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-	<title>给多个点添加信息窗口</title>
+	<title>报警</title>
 </head>
 <body>
 <div id="allmap"></div>
 <div id="r-result">
-	<input type="button"  onclick="openmapByType();" value="数据显示"/>
-
-
+	<!--input type="button"  onclick="openmapByType();" value="数据显示"/-->
 </div>
-<p>点击标注点，可查看由纯文本构成的简单型信息窗口</p>
 </body>
 </html>
 <script type="text/javascript">
@@ -29,12 +26,12 @@
     map.addControl(new BMap.NavigationControl()); // 添加平移缩放控件
     map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
     map.addControl(new BMap.OverviewMapControl());
-    map.centerAndZoom(new BMap.Point(123.46842,41.834133), 15);
-	//定时刷新
-	$(document).ready(function () {
-		setInterval("openmapByType()",60000)
+    map.centerAndZoom(new BMap.Point(123.459632,41.808466), 13);
+    $(function(){
+        openmapByType();
+        setInterval("openmapByType()",60000)
 
-	})
+    })
 
     function openmapByType() {
 
@@ -44,7 +41,7 @@
         $.ajax
         ({
             type: "post",
-            url:"http://180.76.137.169:8888/report/getAllLatestReport",
+            url:"/report/getAllLatestReport",
             async: false,
             dataType: 'json',
 
@@ -78,8 +75,9 @@
                     data_info.push(pts);
                 });
                 //初始化地图，设置中心点坐标和地图级别
-                var point = new BMap.Point(data_info[1][0], data_info[1][1]);
-                map.centerAndZoom(point, 15);
+//                var point = new BMap.Point(data_info[1][0], data_info[1][1]);
+				var point = new BMap.Point(123.459632,41.808466);
+                map.centerAndZoom(point, 13);
 
             }
         });
@@ -92,13 +90,11 @@
             enableMessage:true//设置允许信息窗发送短息
         };
         for(var i=0;i<data_info.length;i++){
-//            var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
-//            var content = data_info[i][3];
-//            map.addOverlay(marker);               // 将标注添加到地图中
-//            addClickHandler(content,marker);
+
 
 			var endDate =new Date();
-            if(parseInt(endDate.getTime()-data_info[i][18]) >900000){
+			//设备超过15分钟图标变黑
+            if(parseInt(endDate.getTime()-data_info[i][18]) >9000000){
                 var pt = new BMap.Point(data_info[i][0],data_info[i][1]);
                 var myIcon = new BMap.Icon("images/216.png", new BMap.Size(50,70));
                 var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标
@@ -109,17 +105,16 @@
                 	if (parseInt(data_info[i][13])<500&&parseInt(data_info[i][11])<200&&parseInt(data_info[i][8])<10&&parseInt(data_info[i][12])<200&&parseInt(data_info[i][4])<150&&parseInt(data_info[i][3])<75)
 					{
 						var pt = new BMap.Point(data_info[i][0],data_info[i][1]);
-						var myIcon = new BMap.Icon("images/Map-Location-Pins_71_gaitubao_com_17x24.png", new BMap.Size(50,70));
+						var myIcon = new BMap.Icon("images/Map-Location-Pins_71_gaitubao_com_17x24.png", new BMap.Size(300, 157));
 						var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标
 						var content2 = data_info[i][20];
 						map.addOverlay(marker2);
 						addClickHandler(content2,marker2);
 					}
+					//超过国家大气标准图标变红
 					else {
-
-
 						var pt = new BMap.Point(data_info[i][0],data_info[i][1]);
-						var myIcon = new BMap.Icon("images/Map-Location-Pins_67_gaitubao_com_18x24.png", new BMap.Size(50,70));
+						var myIcon = new BMap.Icon("images/marker_2_gaitubao_com_18x31.png", new BMap.Size(50,70));
 						var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标
 						var content2 = data_info[i][20];
 						map.addOverlay(marker2);

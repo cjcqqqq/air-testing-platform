@@ -12,7 +12,6 @@
     <artifactId>air-testing-modules</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>air-testing-task</module>
         <module>air-testing-monitoring</module>
     </modules>
 

@@ -36,7 +36,7 @@ function openHeatmapByType(showType) {
 	$.ajax
 	({
 		type: "post",
-		url: "http://180.76.137.169:8888/report/getAllDeviceLatestInfo",
+		url: "http://47.104.152.135:8888/report/getAllDeviceLatestInfo",
 		async: false,
 		dataType: 'json',
 		data: {type : showType},

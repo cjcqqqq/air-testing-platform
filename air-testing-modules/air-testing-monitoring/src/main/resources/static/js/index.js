@@ -58,17 +58,17 @@ if (!isSupportCanvas()) {
 //详细的参数,可以查看heatmap.js的文档 https://github.com/pa7/heatmap.js/blob/master/README.md
 //参数说明如下:
 /* visible 热力图是否显示,默认为true
-* opacity 热力的透明度,1-100
-* radius 势力图的每个点的半径大小
-* gradient  {JSON} 热力图的渐变区间 . gradient如下所示
-*	{
-.2:'rgb(0, 255, 255)',
-.5:'rgb(0, 110, 255)',
-.8:'rgb(100, 0, 255)'
-}
-其中 key 表示插值的位置, 0~1.
-value 为颜色值.
-*/
+ * opacity 热力的透明度,1-100
+ * radius 势力图的每个点的半径大小
+ * gradient  {JSON} 热力图的渐变区间 . gradient如下所示
+ *	{
+ .2:'rgb(0, 255, 255)',
+ .5:'rgb(0, 110, 255)',
+ .8:'rgb(100, 0, 255)'
+ }
+ 其中 key 表示插值的位置, 0~1.
+ value 为颜色值.
+ */
 
 //按类别显示热力图
 function openHeatmapByType() {
@@ -80,7 +80,7 @@ function openHeatmapByType() {
 	$.ajax
 	({
 		type: "post",
-		url: "http://180.76.137.169:8888/report/getAllDeviceLatestInfo",
+		url: "/report/getAllDeviceLatestInfo",
 		async: false,
 		dataType: 'json',
 		data: {type : stype},
@@ -105,9 +105,9 @@ openHeatmapByType();
 
 //定时刷新
 $(document).ready(function () {
-	setInterval("location.replace(location.href);",10000);
+	setInterval("location.replace(location.href);",60000);
 })
-            
+
 function setGradient() {
 	/*格式如下所示:
 	 {
@@ -119,7 +119,7 @@ function setGradient() {
 	var colors = document.querySelectorAll("input[type='color']");
 	colors = [].slice.call(colors, 0);
 	colors.forEach(function (ele) {
-	    gradient[ele.getAttribute("data-key")] = ele.value;
+		gradient[ele.getAttribute("data-key")] = ele.value;
 	});
 	heatmapOverlay.setOptions({"gradient": gradient});
 }

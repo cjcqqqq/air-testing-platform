@@ -29,7 +29,7 @@ public class HourController extends BaseController {
     HourInfoService hourInfoService;
 
     /**
-     * ²éÑ¯×îĞÂÉÏ±¨Êı¾İ
+     * æŸ¥è¯¢æœ€æ–°ä¸ŠæŠ¥æ•°æ®
      *
      * @param command
      * @param bindingResult

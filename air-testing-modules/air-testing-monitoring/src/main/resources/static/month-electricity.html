@@ -60,7 +60,7 @@
                     $.each(result.data, function (index, item) {
                         var pts01 = item.collectTime;
                         var pts = new Date(pts01);
-                        var hour = pts.getDay();
+                        var hour = pts.getDate();
                         points.push(hour);
                     })
                 }

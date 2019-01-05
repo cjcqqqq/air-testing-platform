@@ -4,12 +4,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-    <!-- 引入 echarts.js -->
+    <!-- 引入 echarts.js                    -->
     <script src="js/echarts.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </head>
 <body>
-    请输入设备号: <input type="text" id="field1" value=""><br>
-    <input type="button" onclick="loadstu();" value="查询"><table  id="tab" border="1">
+
+<font color="black" size="5" >设备号:<input type="text" id="field1" value=""></font>
+<font color="#a9a9a9" size="5" ><input type="button" onclick="loadstu();" value="查询 "></font>
+    <table  id="tab" width="100%"  class="table  table-hover table-bordered">
         <tr>
             <th>deviceCode</th>
             <th>longitude</th>
@@ -40,6 +44,7 @@
         function loadstu() {
         var showType=document.getElementById("field1").value;
         $("#tab").empty();
+           // $("#tab tr:not(:first)").empty();
         $.ajax
         ({
             type: "post",

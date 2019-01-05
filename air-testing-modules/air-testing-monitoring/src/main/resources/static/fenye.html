@@ -1,33 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
     <!-- 引入 echarts.js -->
-    <script src="js/jquery.js"></script>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script src="js/echarts.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
 </head>
 <body>
+
 请输入设备号: <input type="text" id="field1" value=""><br>
 请输入开始时间: <input type="text" id="field2" value=""><br>
 请输入结束时间: <input type="text" id="field3" value=""><br>
-<input type="button" id="ck" value="查询">
-<p id="id" ></p>
+第<input type="text" id="field4" value="">页
+<input type="button" onclick="loadstu();" value="查询">
 <div class="row">
     <div class="col-md-4 col-md-offset-4" >
         <nav>
-            <ul class="pagination" id="fenye">
-                <li><a id="prev">上一页</a></li>
-                <li><a id="next">下一页</a></li>
+            <ul class="pager">
+                <!--此处代码由js动态生成
+                   -->
             </ul>
         </nav>
     </div>
 </div>
-<table  id="tab" class="table table-bordered header">
+<div >
+
+    <button type="submit" onclick="exportExcel('tableExcel','','1.xlsx')" class="btn btn-primary" style="float:right;">
+        　　　　<a id="dlink" href="" style="display: none;"></a><i class="fa fa-download  "></i> 导出表格</button>
+</div>
+<table  id="tableExcel" width="100%" class="table table-hover table-bordered" >
     <tr>
         <th>deviceCode</th>
         <th>longitude</th>
@@ -56,51 +60,58 @@
 
 </body>
 </html>
-<script>
-    var page = 1;
-    $(function() {
-        $("#ck").on("click",function(){
-            Load();
-        })
-
-        $("#prev").click(function(){
-            if(page>1){
-                page--;
-            }
-            //页面加载数据
-            Load();
-
-        })
-        $("#next").click(function(){
-
-                page++;
-
-            //页面加载数据
-            Load();
-
-
-        })
-
-
-    })
-
-        function zys() {
-            $.ajax({
-                url: "/report/queryReportByDeviceAndTime",
-                dataType: "json",
-                success: function (result) {
-                    var zy = Math.ceil(result.data.length / 5);
-                        document.getElementById("id").innerHTML="共"+zy+"页";
-
-                }
-            })
+<script language="JavaScript" type="text/javascript">
+    $(function(){
+        var pageNo=1;//当前页面设置为1
+        var pageSize=10;//每页显示15条商品信息
+        var totalPage=4;//一共有多少页数据
+        var preLi;
+        if(pageNo===1){
+            //如果当前页是第一页,上一页功能就不可用.
+            preLi=$('<li class="disabled"><a href="javascript:void(0)">上一页</a></li>');
+        }else{
+            //如果当前页不是第一页,就添加点击事件,切换到上一页,把页码减一.
+            preLi=$('<li><a href="javascript:void(0)" onclick="skipPage('+(pageNo-1)+')">上一页</a></li>');
         }
+        //通过类选择器,添加进去
+        $(".pager").append(preLi);
 
-    function Load(){
+        //遍历显示页码
+        for (var i = 1; i <= totalPage; i++) {
+            var li;
+            if(i===pageNo){
+                //=========是当前页,就高亮显示
+                li=$('<li class="active"><a href="javascript:void(0)">'+i+'</a> </li>');
+                //通过类选择器,添加到ul中
+                $(".pager").append(li);
+            }else{
+                //========不是当前页,不高亮显示.添加点击事件,参数传递为当前页码
+                li=$('<li><a href="javascript:void(0)"onclick="skipPage('+i+')">'+i+'</a></li>');
+                //通过类选择器,添加到ul中
+                $(".pager").append(li);
+            }
+        }
+        //显示下一页
+        var nextLi;
+        if(pageNo===totalPage){
+            //如果当前页是最后一页,上一页功能就不可用.
+            nextLi=$('<li class="disabled"><a href="javascript:void(0)">下一页</a> </li>');
+        }else {
+            //如果当前页不是最后一页,就添加点击事件,切换到上一页,把页码减一.
+            nextLi=$('<li><a href="javascript:void(0)" onclick="skipPage('+(pageNo+1)+')">下一页</a></li>');
+        }
+        //通过类选择器,添加进去
+        $(".pager").append(nextLi);
+
+        loadstu();
+    });
+
+    function loadstu() {
         var  showType01=document.getElementById("field1").value;
         var  showType02=document.getElementById("field2").value;
         var  showType03=document.getElementById("field3").value;
-        var  showType05=15;
+        var  showType04=document.getElementById("field4").value;
+        var  showType05=10;
         $("#tab tr:not(:first)").empty();
         $.ajax
         ({
@@ -111,7 +122,7 @@
             data: {deviceCode : showType01,
                 startTime:showType02,
                 endTime:showType03,
-                pageNum:page,
+                pageNum:showType04,
                 pageSize:showType05
             },
             success: function (result) {
@@ -138,11 +149,111 @@
                     str += "<td>" + result.data[i].windDirection + "</td>";
                     str += "<td>" + result.data[i].electricity + "</td>";
                     str += "</tr>";
-                    $("#tab").append(str);
+                    $("#tableExcel").append(str);
                 }
             }
         })
     }
 
+
+
+
+    var idTmr;
+    function  getExplorer() {
+        var explorer = window.navigator.userAgent ;
+        //ie
+        if (explorer.indexOf("MSIE") >= 0) {
+            return 'ie';
+        }
+        //firefox
+        else if (explorer.indexOf("Firefox") >= 0) {
+            return 'Firefox';
+        }
+        //Chrome
+        else if(explorer.indexOf("Chrome") >= 0){
+            return 'Chrome';
+        }
+        //Opera
+        else if(explorer.indexOf("Opera") >= 0){
+            return 'Opera';
+        }
+        //Safari
+        else if(explorer.indexOf("Safari") >= 0){
+            return 'Safari';
+        }
+    }
+    function exportExcel(tableid,name,filename) {
+        if(getExplorer()=='ie')
+        {
+            var curTbl = document.getElementById(tableid);
+            var oXL = new ActiveXObject("Excel.Application");
+            var oWB = oXL.Workbooks.Add();
+            var xlsheet = oWB.Worksheets(1);
+            var sel = document.body.createTextRange();
+            sel.moveToElementText(curTbl);
+            sel.select();
+            sel.execCommand("Copy");
+            xlsheet.Paste();
+            oXL.Visible = true;
+
+            try {
+                var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");
+            } catch (e) {
+                print("Nested catch caught " + e);
+            } finally {
+                oWB.SaveAs(fname);
+                oWB.Close(savechanges = false);
+                oXL.Quit();
+                oXL = null;
+                idTmr = window.setInterval("Cleanup();", 1);
+            }
+
+        }
+        else
+        {
+            tableToExcel(tableid,name,filename)
+        }
+    }
+    function Cleanup() {
+        window.clearInterval(idTmr);
+        CollectGarbage();
+    }
+    var tableToExcel = (function() {
+        var uri = 'data:application/vnd.ms-excel;base64,',
+                //Excel样式代码
+                template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"'+
+                        'xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>'
+                        +'<x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets>'
+                        +'</x:ExcelWorkbook></xml><![endif]-->'+
+                        ' <style type="text/css">'+
+                        '.excelTable  {'+
+                        'border-collapse:collapse;'+
+                        ' border:thin solid #999; '+
+                        '}'+
+                        '   .excelTable  th {'+
+                        '   border: thin solid #999;'+
+                        '  padding:20px;'+
+                        '  text-align: center;'+
+                        '  border-top: thin solid #999;'+
+                        ' background-color: #E6E6E6;'+
+                        ' }'+
+                        ' .excelTable  td{'+
+                        ' border:thin solid #999;'+
+                        '  padding:2px 5px;'+
+                        '  text-align: center;'+
+                        ' }</style>'+
+                        '</head><body ><table class="excelTable">{table}</table></body></html>',
+                base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
+                format = function(s, c) {
+                    return s.replace(/{(\w+)}/g,
+                            function(m, p) { return c[p]; }) }
+        return function(table, name,filename) {
+            if (!table.nodeType) table = document.getElementById(table)
+            var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+            document.getElementById("dlink").href = uri + base64(format(template, ctx));
+            document.getElementById("dlink").download = filename;
+            document.getElementById("dlink").click();
+        }
+    })()
 
 </script>

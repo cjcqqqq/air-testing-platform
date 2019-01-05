@@ -5,6 +5,8 @@
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
     <!-- 引入 echarts.js -->
     <script src="js/echarts.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <title> 信息管理界面</title>
     <style>
 
@@ -34,7 +36,7 @@
                     var str=null;
                     for(var i=0;i<result.data.length;i++){
                         str+="<tr>";
-                        str+="<td>"+result.data[i].id+"</td>";
+                        str+="<td>"+(i+1)+"</td>";
                         str+="<td>"+result.data[i].deviceCode+"</td>";
                         str+="<td>"+result.data[i].deviceDesc+"</td>";
                         str+="<td>"+result.data[i].address+"</td>";
@@ -60,7 +62,7 @@
             //执行ajax删除
             if(confirm("确定要删除吗？")){
                 $.ajax({
-                    url:"/device/deleteOneDevice/",
+                    url:"/device/deleteOneDevice/"+id,
                     type:"POST",
                     data:{id:id},
                     dataType:"json",
@@ -75,36 +77,57 @@
                         alert('error');
                     }
                 });}
+
         }
 
-            //执行添加
-            function doAdd(form) {
-                //alert($(form).serialize());
-                $.ajax({
-                    url: "/device/insertOneDevice",
-                    type: "POST",
-                    data: $(form).serialize(),
-                    dataType: "json",
-                    success: function (res) {
-                        if (res.id > 0) {
-                            $('#fill').hide();
-                            $('#myform').hide();
-                            $(form).find(":reset").trigger("click");
-                            loadstu();//重新加载
-                        } else {
-                            alert('添加失败！');
-                        }
-                    }
-                });
+        //执行添加
+        function doAdd(form) {
+            var showType01 = document.getElementById("field1").value;
+            var showType02 = document.getElementById("field2").value;
+            var showType03 = document.getElementById("field3").value;
+            var showType04 = document.getElementById("field4").value;
+            var showType05 = document.getElementById("field5").value;
+            var showType06 = document.getElementById("field6").value;
+            var showType07 = document.getElementById("field7").value;
+            var showType08 = document.getElementById("field8").value;
+            $.ajax({
+                type: "post",
+                url: "/device/insertDevice",
+                async: false,
+                dataType: 'json',
+                data: {
+                    deviceCode: showType01,
+                    deviceDesc: showType02,
+                    address: showType03,
+                    longitude: showType04,
+                    latitude: showType05,
+                    sim: showType06,
+                    protocol: showType07,
+                    collectInterval: showType08
+                },
+                beforeSend: function () {
+                    $("#span_content").text("数据处理中...");
+                },
+                success:function(json){
+                    //判断是否删除成功
+                    if(json.result.data.id > 0) {
 
-                return false;
-            }
+                        location.reload();
+                    }
+                },
+                error:function () {
+                    location.reload();
+                }
+
+            })
+            loadstu();
+        }
 
     </script>
 </head>
-<body><h2>设备信息管理</h2>
-<h3>设备信息</h3><button id="aid">添加</button>
-<table id="stuid" width="500" border="1">
+<body><h2><font color="black">设备信息管理</font></h2>
+<button id="aid">添加</button>
+<table id="stuid"  class="table table-hover table-bordered" >
     <thead>
     <tr>
         <th>ID</th><th>DeviceCode</th><th>DeviceDesc</th><th>Address</th><th>Longitude</th><th>Latidute</th><th>SIM</th><th>Protocol</th><th>Collect_Interval</th><th>Createtime</th><th>Updatetime</th>
@@ -124,54 +147,42 @@
     <form  action="" method="post" onsubmit="return doAdd(this)">
         <table width="340" border="0" style="margin:20% auto;background-color:#fff">
             <tr>
-                <td>ID：</td>
-                <td><input type='text' name="id"/></td>
-            </tr>
-            <tr>
                 <td>DeviceCode：</td>
-                <td><input type='text' name="deviceCode"/></td>
+                <td><input type="text" id="field1" value=""></td>
             </tr>
             <tr>
                 <td>DeviceDesc：</td>
-                <td><input type='text' name="deviceDesc"/></td>
+                <td><input type="text" id="field2" value=""></td>
             </tr>
             <tr>
                 <td>Address：</td>
-                <td><input type='text' name="address"/></td>
+                <td><input type="text" id="field3" value=""></td>
             </tr>
             <tr>
                 <td>Longitude：</td>
-                <td><input type='text' name="longitude"/></td>
+                <td><input type="text" id="field4" value=""></td>
             </tr>
             <tr>
                 <td>Latidute：</td>
-                <td><input type='text' name="latitude"/></td>
+                <td><input type="text" id="field5" value=""></td>
             </tr>
             <tr>
                 <td>SIM：</td>
-                <td><input type='text' name="sim"/></td>
+                <td><input type="text" id="field6" value=""></td>
             </tr>
             <tr>
                 <td>Protocol：</td>
-                <td><input type='text' name="protocol"/></td>
+                <td><input type="text" id="field7" value=""></td>
             </tr>
             <tr>
                 <td>Collect_Interval：</td>
-                <td><input type='text' name="collectInterval"/></td>
-            </tr>
-            <tr>
-                <td>Createtime：</td>
-                <td><input type='text' name="createtime"/></td>
-            </tr>
-            <tr>
-                <td>Updatetime：</td>
-                <td><input type='text' name="updatetime"/></td>
+                <td><input type="text" id="field8" value=""></td>
             </tr>
             <tr>
                 <td> </td>
                 <td >
                     <input type='submit' value="添加"/>
-                    <input type='reset' value="重置"/>
+                    <!--<input type='reset' value="重置"/>-->
                     <input type="button" onclick="$('#fill').hide();$('#myform').hide();" value="关闭"/>
                 </td>
             </tr>

@@ -5,10 +5,9 @@
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
     <!-- 引入 echarts.js -->
     <script src="js/echarts.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--<script type="text/javascript" src="js/bootstrap.min.js"></script>-->
     <title> 信息采集监测界面</title>
-    <style>
-
-    </style>
     <script type="text/javascript">
         $(function(){
             //调用加载数据函数
@@ -107,6 +106,7 @@
                                  str+="</tr>";
                              }
 
+
                     }
                     $("#stuid tbody").empty();
                     $("#stuid tbody").append(str);
@@ -119,7 +119,7 @@
             //执行ajax删除
             if(confirm("确定要删除吗？"))
                 $.ajax({
-                    url:"/device/deleteOneDevice",
+                    url:"/device/deleteOneDevice/{id}",
                     type:"DELETE",
                     data:{id:id},
                     dataType:"json",
@@ -140,11 +140,12 @@
 
 </head>
 <body><h2>信息采集监测界面</h2>
-<h3>采集信息</h3>
-<table id="stuid" width="500" border="1"　 style="color: #000; font-size: 12px">
+    <table  id="stuid" width="auto"  class="table  table-hover table-bordered" >
+
     <thead>
     <tr>
-       <th>deviceCode</th><th>collectTime</th><th>sim</th><th>pm1_0</th><th>pm2_5</th><th>pm10</th><th>formaldehyde</th><th>temperature</th><th>humidity</th><th>co</th><th>co2</th><th>no</th><th>no2</th><th>o3</th><th>so2</th><th>tvoc</th><th>windSpeed</th><th>windDirection</th><th>longitude</th><th>latitude</th><th>electricity</th>
+       <th>deviceCode</th><th>collectTime</th><th>sim</th><th>pm1_0</th><th>pm2_5</th><th>pm10</th><th>formaldehyde</th><th>temperature</th><th>humidity</th><th>co</th>
+        <th>co2</th><th>no</th><th>no2</th><th>o3</th><th>so2</th><th>tvoc</th><th>windSpeed</th><th>windDirection</th><th>longitude</th><th>latitude</th><th>electricity</th>
     </tr>
     </thead>
     <tbody>

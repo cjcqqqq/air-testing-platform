@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>air-testing-gateway-tcp</module>
+        <module>air-testing-collector</module>
     </modules>
 
 

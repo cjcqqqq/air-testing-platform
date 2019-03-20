@@ -1,6 +1,7 @@
 package com.university.shenyang.air.testing.collector.service;
 
 import com.university.shenyang.air.testing.model.DeviceInfo;
+import com.university.shenyang.air.testing.pojo.DeviceCodeMappingUsername;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ import java.util.List;
 public interface DeviceInfoService {
     List<DeviceInfo> queryAll();
 
-    int updateDeviceCollectInterval(String deviceCode, int interval);
+    int insertDeviceInfo(DeviceInfo record);
 }

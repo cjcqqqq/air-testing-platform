@@ -16,8 +16,11 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
+
+import java.util.Date;
 
 /**
  * 解析02实时信息上报数据
@@ -35,8 +38,9 @@ public class GB_02_DeviceRTData extends DeviceCommand {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
-    @Value("${reportinfo.topic.name:reportinfo}")
-    private String reportTopic;
+    // 上报数据有效时间范围单位天
+    @Value("${collect.data.effective.time:7}")
+    private int effectiveTime;
 
     @Override
     public void processor(ChannelHandlerContext ctx, Packet packet) {
@@ -61,7 +65,8 @@ public class GB_02_DeviceRTData extends DeviceCommand {
                 reportInfo.setDeviceCode(code);
                 // collectTime; // 采集时间 6个字节
                 String collectTime = Convert.gbDateToString(ArraysUtils.subarrays(content, 0, 6));
-                reportInfo.setCollectTime(Convert.strToDate(collectTime));
+                Date collectDateTime = Convert.strToDate(collectTime);
+                reportInfo.setCollectTime(collectDateTime);
                 // sim; //sim卡号 20位 4个字节
                 String sim = new String(ArraysUtils.subarrays(content, 6, 20), "ASCII");
                 reportInfo.setSim(sim);
@@ -121,60 +126,66 @@ public class GB_02_DeviceRTData extends DeviceCommand {
                 int electricity = Convert.byte2Int(ArraysUtils.subarrays(content, 85, 1), 1);
                 reportInfo.setElectricity(electricity);
 
-                // 上报数据添加至redis缓存，隔天凌晨转存mysql
-                redisTemplate.opsForZSet().add(Constants.REPORT_REDIS_KEY_PREFIX + code, reportInfo, reportInfo.getCollectTime().getTime());
-                // 更新最新上报数据
-                redisTemplate.opsForValue().set(Constants.LATEST_REPORT_REDIS_KEY_PREFIX + code, reportInfo);
+                // 判断采集时间是否在有效范围内
+                if ((new Date()).getTime() - collectDateTime.getTime() < effectiveTime * 24 * 60 * 60 * 1000) {
+                    // 上报数据添加至redis缓存，隔天凌晨转存mysql
+                    redisTemplate.opsForZSet().add(Constants.REPORT_REDIS_KEY_PREFIX + code, reportInfo, reportInfo.getCollectTime().getTime());
+                    // 更新最新上报数据
+                    redisTemplate.opsForValue().set(Constants.LATEST_REPORT_REDIS_KEY_PREFIX + code, reportInfo);
 
-                // 获取设备归属的用户名
-                String username = DevicesManager.getInstance().getUsernameByCode(code);
+                    // 获取设备归属的用户名
+                    String username = DevicesManager.getInstance().getUsernameByCode(code);
 
-                // 上报数据写入kafka
-                JSONObject object = JSONObject.fromObject(reportInfo);
-                kafkaTemplate.send(username, reportInfo.getDeviceCode(), object.toString());
+                    // 上报数据写入kafka
+                    JSONObject object = JSONObject.fromObject(reportInfo);
+                    kafkaTemplate.send(username, reportInfo.getDeviceCode(), object.toString());
 
-                LOGGER.debug("收到设备实时采集数据 设备识别码{}，" +
-                                "采集时间：{}，" +
-                                "sim卡号：{}，" +
-                                "pm1.0：{}，" +
-                                "pm2.5：{}，" +
-                                "pm10：{}，" +
-                                "甲醛：{}，" +
-                                "温度：{}，" +
-                                "湿度：{}，" +
-                                "一氧化碳：{}，" +
-                                "二氧化碳：{}，" +
-                                "一氧化氮：{}，" +
-                                "二氧化氮：{}，" +
-                                "臭氧：{}，" +
-                                "二氧化硫：{}，" +
-                                "有机气态物质：{}，" +
-                                "风速：{}，" +
-                                "风向：{}，" +
-                                "经度：{}，" +
-                                "纬度：{}，" +
-                                "太阳能电源电量：{}",
-                        packet.getUniqueMark(),
-                        collectTime,
-                        sim,
-                        pm1_0,
-                        pm2_5,
-                        pm10,
-                        formaldehyde,
-                        temperature,
-                        humidity,
-                        co,
-                        co2,
-                        no,
-                        no2,
-                        o3,
-                        so2,
-                        tvoc,
-                        windSpeed,
-                        windDirection,
-                        longitude,
-                        latitude,
-                        electricity);
+                    LOGGER.debug("收到设备实时采集数据 设备识别码{}，" +
+                                    "采集时间：{}，" +
+                                    "sim卡号：{}，" +
+                                    "pm1.0：{}，" +
+                                    "pm2.5：{}，" +
+                                    "pm10：{}，" +
+                                    "甲醛：{}，" +
+                                    "温度：{}，" +
+                                    "湿度：{}，" +
+                                    "一氧化碳：{}，" +
+                                    "二氧化碳：{}，" +
+                                    "一氧化氮：{}，" +
+                                    "二氧化氮：{}，" +
+                                    "臭氧：{}，" +
+                                    "二氧化硫：{}，" +
+                                    "有机气态物质：{}，" +
+                                    "风速：{}，" +
+                                    "风向：{}，" +
+                                    "经度：{}，" +
+                                    "纬度：{}，" +
+                                    "太阳能电源电量：{}",
+                            packet.getUniqueMark(),
+                            collectTime,
+                            sim,
+                            pm1_0,
+                            pm2_5,
+                            pm10,
+                            formaldehyde,
+                            temperature,
+                            humidity,
+                            co,
+                            co2,
+                            no,
+                            no2,
+                            o3,
+                            so2,
+                            tvoc,
+                            windSpeed,
+                            windDirection,
+                            longitude,
+                            latitude,
+                            electricity);
+                } else {
+                    LOGGER.error("设备识别码{}采集时间异常！",packet.getUniqueMark());
+                }
+
             } else {
                 LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
                 ctx.close();

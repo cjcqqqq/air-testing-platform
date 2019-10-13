@@ -69,7 +69,8 @@
     <include refid="Base_Column_List" />
     from hour_info
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
-    order by COLLECT_TIME DESC
-    limit 24
+    AND COLLECT_TIME > date_sub(now(), INTERVAL 1 DAY)
+    ORDER BY COLLECT_TIME
+    LIMIT 24
   </select>
 </mapper>

@@ -34,8 +34,8 @@ public class GB_80_WifiSettingResponse extends DeviceCommand {
             // 获取登入链路上下文
             ChannelHandlerContext loginCtx = DevicesManager.getInstance().getCtxByDeviceCode(packet.getUniqueMark());
 
-            // 判断设备是否合法并登入
-            if (loginCtx == ctx) {
+//            // 判断设备是否合法并登入
+//            if (loginCtx == ctx) {
                 CommandSendLog record = new CommandSendLog();
                 record.setCommandId(packet.getCommandId());
                 record.setDeviceCode(packet.getUniqueMark());
@@ -43,10 +43,10 @@ public class GB_80_WifiSettingResponse extends DeviceCommand {
                 record.setCommandStatus(packet.getAnswerId());
                 commandSendLogService.updateByCodeCommandIdAndTime(record);
 
-            } else {
-                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
-                ctx.close();
-            }
+//            } else {
+//                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+//                ctx.close();
+//            }
         } catch (Exception ex) {
             LOGGER.error("解析设备Wifi设置应答信息出错:" + ex);
         }

@@ -67,8 +67,8 @@ public class DeviceController extends BaseController {
             // 获取登入链路上下文
             ChannelHandlerContext loginCtx = DevicesManager.getInstance().getCtxByDeviceCode(command.getDeviceCode());
             if (loginCtx == null) {
-                result.setResultCode(400);
-                result.setMsg(new String[]{"Device are not login"});
+                result.setResultCode(2004);
+                result.setMsg(new String[]{"Device is not login"});
             } else {
                 Packet packet = new Packet();
                 packet.setUniqueMark(command.getDeviceCode().trim());

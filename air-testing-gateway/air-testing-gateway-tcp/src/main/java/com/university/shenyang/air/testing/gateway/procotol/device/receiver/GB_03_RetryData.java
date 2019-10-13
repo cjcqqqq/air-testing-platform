@@ -47,8 +47,8 @@ public class GB_03_RetryData extends DeviceCommand {
             // 获取登入链路上下文
             ChannelHandlerContext loginCtx = DevicesManager.getInstance().getCtxByDeviceCode(packet.getUniqueMark());
 
-            // 判断设备是否合法并登入
-            if (loginCtx == ctx) {
+//            // 判断设备是否合法并登入
+//            if (loginCtx == ctx) {
 
                 byte[] content = ArraysUtils.subarrays(packet.getContent(), 0);//复制一份数组，下边内容进行解析时会进行截断。
 
@@ -126,7 +126,7 @@ public class GB_03_RetryData extends DeviceCommand {
                 reportInfo.setElectricity(electricity);
 
                 // 判断采集时间是否在有效范围内
-                if ((new Date()).getTime() - collectDateTime.getTime() < effectiveTime * 24 * 60 * 60 * 1000) {
+                if (Math.abs((new Date()).getTime() - collectDateTime.getTime()) < effectiveTime * 24 * 60 * 60 * 1000) {
 
                     // 上报数据添加至redis缓存，隔天凌晨转存mysql
                     redisTemplate.opsForZSet().add(Constants.REPORT_REDIS_KEY_PREFIX + code, reportInfo, reportInfo.getCollectTime().getTime());
@@ -185,10 +185,10 @@ public class GB_03_RetryData extends DeviceCommand {
                 } else {
                     LOGGER.error("设备识别码{}采集时间异常！",packet.getUniqueMark());
                 }
-            } else {
-                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
-                ctx.close();
-            }
+//            } else {
+//                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+//                ctx.close();
+//            }
 
         } catch (Exception ex) {
             LOGGER.error("解析补传上报信息出错:" + ex);

@@ -22,6 +22,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="air-testing-app" />
         <module name="air-testing-collector" />
         <module name="air-testing-gateway-tcp" />
         <module name="air-testing-model" />
@@ -29,11 +30,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="air-testing-app" target="1.8" />
       <module name="air-testing-collector" target="1.8" />
       <module name="air-testing-common" target="1.5" />
       <module name="air-testing-configuration" target="1.7" />
       <module name="air-testing-gateway" target="1.5" />
       <module name="air-testing-gateway-tcp" target="1.8" />
+      <module name="air-testing-gateway-tcp-dubbo-api" target="1.8" />
       <module name="air-testing-model" target="1.6" />
       <module name="air-testing-modules" target="1.5" />
       <module name="air-testing-monitoring" target="1.8" />

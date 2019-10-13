@@ -69,7 +69,8 @@
     <include refid="Base_Column_List" />
     from day_info
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
-    order by COLLECT_TIME DESC
+    AND COLLECT_TIME > date_sub(now(), INTERVAL 30 DAY)
+    order by COLLECT_TIME
     limit 30
   </select>
 </mapper>

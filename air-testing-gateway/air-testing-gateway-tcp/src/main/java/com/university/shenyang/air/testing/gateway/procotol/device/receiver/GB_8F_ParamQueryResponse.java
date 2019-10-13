@@ -41,8 +41,8 @@ public class GB_8F_ParamQueryResponse extends DeviceCommand {
             // 获取登入链路上下文
             ChannelHandlerContext loginCtx = DevicesManager.getInstance().getCtxByDeviceCode(packet.getUniqueMark());
 
-            // 判断设备是否合法并登入
-            if (loginCtx == ctx) {
+//            // 判断设备是否合法并登入
+//            if (loginCtx == ctx) {
                 // queryTime; 查询时间 6个字节
                 String queryTime = Convert.gbDateToString(ArraysUtils.subarrays(packet.getContent(), 0, 6));
 
@@ -62,10 +62,10 @@ public class GB_8F_ParamQueryResponse extends DeviceCommand {
                 record.setSendtime(Convert.strToDate(queryTime));
                 record.setCommandStatus(packet.getAnswerId());
                 commandSendLogService.updateByCodeCommandIdAndTime(record);
-            } else {
-                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
-                ctx.close();
-            }
+//            } else {
+//                LOGGER.info("该设备信息不存在或未进行登入，设备标识码为：{}" + packet.getUniqueMark());
+//                ctx.close();
+//            }
         } catch (Exception ex) {
             LOGGER.error("解析设备参数查询应答信息出错:" + ex);
         }

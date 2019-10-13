@@ -17,7 +17,7 @@ public class Test {
     public static void main(String[] args) throws UnsupportedEncodingException {
         // 终端标识码
 //        String deviceCode = "999001";
-        String deviceCode = "deviceCode0000001";
+        String deviceCode = "deviceCode0000083";
         // 生成登入报文
         create01Report(deviceCode, 1, new java.util.Date(), 10);
 //        create01Report(deviceCode, 2, new java.util.Date());
@@ -33,7 +33,8 @@ public class Test {
 
         // 上报信息封装
         ReportInfo reportInfo = new ReportInfo();
-        reportInfo.setCollectTime(new Date(startTime));
+//        reportInfo.setCollectTime(new Date(startTime));
+        reportInfo.setCollectTime(new java.util.Date());
         reportInfo.setDeviceCode(deviceCode);
         reportInfo.setSim("13998184711");
         reportInfo.setPm1_0(950);
@@ -48,7 +49,7 @@ public class Test {
         reportInfo.setNo2(444);
         reportInfo.setO3(555);
         reportInfo.setSo2(666);
-        reportInfo.setTvoc(777);
+        reportInfo.setTvoc(7);
         reportInfo.setWindSpeed(888);
         reportInfo.setWindDirection(95);
         reportInfo.setLongitude(121.123456F);

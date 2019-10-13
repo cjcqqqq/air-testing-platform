@@ -46,6 +46,10 @@ public class GB_01_DeviceLogin extends DeviceCommand {
                 // 如果老的链路和当前链路不是一个链路
 //                if(oldCtx != null && !ctx.channel().remoteAddress().toString().equals(oldCtx.channel().remoteAddress().toString())){
                 if(oldCtx != null && oldCtx != ctx){
+                    // 删除设备识别码与设备远程地址与的映射缓存
+                    DevicesManager.getInstance().removeDeviceCodeMappingChannel(deviceInfo.getDeviceCode());
+                    // 删除设备远程地址与设备识别码的映射缓存
+                    DevicesManager.getInstance().removeChannelMappingDeviceCode(oldCtx.channel().remoteAddress().toString());
                     // 关闭老链路
                     oldCtx.close();
                 }

@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>air-testing-monitoring</module>
+        <module>air-testing-app</module>
     </modules>
 
 

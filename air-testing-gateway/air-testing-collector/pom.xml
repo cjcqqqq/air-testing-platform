@@ -75,5 +75,17 @@
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
+        <dependency>
+            <groupId>com.cennavi.minemap</groupId>
+            <artifactId>minemap-base</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vividsolutions/jts -->
+        <dependency>
+            <groupId>com.vividsolutions</groupId>
+            <artifactId>jts</artifactId>
+            <version>1.13</version>
+        </dependency>
+
     </dependencies>
 </project>

@@ -8,12 +8,13 @@
     <file url="file://$PROJECT_DIR$/air-testing-gateway/air-testing-collector" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/air-testing-gateway/air-testing-collector/src/main/resources/application.properties" charset="GBK" />
     <file url="file://$PROJECT_DIR$/air-testing-gateway/air-testing-gateway-tcp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/air-testing-gateway/air-testing-gateway-tcp-dubbo-api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/air-testing-gateway/air-testing-gateway-tcp/src/main/resources/application.properties" charset="GBK" />
     <file url="file://$PROJECT_DIR$/air-testing-modules" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/air-testing-modules/air-testing-app" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/air-testing-modules/air-testing-monitoring" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/air-testing-modules/air-testing-monitoring/src/main/java/com/university/shenyang/air/testing/monitoring/controller/HourController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/air-testing-modules/air-testing-monitoring/src/main/java/com/university/shenyang/air/testing/app/controller/HourController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/air-testing-modules/air-testing-monitoring/src/main/resources/application.properties" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/air-testing-modules/air-testing-task" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

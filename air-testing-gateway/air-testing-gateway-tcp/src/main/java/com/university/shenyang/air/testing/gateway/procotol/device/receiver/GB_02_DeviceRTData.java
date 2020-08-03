@@ -42,6 +42,10 @@ public class GB_02_DeviceRTData extends DeviceCommand {
     @Value("${collect.data.effective.time:7}")
     private int effectiveTime;
 
+    // 是否转发kafka
+    @Value("${transfer.to.kafka:false}")
+    private boolean transferToKafka;
+
     @Override
     public void processor(ChannelHandlerContext ctx, Packet packet) {
         try {
@@ -138,7 +142,11 @@ public class GB_02_DeviceRTData extends DeviceCommand {
 
                     // 上报数据写入kafka
                     JSONObject object = JSONObject.fromObject(reportInfo);
-                    kafkaTemplate.send(username, reportInfo.getDeviceCode(), object.toString());
+
+                    // 判断是否转发kafka
+                    if(transferToKafka){
+                        kafkaTemplate.send(username, reportInfo.getDeviceCode(), object.toString());
+                    }
 
                     LOGGER.debug("收到设备实时采集数据 设备识别码{}，" +
                                     "采集时间：{}，" +

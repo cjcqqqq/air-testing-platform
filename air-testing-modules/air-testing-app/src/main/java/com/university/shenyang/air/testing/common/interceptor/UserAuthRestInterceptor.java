@@ -44,6 +44,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 用户token拦截认证
@@ -63,9 +64,16 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
     @Value("${auth.user.limit-expire:3600}")
     private int limitExpire;
 
+    @Value("${userauth.whitelist.uris}")
+    private List<String> whiteList;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
+
+        if(whiteList != null && whiteList.contains(request.getRequestURI())){
+            return true;
+        }
 
         // 配置该注解，说明不进行用户拦截
         IgnoreUserToken ignoreUserToken = handlerMethod.getMethodAnnotation(IgnoreUserToken.class);

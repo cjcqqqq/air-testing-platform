@@ -36,12 +36,45 @@ function setNet(deviceId, deviceDesc) {
 }
 // 显示设备列表
 function showDeviceList(item, index){
-	var sart = item.isDefault==1?'*':'';
-	var onlineStatus = item.isOnline==1?"<font class='green'>在线</font>":"<font class='red'>离线</font>";
+	// var sart = item.isDefault==1?"<span class='glyphicon glyphicon-star' style='color: #6699CC;'></span>":'';
+	var sart = item.isDefault==1?"":'';
+	var onlineStatus = item.isOnline==1?"<span class='online'><font>在线</font></span>":"<span class='offline'><font>离线</font></span>";
 	if(index == 0){
-		$("<tr class='tr0'><td>"+sart+(index+1)+"</td><td>"+item.deviceDesc+"</td><td>"+onlineStatus+"</td><td><a href=\"javascript:void(0);\" onclick=\"doDelete('"+item.id +"','"+item.deviceDesc+"')\">删除</a><br/><br/><a href=\"javascript:void(0);\" onclick=\"setDefault('"+item.deviceId+"')\">设为默认</a><br/><br/><a href=\"javascript:void(0);\" onclick=\"setNet('"+item.deviceId +"','"+item.deviceDesc+"')\">网络设置</a></td></tr>").insertAfter(".table-head");
+		$("<tr class='tr0'>"+
+			"<td>"+sart+(index+1)+"</td>"+
+			"<td>"+"<span class='deviceDesc'>"+item.deviceDesc+"</span>"+"</td>"+
+			"<td>"+onlineStatus+"</td>"+
+			"<td>"+
+				"<a href=\"javascript:void(0);\" style='text-decoration: none; color: #FFFFFF'' onclick=\"doDelete('"+item.id +"','"+item.deviceDesc+"')\">"+
+					"<span class='execute' style='background-color:rgba(245,108,108,0.8);' >"+"<span class='glyphicon glyphicon-trash' style='color: #FFFFFF'></span>"+"    删除</span>"+
+				"</a><br/><br/>"+
+				"<a href=\"javascript:void(0);\" style='text-decoration: none; color: #FFFFFF' onclick=\"setDefault('"+item.deviceId+"')\">"+
+					"<span class='execute' style='background-color:rgba(91,192,222,0.8);' >"+"<span class='glyphicon glyphicon-check' style='color: #FFFFFF'></span>"+"    设为默认</span>"+
+					// "<span class='label label-info'>"+"<span class='glyphicon glyphicon-check'></span>"+"    设为默认</span>"+
+				"</a><br/><br/>"+
+				"<a href=\"javascript:void(0);\" style='text-decoration: none; color: #FFFFFF' onclick=\"setNet('"+item.deviceId +"','"+item.deviceDesc+"')\">"+
+					"<span class='execute' style='background-color:rgba(230,162,60,0.7);' >"+"<span class='glyphicon glyphicon-signal' style='color: #FFFFFF'></span>"+"    WIFI设置</span>"+
+					// "<span class='label label-warning' style='background-color:rgba(230,162,60,0.8);align:center;'>"+"<span class='glyphicon glyphicon-signal' style='align:center;'></span>"+"    网络设置</span>"+
+				"</a>"+
+			"</td>"+
+		  "</tr>").insertAfter(".table-head");
 	}else{
-		$("<tr class='tr"+index+"'><td>"+sart+(index+1)+"</td><td>"+item.deviceDesc+"</td><td>"+onlineStatus+"</td><td><a href=\"javascript:void(0);\" onclick=\"doDelete('"+item.id +"','"+item.deviceDesc+"')\">删除</a><br/><br/><a href=\"javascript:void(0);\" onclick=\"setDefault('"+item.deviceId+"')\">设为默认</a><br/><br/><a href=\"javascript:void(0);\" onclick=\"setNet('"+item.deviceId +"','"+item.deviceDesc+"')\">网络设置</a></td></tr>").insertAfter(".tr"+(index-1)+"");
+		$("<tr class='tr"+index+"'>"+
+			"<td>"+sart+(index+1)+"</td>"+
+			"<td>"+"<span class='deviceDesc'>"+item.deviceDesc+"</span>"+"</td>"+
+			"<td>"+onlineStatus+"</td>"+
+			"<td>"+
+				"<a href=\"javascript:void(0);\" style='text-decoration: none; color: #FFFFFF'' onclick=\"doDelete('"+item.id +"','"+item.deviceDesc+"')\">"+
+					"<span class='execute' style='background-color:rgba(245,108,108,0.8);' >"+"<span class='glyphicon glyphicon-trash' style='color: #FFFFFF'></span>"+"    删除</span>"+
+				"</a><br/><br/>"+
+				"<a href=\"javascript:void(0);\" style='text-decoration: none; color: #FFFFFF' onclick=\"setDefault('"+item.deviceId+"')\">"+
+					"<span class='execute' style='background-color:rgba(91,192,222,0.8);' >"+"<span class='glyphicon glyphicon-check' style='color: #FFFFFF'></span>"+"    设为默认</span>"+
+				"</a><br/><br/>"+
+				"<a href=\"javascript:void(0);\" style='text-decoration: none; color: #FFFFFF' onclick=\"setNet('"+item.deviceId +"','"+item.deviceDesc+"')\">"+
+					"<span class='execute' style='background-color:rgba(230,162,60,0.7);' >"+"<span class='glyphicon glyphicon-signal' style='color: #FFFFFF'></span>"+"    WIFI设置</span>"+
+				"</a>"+
+			"</td>"+
+		  "</tr>").insertAfter(".tr"+(index-1)+"");
 	}
 
 }

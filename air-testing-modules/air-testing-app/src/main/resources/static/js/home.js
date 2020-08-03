@@ -42,12 +42,20 @@ function update(){
 				// 设置在线状态
 				if(result.data.isOnline==1){
 					$("#onlineStatus").text("在线");
-					$("#onlineStatus").removeClass("red");
-					$("#onlineStatus").addClass("green");
+					// $("#onlineStatus").removeClass("red");
+					// $("#onlineStatus").addClass("green");
+					// $("#onlineStatus").removeClass("label label-info");
+					// $("#onlineStatus").addClass("label label-success");
+					$("#status").removeClass("offline");
+					$("#status").addClass("online");
 				}else {
 					$("#onlineStatus").text("离线");
-					$("#onlineStatus").removeClass("green");
-					$("#onlineStatus").addClass("red");
+					// $("#onlineStatus").removeClass("green");
+					// $("#onlineStatus").addClass("red");
+					// $("#onlineStatus").removeClass("label label-info");
+					// $("#onlineStatus").addClass("label label-danger");
+					$("#status").removeClass("online");
+					$("#status").addClass("offline");
 				}
 
 				var latestFormaldehydeVal = result.data.formaldehyde;
@@ -92,84 +100,147 @@ function update(){
 					$.each(result.data.hourInfos, function (index, item) {
 						var pts01 = item.collectTime;
 						var pts = new Date(pts01);
-						var hour = pts.getHours();
+						var hour = pts.getHours()+'时';
 						hoursTrendX.push(hour);
 						hoursTrendFormaldehydeVal.push(item.formaldehyde);
 						hoursTrendTvocVal.push(item.tvoc/100);
 					});
 				}
 
-				var colors = ['#cc0033', '#660099'];
 				hoursTrendOption = {
 					title: {
 						text: '24小时趋势'
 					},
-					color: colors,
-
 					tooltip: {
 						trigger: 'axis',
-						axisPointer: {
-							type: 'cross'
+						color: '#339999',
+						formatter: function(params) {
+						　　var result = ''
+						　　var dotHtml = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#1197b8"></span>'
+						　　params.forEach(function (item) {
+						　　　　result += item.axisValue + "</br>" + dotHtml + item.data
+						　　})
+						　　return result
 						}
 					},
 					grid: {
-						right: '20%'
+						left: '15%'
 					},
 					legend: {
-						data:['甲醛','TVOC']
+						data:['甲醛','TVOC'],
+						selectedMode: 'single'
 					},
+					calculable: true,
 					xAxis: [
 						{
 							type: 'category',
-							axisTick: {
-								alignWithLabel: true
-							},
+							boundaryGap : false,
+							// axisLine: {//坐标轴线
+							// 	lineStyle: {
+							// 	  color: '#660066'
+							// 	}
+							//   },
+							// textStyle: {
+							// 	color: '#339999',//坐标值得具体的颜色
+							// },
 							data: hoursTrendX
 						}
 					],
 					yAxis: [
 						{
 							type: 'value',
-							name: '甲醛(μg/m3)',
-							min: 0,
-							max: 1,
+							name: '(μg/m3)',
+							splitLine: {
+								show: false
+							  },
 							position: 'left',
-							axisLine: {
-								lineStyle: {
-									color: colors[0]
-								}
-							},
-							axisLabel: {
-								formatter: '{value}'
-							}
+							// axisLine: {
+							// 	lineStyle: {
+							// 		color: '#660066'
+							// 	}
+							// },
+							// axisTick: {
+							// 	show: false
+							//   },
+							  
+							  splitArea: {
+								show: false
+							  },
+							// axisLabel: {
+							// 	textStyle: {
+							// 		color: '#339999',//坐标值得具体的颜色
+							// 	},
+							// 	//formatter: '{value}'
+							// }
 						},
-						{
-							type: 'value',
-							name: 'TVOC(mg/m3)',
-							min: 0,
-							max: 2,
-							position: 'right',
-							axisLine: {
-								lineStyle: {
-									color: colors[1]
-								}
-							},
-							axisLabel: {
-								formatter: '{value}'
-							}
-						}
 					],
+					dataZoom: [{
+						type: 'inside',//图表下方的伸缩条，slider表示有滑动块的，inside表示内置的(鼠标滚轮把..)
+						start: 70,////伸缩条开始位置（1-100），可以随时更改
+						end: 100 //伸缩条结束位置（1-100），可以随时更改
+					  }],
 					series: [
 						{
 							name:'甲醛',
 							type:'line',
-							yAxisIndex: 0,
+							smooth:true,
+							areaStyle: { //区域填充样式
+								normal: {
+									opacity : 0.3	                    
+								}
+							},
+							itemStyle: {  
+								normal: {   //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+											offset: 0, color: '#339999' // 0% 处的颜色
+										}, {
+											offset: 1, color: '#fff' // 100% 处的颜色
+										}]
+									),  //背景渐变色 
+									lineStyle:{  
+										color:'#339999'  
+									}
+								},
+							  },
+							label: {
+								normal: {
+									show: true,
+									position: 'top',
+									color: '#339999'
+								}
+							},
 							data:hoursTrendFormaldehydeVal
 						},
 						{
 							name:'TVOC',
 							type:'line',
-							yAxisIndex: 1,
+							smooth:true,
+							areaStyle: { //区域填充样式
+								normal: {
+									opacity : 0.3	                    
+								}
+							},
+							itemStyle: {  
+								  normal: {   //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
+									  color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+											  offset: 0, color: '#FF9966' // 0% 处的颜色
+										  }, {
+											  offset: 1, color: '#fff' // 100% 处的颜色
+										  }]
+									  ),  //背景渐变色 
+									  lineStyle:{  
+									color:'#FF9966'  
+								  }
+								  },
+							  },
+							  label: {
+								normal: {
+									show: true,
+									position: 'top',
+									color: '#FF9966'
+								}
+							},
+							// yAxisIndex: 1,
 							data:hoursTrendTvocVal
 						}
 					]
@@ -187,7 +258,7 @@ function update(){
 					$.each(result.data.dayinfos, function (index, item) {
 						var pts01 = item.collectTime;
 						var pts = new Date(pts01);
-						var day = pts.getDay();
+						var day = pts.getDate()+'日';
 						daysTrendX.push(day);
 						daysTrendFormaldehydeVal.push(item.formaldehyde);
 						daysTrendTvocVal.push(item.tvoc/100);
@@ -198,24 +269,31 @@ function update(){
 					title: {
 						text: '30天趋势'
 					},
-					color: colors,
-
 					tooltip: {
 						trigger: 'axis',
-						axisPointer: {
-							type: 'cross'
+						color: '#339999',
+						formatter: function(params) {
+						　　var result = ''
+						　　var dotHtml = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#1197b8"></span>'
+						　　params.forEach(function (item) {
+						　　　　result += item.axisValue + "</br>" + dotHtml + item.data
+						　　})
+						　　return result
 						}
 					},
 					grid: {
-						right: '20%'
+						left: '15%'
 					},
 					legend: {
-						data:['甲醛','TVOC']
+						data:['甲醛','TVOC'],
+						selectedMode: 'single'
 					},
+					calculable: true,
 					xAxis: [
 						{
 							type: 'category',
-							axisTick: {
+							boundaryGap : false,
+							axisTick: {////////////////
 								alignWithLabel: true
 							},
 							data: daysTrendX
@@ -224,46 +302,82 @@ function update(){
 					yAxis: [
 						{
 							type: 'value',
-							name: '甲醛(μg/m3)',
-							min: 0,
-							max: 1,
+							name: '(μg/m3)',
 							position: 'left',
-							axisLine: {
-								lineStyle: {
-									color: colors[0]
-								}
+							splitLine: {
+								show: false
 							},
-							axisLabel: {
-								formatter: '{value}'
-							}
-						},
-						{
-							type: 'value',
-							name: 'TVOC(mg/m3)',
-							min: 0,
-							max: 2,
-							position: 'right',
-							axisLine: {
-								lineStyle: {
-									color: colors[1]
-								}
+							splitArea: {
+								show: false
 							},
-							axisLabel: {
-								formatter: '{value}'
-							}
 						}
 					],
+					dataZoom: [{
+						type: 'inside',//图表下方的伸缩条，slider表示有滑动块的，inside表示内置的(鼠标滚轮把..)
+						start: 75,////伸缩条开始位置（1-100），可以随时更改
+						end: 100 //伸缩条结束位置（1-100），可以随时更改
+					  }],
 					series: [
 						{
 							name:'甲醛',
 							type:'line',
-							yAxisIndex: 0,
+							smooth:true,
+							areaStyle: { //区域填充样式
+								normal: {
+									opacity : 0.3	                    
+								}
+							},
+							itemStyle: {  
+								normal: {   //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+											offset: 0, color: '#339999' // 0% 处的颜色
+										}, {
+											offset: 1, color: '#fff' // 100% 处的颜色
+										}]
+									),  //背景渐变色 
+									lineStyle:{  
+										color:'#339999'  
+									}
+								},
+							  },
+							label: {
+								normal: {
+									show: true,
+									position: 'top',
+									color: '#339999'
+								}
+							},
 							data:daysTrendFormaldehydeVal
 						},
 						{
 							name:'TVOC',
 							type:'line',
-							yAxisIndex: 1,
+							smooth:true,
+							areaStyle: { //区域填充样式
+								normal: {
+									opacity : 0.3	                    
+								}
+							},
+							itemStyle: {  
+								  normal: {   //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
+									  color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+											  offset: 0, color: '#FF9966' // 0% 处的颜色
+										  }, {
+											  offset: 1, color: '#fff' // 100% 处的颜色
+										  }]
+									  ),  //背景渐变色 
+									  lineStyle:{  
+									color:'#FF9966'  
+								  }
+								  },
+							  },
+							  label: {
+								normal: {
+									show: true,
+									position: 'top',
+									color: '#FF9966'
+								}
+							},
 							data:daysTrendTvocVal
 						}
 					]

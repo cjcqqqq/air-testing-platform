@@ -3,36 +3,48 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>网络设置</title>
+	<title>WIFI设置</title>
     <link href="../css/style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<!-- <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> -->
+	<script type="text/javascript" src="../js/jquery-1.12.3.min.js"></script>
     <script src="../js/jquery.params.js"></script>
     <script src="../js/common/checklogin.js"></script>
 </head>
+<style>
+table, body{
+	font-size: 15px;
+}
+</style>
 <body>
 <!--页头 -->
 <div class="title_1">
-	<span id="helloName" name="helloName" class="hello white">您好，--</span>
-	<span class="logout"><a id="logout" name="logout" class="white" href="javascript:void(0);" onclick="logout()">注销</a></span>
+		<span class="glyphicon glyphicon-user" style="float :left; color: white; margin-top: 15px;"></span>
+		<span id="helloName" name="helloName" class="hello white">您好，--</span>
+		<span class="logout"><a id="logout" style="text-decoration: none;" name="logout" class="white" href="javascript:void(0);" onclick="logout()">注销</a></span>
+		<span class="glyphicon glyphicon-off" style="float :right; color: white; margin-top: 16px;margin-right: 4px;"></span>
 </div>
-<table width="100%" border="0" cellspacing="1" cellpadding="0">
+<table width="100%" border="0" cellspacing="1" cellpadding="0" style="padding:5px 5px; line-height:50px; text-align:center;">
 	<tr>
 		<td width="50%" align="left" valign="middle">
-			<span class="date_txt txt_14">设备名称：<font id="deviceDesc" name="deviceDesc">--</font></span>
+				设备名称：<span class="label label-info" style="background-color:#99CC99;font-size: 14px;"><font id="deviceDesc" name="deviceDesc">--</font></span>
+			<!-- <span class="date_txt txt_14">设备名称：<font id="deviceDesc" name="deviceDesc">--</font></span> -->
 		</td>
 		<td width="50%" align="right" valign="middle">
-			<span class="date_txt txt_14">设备状态：<font id="onlineStatus" name="onlineStatus">--</font></span>
+				<!-- 设备状态：<span id="statusLabel" class="" style="font-size: 14px;"><font id="onlineStatus" name="onlineStatus">--</font></span> -->
+			<!-- <span class="date_txt txt_14">设备状态：<font id="onlineStatus" name="onlineStatus">--</font></span> -->
+			设备状态：<span id="status"><font id="onlineStatus" name="onlineStatus">--</font></span>
 		</td>
 	</tr>
 </table>
 <div id="msgbox" name="msgbox" class="msgbox"></div>
 <div class="box">
-	<span style="width:70px;text-align:right;">网络名称：</span>
+	<span style="width:100px;text-align:right;">WIFI名称：</span>
 	<input type="text" id="account"
 		   name="account" class="txt txt_16 black" value="" />
 </div>
 <div class="box">
-	<span style="width:70px;text-align:right;">网络密码：</span>
+	<span style="width:100px;text-align:right;">WIFI密码：</span>
 	<input type="password" id="password" name="password"
 		   class="txt txt_16 black" value="" />
 </div>
@@ -43,20 +55,22 @@
 		<td width="25%" valign="middle">
 		</td>
 		<td width="25%" valign="middle">
-			<input id="backBtn" type="button" class="btn2 txt_18" value="返回" />
+			<!-- <button type="button" id="backBtn" class="btn btn-primary btn-small" style="background-color: #5BC0DE; border-color: #5BC0DE;" onclick="scan()">返回
+			</button> -->
+			<input id="backBtn" type="button" class="btn2 txt_18" style="background-color: #31adfc;border-radius: 6px; width: 50px;height: 30px; font-size: 14px;" value="返回" />
 		</td>
 		<td width="25%" valign="middle">
-			<input id="setNetBtn" type="button" class="btn2 txt_18" value="设置" />
+			<input id="setNetBtn" type="button" class="btn2 txt_18" style="background-color: #31adfc;border-radius: 6px; width: 50px;height: 30px; font-size: 14px;" value="设置" />
 		</td>
 		<td width="25%" valign="middle">
 		</td>
 	</tr>
 </table>
 <p>
-	网络设置操作步骤：<br/>
-	1、如果当前页面设备状态为“在线”直接进入步骤2，否则将设备通电并置于名称为“xxx”、密码为“yyy”的无线网络环境（正常宽带网络或便携式设备的WLAN热点）中，等待设备状态变更为“在线”时进入步骤2，如果一直无法联网请检查网络名称和密码；<br/>
-	2、在当前页面设置新的网络名称和密码，设置成功后设备将使用新的网络重新联网；<br/>
-	3、如果设置失败，重复以上步骤。
+	WIFI设置操作步骤：<br/>
+	&emsp;&emsp;1、如果当前页面设备状态为“在线”直接进入步骤2，否则将设备通电并置于名称为“xxx”、密码为“yyy”的无线网络环境（正常宽带网络或便携式设备的WLAN热点）中，等待设备状态变更为“在线”时进入步骤2，如果一直无法联网请检查WIFI名称和密码；<br/>
+	&emsp;&emsp;2、在当前页面设置新的WIFI名称和密码，设置成功后设备将使用新的WIFI重新联网；<br/>
+	&emsp;&emsp;3、如果设置失败，重复以上步骤。
 </p>
 <!--请在下方添加数据内容-->
 <div id="container" style="margin: 0 auto;width:100%;"></div>

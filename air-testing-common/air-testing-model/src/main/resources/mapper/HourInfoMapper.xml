@@ -69,7 +69,7 @@
     <include refid="Base_Column_List" />
     from hour_info
     where DEVICE_CODE = #{deviceCode,jdbcType=VARCHAR}
-    AND COLLECT_TIME > date_sub(now(), INTERVAL 1 DAY)
+    AND COLLECT_TIME > date_sub(now(), INTERVAL 25 HOUR)
     ORDER BY COLLECT_TIME
     LIMIT 24
   </select>

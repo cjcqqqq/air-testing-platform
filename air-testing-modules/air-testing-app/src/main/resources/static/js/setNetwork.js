@@ -17,12 +17,20 @@ function update(){
 				// 设置在线状态
 				if(result.data.isOnline==1){
 					$("#onlineStatus").text("在线");
-					$("#onlineStatus").removeClass("red");
-					$("#onlineStatus").addClass("green");
+					// $("#onlineStatus").removeClass("red");
+					// $("#onlineStatus").addClass("green");
+					// $("#onlineStatus").removeClass("label label-info");
+					// $("#onlineStatus").addClass("label label-success");
+					$("#status").removeClass("offline");
+					$("#status").addClass("online");
 				}else {
 					$("#onlineStatus").text("离线");
-					$("#onlineStatus").removeClass("green");
-					$("#onlineStatus").addClass("red");
+					// $("#onlineStatus").removeClass("green");
+					// $("#onlineStatus").addClass("red");
+					// $("#onlineStatus").removeClass("label label-info");
+					// $("#onlineStatus").addClass("label label-danger");
+					$("#status").removeClass("online");
+					$("#status").addClass("offline");
 				}
 			}
 		},

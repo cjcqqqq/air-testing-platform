@@ -4,46 +4,75 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>首页</title>
-    <link href="../css/style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+	<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<!-- <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> -->
+	<script type="text/javascript" src="../js/jquery-1.12.3.min.js"></script>
     <script src="../js/jquery.params.js"></script>
     <script src="../js/common/checklogin.js"></script>
 	<!-- 引入 echarts.js -->
 	<script src="../js/common/echarts.min.js"></script>
+	<!-- 引入 bootstrap.js -->
+	<script src="../js/common/bootstrap.min.js"></script>
 </head>
 <body>
 <!--页头 -->
 <div class="title_1">
+	<span class="glyphicon glyphicon-user" style="float :left; color: white; margin-top: 15px;"></span>
 	<span id="helloName" name="helloName" class="hello white">您好，--</span>
-	<span class="logout"><a id="logout" name="logout" class="white" href="javascript:void(0);" onclick="logout()">注销</a></span>
+	<span class="logout"><a id="logout" name="logout" style="text-decoration: none;" class="white" href="javascript:void(0);" onclick="logout()">注销</a></span>
+	<span class="glyphicon glyphicon-off" style="float :right; color: white; margin-top: 16px;margin-right: 4px;"></span>
 </div>
-<ul class="date">
-	<li class="on"><a href="#" target="_parent">数据监控</a></li>
-	<li class="off"><a href="/pages/deviceList.html" target="_parent">设备管理</a></li>
-</ul>
-<table width="100%" border="0" cellspacing="1" cellpadding="0">
+<div class="tabbar">
+	<ul class="date">
+		<li class="on">
+			<a href="#" target="_parent">数据监控</a>
+			<span class="glyphicon glyphicon-bell" style="color: white; margin-top: 15px;"></span>
+		</li>
+		<li class="off" style="border-right: solid 1px #CCCCCC;">
+			<a href="/pages/deviceList.html" target="_parent">设备管理</a>
+			<span class="glyphicon glyphicon-hdd" style="color: white; margin-top: 15px;"></span>
+		</li>
+		<li class="knowledge">
+			<a href="/pages/knowledge.html" target="_parent">小知识</a>
+			<span class="glyphicon glyphicon-education" style="color: white; margin-top: 15px;"></span>
+		</li>
+	</ul>
+</div>
+<table width="100%" border="0" cellspacing="1" cellpadding="0" style="padding:5px 5px; line-height:50px; text-align:center;">
 	<tr>
 		<td width="50%" align="left" valign="middle">
 			<select id="devices" name="devices" style="float:left; margin:2px 0px 0px 10px;">
 			</select>
 		</td>
 		<td width="50%" align="right" valign="middle">
-			<span class="date_txt txt_14">设备状态：<font id="onlineStatus" name="onlineStatus">在线</font></span>
+			<!-- <span class="date_txt txt_14">设备状态：</span> -->
+			<!-- 设备状态：<span id="statusLabel" class="" style="font-size: 14px; margin-right: 3px;"><font id="onlineStatus" name="onlineStatus">--</font></span> -->
+			设备状态：<span id="status"><font id="onlineStatus" name="onlineStatus">--</font></span>
+			<!-- <span style="margin-right: 3px;">
+				<font id="onlineStatus" name="onlineStatus">在线</font>
+			</span> -->
 		</td>
 	</tr>
 </table>
 <table class="box_2" width="100%" border="0" cellspacing="1" cellpadding="0">
 	<tr>
 		<td width="50%" valign="middle">
-			甲醛<br/><span id="latestFormaldehyde" name="latestFormaldehyde" class="red txt_80">--</span><br /><span id="formaldehydeExplain" name="formaldehydeExplain" class="green txt_14">--</span>
+			<span style="font-weight: bold;color: #339999;">甲醛</span>
+			<br/><span id="latestFormaldehyde" name="latestFormaldehyde" class="red txt_80" style="color: #339999;">--</span><br />
+			<span id="formaldehydeExplain" name="formaldehydeExplain" class="green txt_14" style="color: #339999;">--</span>
 		</td>
 		<td width="50%" valign="middle">
-			TVOC<br/><span id="latestTvoc" name="latestTvoc" class="red txt_80">--</span><br /><span id="tvocExplain" name="tvocExplain" class="green txt_14">--</span>
+			<span style="font-weight: bold;color: #FF9966;">TVOC</span>
+			<br/><span id="latestTvoc" name="latestTvoc" class="red txt_80" style="color: #FF9966;">--</span><br />
+			<span id="tvocExplain" name="tvocExplain" class="green txt_14" style="color: #FF9966;">--</span>
 		</td>
 	</tr>
 	<tr>
 		<td valign="middle" colspan="2">
-			<p class="date_txt txt_14 green">更新时间：<span id="latestTime" name="latestTime" class="red">--</span></p>
+			<p class="date_txt txt_14" style="color: #999999;">更新时间：<span class="glyphicon glyphicon-time" style="color: #00CC66;"></span>
+				<span id="latestTime" name="latestTime" class="green">--</span>
+			</p>
 		</td>
 	</tr>
 	<tr>

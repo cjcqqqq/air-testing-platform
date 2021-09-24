@@ -13,7 +13,7 @@
 
     <properties>
         <start-class>com.university.shenyang.air.testing.gateway.tcp.Application</start-class>
-        <io.netty.version>4.0.31.Final</io.netty.version>
+        <io.netty.version>4.1.68.Final</io.netty.version>
     </properties>
 
     <build>
